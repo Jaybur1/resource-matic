@@ -23,8 +23,8 @@ const
   uglify     = require('gulp-uglify'),
 
   // config
-  config     = require('./../config/user'),
-  docsConfig = require('./../config/docs'),
+  config     = require('../config/user'),
+  docsConfig = require('../config/docs'),
   tasks      = require('../config/tasks'),
   install    = require('../config/project/install'),
 
@@ -60,7 +60,7 @@ function build(src, type, config) {
     .pipe(gulpif(config.hasPermissions, chmod(config.parsedPermissions)))
     .pipe(gulp.dest(config.paths.output.compressed))
     .pipe(print(log.created))
-    ;
+  ;
 }
 
 /**
@@ -82,7 +82,7 @@ function pack(type, compress) {
     .pipe(gulpif(config.hasPermissions, chmod(config.parsedPermissions)))
     .pipe(gulp.dest(output.packaged))
     .pipe(print(log.created))
-    ;
+  ;
 }
 
 function buildJS(src, type, config, callback) {
@@ -112,17 +112,17 @@ function buildJS(src, type, config, callback) {
   gulp.series(js, gulp.parallel(packUncompressed, packCompressed))(callback);
 }
 
-module.exports = function (callback) {
+module.exports = function(callback) {
   buildJS(false, config, callback);
 };
 
 // We keep the changed files in an array to call build with all of them at the same time
 let timeout, files = [];
 
-module.exports.watch = function (type, config) {
+module.exports.watch = function(type, config) {
   gulp
     .watch([normalize(config.paths.source.definitions + '/**/*.js')])
-    .on('all', function (event, path) {
+    .on('all', function(event, path) {
       // We don't handle deleted files yet
       if (event === 'unlink' || event === 'unlinkDir') {
         return;

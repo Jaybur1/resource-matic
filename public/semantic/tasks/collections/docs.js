@@ -6,12 +6,12 @@
   Lets you serve files to a local documentation instance
   https://github.com/Semantic-Org/Semantic-UI-Docs/
 */
-module.exports = function (gulp) {
+module.exports = function(gulp) {
 
-  var
+  let
     // docs tasks
-    serveDocs = require('./../docs/serve'),
-    buildDocs = require('./../docs/build')
+    serveDocs = require('../docs/serve'),
+    buildDocs = require('../docs/build')
   ;
 
   gulp.task('serve-docs', serveDocs);

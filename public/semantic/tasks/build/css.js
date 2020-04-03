@@ -27,8 +27,8 @@ const
   rtlcss       = require('gulp-rtlcss'),
 
   // config
-  config       = require('./../config/user'),
-  docsConfig   = require('./../config/docs'),
+  config       = require('../config/user'),
+  docsConfig   = require('../config/docs'),
   tasks        = require('../config/tasks'),
   install      = require('../config/project/install'),
 
@@ -80,7 +80,7 @@ function build(src, type, compress, config, opts) {
     .pipe(gulpif(config.hasPermissions, chmod(config.parsedPermissions)))
     .pipe(gulp.dest(compress ? config.paths.output.compressed : config.paths.output.uncompressed))
     .pipe(print(log.created))
-    ;
+  ;
 }
 
 /**
@@ -109,7 +109,7 @@ function pack(type, compress) {
     .pipe(header(banner, settings.header))
     .pipe(gulp.dest(output.packaged))
     .pipe(print(log.created))
-    ;
+  ;
 }
 
 function buildCSS(src, type, config, opts, callback) {
@@ -188,7 +188,7 @@ let timeout, files = [];
  * @param type
  * @param config
  */
-module.exports.watch = function (type, config) {
+module.exports.watch = function(type, config) {
   const method = type === 'docs' ? docs : rtlAndNormal;
 
   // Watch theme.config file
@@ -197,7 +197,7 @@ module.exports.watch = function (type, config) {
     normalize(config.paths.source.site + '/**/site.variables'),
     normalize(config.paths.source.themes + '/**/site.variables')
   ])
-    .on('all', function () {
+    .on('all', function() {
       // Clear timeout and reset files
       timeout && clearTimeout(timeout);
       files = [];
@@ -210,7 +210,7 @@ module.exports.watch = function (type, config) {
     normalize(config.paths.source.site + '/**/*.{overrides,variables}'),
     normalize(config.paths.source.themes + '/**/*.{overrides,variables}')
   ])
-    .on('all', function (event, path) {
+    .on('all', function(event, path) {
       // We don't handle deleted files yet
       if (event === 'unlink' || event === 'unlinkDir') {
         return;
@@ -221,7 +221,7 @@ module.exports.watch = function (type, config) {
 
       // Determine which LESS file has to be recompiled
       let lessPath;
-      if(path.indexOf('site.variables') !== -1)  {
+      if (path.indexOf('site.variables') !== -1)  {
         return;
       } else if (path.indexOf(config.paths.source.themes) !== -1) {
         console.log('Change detected in packaged theme');
