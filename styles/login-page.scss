@@ -8,16 +8,15 @@
 .custom-login-box {
   @include center(50%);
   max-width: 450px;
-
+  transition: 0.3s;
   h2{
     div{
       color: var(--color_4);
     }
-  }  
-}
+  }
 
-
-.custom-submit-btn {
-  display:block;
-  width: 50%;
+  &:hover{
+    transform: translate(-50%,-50%) scale(1.01);
+    box-shadow: 4px 7px 9px -5px rgba(230,172,230,1);
+  }
 }
