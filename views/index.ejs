@@ -1,17 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home Page</title>
+    <title>Resource - Landing</title>
 
+    <!-- Custom fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Default stylesheets -->
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <!-- Semantic UI stylesheet -->
+    <link
+      rel="stylesheet"
+      href="/semantic/dist/semantic.min.css"
+      type="text/css"
+    />
+
+    <!-- Custom stylesheets -->
+    <link rel="stylesheet" href="/styles/base.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/landing-page.css" type="text/css" />
+
+    <!-- External scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script src="/semantic/dist/semantic.min.js"></script>
+
+    <!-- Internal scripts -->
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
 
   <body>
-    <h1>Hello World!</h1>
+    <%- include("partials/_nav") %>
+    <main class="custom-landing-page-main">
+      <div class="custom-hero"></div>
+      <div class="ui container">
+        <div class="custom-hero-content">
+          <p>
+            <span class="ui massive text custom-bold">Resource Wall</span>
+          </p>
+          <p>
+            <span class="ui large text custom-bold custom-text-color_1">
+              An app that holds all your favorite resources in one place!
+            </span>
+          </p>
+          <button class="ui pink massive button custom-button-width">
+            Get Started
+          </button>
+        </div>
+      </div>
+    </main>
   </body>
 </html>
