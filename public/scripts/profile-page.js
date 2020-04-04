@@ -17,8 +17,8 @@ $(document).ready(function(_event) {
       url:    "/profile",
       method: "PUT",
       data:   user,
-    }).then(function(status, xhr) {
-      console.log(status, xhr);
+    }).then(function(_status, _xhr) {
+      //console.log(status, xhr);
       $("main form").append("<br>success");
     }).catch(function(err) {
       console.error(err);
@@ -27,7 +27,7 @@ $(document).ready(function(_event) {
 
   });
 
-  // Validation stuff from Semantic example, not sure if works:
+  // Validation stuff from Semantic example, not complete:
   $("main form").form({
     fields: {
       name: {
@@ -35,67 +35,54 @@ $(document).ready(function(_event) {
         rules: [
           {
             type   : "empty",
-            prompt : "Please enter your name"
+            prompt : "Please enter your display name"
           }
         ]
       },
-      email: {
-        identifier: "username",
-        rules: [
-          {
-            type   : "empty",
-            prompt : "Please enter a username"
-          }
-        ]
-      },
-      password: {
-        identifier: "password",
-        rules: [
-          {
-            type   : "empty",
-            prompt : "Please enter a password"
-          },
-          {
-            type   : "minLength[6]",
-            prompt : "Your password must be at least {ruleValue} characters"
-          }
-        ]
-      },
-      "password-new": {
-        identifier: "password-new",
-        rules: [
-          {
-            type   : "empty",
-            prompt : "Please enter a new password"
-          },
-          {
-            type   : "minLength[6]",
-            prompt : "Your password must be at least {ruleValue} characters"
-          }
-        ]
-      },
-      "password-verify": {
-        identifier: "password-verify",
-        rules: [
-          {
-            type   : "empty",
-            prompt : "Please verify the password"
-          },
-          {
-            type   : "minLength[6]",
-            prompt : "Your password must be at least {ruleValue} characters"
-          }
-        ]
-      },
-      terms: {
-        identifier: "terms",
-        rules: [
-          {
-            type   : "checked",
-            prompt : 'You must agree to the terms and conditions'
-          }
-        ]
-      }
+      // email: {
+      //   identifier: "email",
+      //   rules: [
+      //     {
+      //       type   : "empty",
+      //       prompt : "Please enter an email address"
+      //     }
+      //   ]
+      // },
+      // password: {
+      //   identifier: "password",
+      //   rules: [
+      //     {
+      //       type   : "minLength[6]",
+      //       prompt : "Your password must be at least {ruleValue} characters"
+      //     }
+      //   ]
+      // },
+      // "password-new": {
+      //   identifier: "newPassword",
+      //   rules: [
+      //     {
+      //       type   : "empty",
+      //       prompt : "Please enter a new password"
+      //     },
+      //     {
+      //       type   : "minLength[6]",
+      //       prompt : "Your password must be at least {ruleValue} characters"
+      //     }
+      //   ]
+      // },
+      // "password-verify": {
+      //   identifier: "verifyPassword",
+      //   rules: [
+      //     {
+      //       type   : "empty",
+      //       prompt : "Please verify the password"
+      //     },
+      //     {
+      //       type   : "minLength[6]",
+      //       prompt : "Your password must be at least {ruleValue} characters"
+      //     }
+      //   ]
+      // }
     }
   });
 
