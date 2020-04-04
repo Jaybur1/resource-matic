@@ -1,11 +1,13 @@
-
-
+// profile-page.js
+//
+// Profile page support.
 
 $(document).ready(function(_event) {
 
   $("#avatar").css("background-image", `url('${$("#avatar").attr("src")}')`);
 
   $("main form").on("submit", function(event) {
+
     const user = $(this).serializeArray();
     user.push({
       name:  "avatar",
@@ -17,12 +19,15 @@ $(document).ready(function(_event) {
       url:    "/profile",
       method: "PUT",
       data:   user,
-    }).then(function(_status, _xhr) {
-      //console.log(status, xhr);
-      $("main form").append("<br>success");
-    }).catch(function(err) {
-      console.error(err);
-      $("main form").append("<br>error");
+    }).then(function(_data, _status, _xhr) {
+      // console.log("SUCCESS");
+      // console.log(_data, _status, _xhr);
+      //$("main form").append("<br>success");
+      window.location = "/home";
+    }).catch(function(xhr, _status, _message) {
+      // console.log("ERROR");
+      // console.error(err, xhr);
+      $("main form").append(`<br>error: ${JSON.stringify(xhr, null, 2)}`);
     });
 
   });
