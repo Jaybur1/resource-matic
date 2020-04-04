@@ -6,29 +6,16 @@
 
     <title>Resource - Login</title>
 
-    <!-- Normalize -->
-    <link rel="stylesheet" type="text/css" href="/vendor/normalize-4.1.1.css" />
-    <link rel="stylesheet" type="text/css" href="/vendor/border-box.css" />
-    <!-- Fonts -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600;1,700&display=swap" />
-    <!-- Fomantic-UI -->
-    <link rel="stylesheet" type="text/css" href="/vendor/semantic/semantic.min.css" />
-    <!-- App styles -->
-    <link rel="stylesheet" type="text/css" href="/styles/base.css" />
-    <link rel="stylesheet" type="text/css" href="/styles/nav.css" />
-    <link rel="stylesheet" type="text/css" href="/styles/login-page.css" />
+    <%- include('partials/_head.ejs') %>
 
-    <!-- External scripts -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="/vendor/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/styles/login-page.css" />
     <!-- App scripts -->
-    <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/loginHelpers.js"></script>
 
   </head>
 
   <body>
-    <%- include("partials/_nav") %>
-
+    <%- include("partials/_nav",user) %>
   </head>
   <body>
   
@@ -39,7 +26,7 @@
           Log-in to your account
         </div>
       </h2>
-      <form class="ui large form" action="/login?_method=PUT"  method="POST">
+      <form class="login-form ui large form" action="/login?_method=PUT"  method="POST">
         <div class="ui stacked segment">
           <div class="field">
             <div class="ui left icon input">
@@ -55,9 +42,10 @@
           </div>
           <button class="ui fluid large pink button custom-submit-btn" type="submit">Login</button>
         </div>
-  
-
       </form>
+      <%if(err){%>
+        <%- include("partials/_loginError",err) %> 
+      <%}  %> 
   
       <div class="ui message">
         New to us? <a href="#">Sign Up</a>

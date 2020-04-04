@@ -5,6 +5,20 @@
         <span class="ui big text custom-logo">Resource Wall</span>
       </a>
     </div>
+    <% if(user){%>
+    <div class="right menu">
+      <a href="#" class="item custom-no-grey-bg-hover">
+        <%= user.name %>
+      </a>
+      <div class="item">
+        <form action="/login?_method=DELETE" method="POST">
+          <button class="ui medium pink button logout-btn" type="submit">
+            Logout
+          </button>
+        </form>
+      </div>
+    </div>
+    <%} else { %>
     <div class="right menu">
       <a href="/login" class="item custom-no-grey-bg-hover">
         <h4 class="custom-light-grey-link">Login</h4>
@@ -13,5 +27,6 @@
         <button class="ui medium pink button">Sign up</button>
       </div>
     </div>
+    <%}%>
   </div>
 </nav>
