@@ -13,13 +13,10 @@ const login = (email, password, db) => {
   });
 };
 
-const isUserExists = (email, db) => {
-  return getUserWithEmail(email, db).then((user) => {
-    if (!user.email) {
-      return true;
-    }
-    return false;
-  });
+//validates thats the input email is in the right format => example@example.com
+const emailFormatValidation = (email) => {
+  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
 };
 
 module.exports = (db) => {
@@ -59,17 +56,24 @@ module.exports = (db) => {
     const { name, avatar, email, password } = req.body;
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
-    getUserWithEmail(email, db).then((data) => {
-      const user = { name, email, password: hash, avatar };
-      if (!data) {
-        addUser(user, db).then((data) => {
-          req.session.userId = data.id;
-          res.redirect("/home");
-        });
-      } else {
-        res.render("signup", { user: null, err: "Email already exists" });
-      }
-    });
+    if (emailFormatValidation(email)) {
+      getUserWithEmail(email, db).then((data) => {
+        const user = { name, email, password: hash, avatar };
+        if (!data) {
+          addUser(user, db).then((data) => {
+            req.session.userId = data.id;
+            res.redirect("/home");
+          });
+        } else {
+          res.render("signup", { user: null, err: "Email already exists" });
+        }
+      });
+    } else {
+      res.render("signup", {
+        user: null,
+        err: "Email should be in the right format example@example.com",
+      });
+    }
   });
 
   return router;
