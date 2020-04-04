@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+
+    <title>Resource - Login</title>
+
+    <%- include('partials/_head.ejs') %>
+
+    <link rel="stylesheet" type="text/css" href="/styles/login-page.css" />
+    <!-- App scripts -->
+    <script type="text/javascript" src="/scripts/loginHelpers.js"></script>
+
+  </head>
+
+  <body>
+    <%- include("partials/_nav",user) %>
+  </head>
+  <body>
+  
+  <div class="ui middle aligned center aligned grid custom-login-box">
+    <div class="column">
+      <h2 class="ui header">
+        <div class="content">
+          Log-in to your account
+        </div>
+      </h2>
+      <form class="login-form ui large form" action="/users/login?_method=PUT"  method="POST">
+        <div class="ui stacked segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input class="login-input" type="text" name="email" placeholder="E-mail" required="required">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input class="login-input" type="password" name="password" placeholder="Password" required="required">
+            </div>
+          </div>
+          <button class="ui fluid large pink button custom-submit-btn" type="submit">Login</button>
+        </div>
+      </form>
+      <%if(err){%>
+        <%- include("partials/_loginError",err) %> 
+      <%}  %> 
+  
+      <div class="ui message">
+        New to us? <a href="/users/signup">Sign Up</a>
+      </div>
+    </div>
+  </div>
+  
+  </body>
+  
+  </body>
+
+</html>
