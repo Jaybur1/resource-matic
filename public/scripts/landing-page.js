@@ -1,8 +1,9 @@
+import renderCards from "./landing-page/resource-cards.js";
+
 // Function to run when page is ready
 const onReady = () => {
-  $('.special.cards .image').dimmer({
-    on: 'hover'
-  });
+  // Render popular resource cards to page
+  renderCards();
 };
 
 // Run when page is ready

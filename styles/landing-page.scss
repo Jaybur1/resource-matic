@@ -12,11 +12,6 @@
     height: $hero_height;
     opacity: 0.3;
     z-index: -1;
-
-    // background: linear-gradient(
-    //   rgba($color: #0b90f3, $alpha: 0.4),
-    //   rgba($color: #e72291, $alpha: 0.4)
-    // );
     background: linear-gradient(
         rgba($color: #0b90f3, $alpha: 0.4),
         rgba($color: #e72291, $alpha: 0.4)
@@ -47,7 +42,6 @@
   display: grid;
   width: 100%;
   padding: 3em 0;
-  // justify-content: center;
 
   .custom-text-center {
     text-align: center;
