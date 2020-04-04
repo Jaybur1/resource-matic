@@ -9,6 +9,8 @@
     <%- include('partials/_head.ejs') %>
 
     <link rel="stylesheet" type="text/css" href="/styles/login-page.css" />
+    <link rel="stylesheet" type="text/css" href="/styles/error-message.css" />
+    <link rel="stylesheet" type="text/css" href="/vendor/semantic/components/icon.min.css" />
     <!-- App scripts -->
     <script type="text/javascript" src="/scripts/loginHelpers.js"></script>
 
@@ -18,7 +20,9 @@
     <%- include("partials/_nav",user) %>
   </head>
   <body>
-  
+    <%if(err){%>
+      <%- include("partials/_error",err) %> 
+    <%}  %> 
   <div class="ui middle aligned center aligned grid custom-login-box">
     <div class="column">
       <h2 class="ui header">
@@ -55,10 +59,6 @@
           <button class="ui fluid large pink button custom-submit-btn" type="submit">Create</button>
         </div>
       </form>
-      <%if(err){%>
-        <%- include("partials/_loginError",err) %> 
-      <%}  %> 
-  
       <div class="ui message">
         Already have an account? <a href="/users/login">Log in</a>
       </div>

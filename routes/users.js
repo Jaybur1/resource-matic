@@ -41,7 +41,7 @@ module.exports = (db) => {
           return;
         }
         req.session.userId = user.id;
-        res.redirect("/home");
+        res.send(user);
       })
       .catch((error) => console.error(error));
   });

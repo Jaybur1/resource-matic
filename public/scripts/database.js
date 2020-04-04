@@ -17,6 +17,7 @@ const getUserWithId = (id, db) => {
     .catch((err) => console.error("querry error", err));
 };
 
+
 const addUser = (user,db) => {
   const userVals = Object.values(user); // name,email,password,avatar
   return db
