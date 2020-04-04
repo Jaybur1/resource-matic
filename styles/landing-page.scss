@@ -42,3 +42,34 @@
     }
   }
 }
+
+.custom-popular-resources {
+  display: grid;
+  width: 100%;
+  padding: 3em 0;
+  // justify-content: center;
+
+  .custom-text-center {
+    text-align: center;
+  }
+
+  .custom-resources {
+    padding-top: 2em;
+  }
+}
+
+.custom-padding {
+  padding: 1em;
+}
+
+.custom-bk-white {
+  background-color: white !important;
+}
+
+.custom-bk-grey {
+  background-color: var(--color_6) !important;
+}
+
+.custom-hover-text-blue:hover {
+  color: var(--color_4) !important;
+}
