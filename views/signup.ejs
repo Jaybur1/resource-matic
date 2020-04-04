@@ -23,11 +23,23 @@
     <div class="column">
       <h2 class="ui header">
         <div class="content">
-          Log-in to your account
+          Create new account
         </div>
       </h2>
-      <form class="login-form ui large form" action="/users/login?_method=PUT"  method="POST">
+      <form class="login-form ui large form" action="/users?_method=POST"  method="POST">
         <div class="ui stacked segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input class="login-input" type="text" name="name" placeholder="Your cool name" required="required">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input class="login-input" type="text" name="avatar" placeholder="avatar url">
+            </div>
+          </div>
           <div class="field">
             <div class="ui left icon input">
               <i class="user icon"></i>
@@ -40,7 +52,7 @@
               <input class="login-input" type="password" name="password" placeholder="Password" required="required">
             </div>
           </div>
-          <button class="ui fluid large pink button custom-submit-btn" type="submit">Login</button>
+          <button class="ui fluid large pink button custom-submit-btn" type="submit">Create</button>
         </div>
       </form>
       <%if(err){%>
@@ -48,7 +60,7 @@
       <%}  %> 
   
       <div class="ui message">
-        New to us? <a href="/users/signup">Sign Up</a>
+        Already have an account? <a href="/users/login">Log in</a>
       </div>
     </div>
   </div>

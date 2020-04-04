@@ -11,7 +11,7 @@
         <%= user.name %>
       </a>
       <div class="item">
-        <form action="/login?_method=DELETE" method="POST">
+        <form action="/users?_method=DELETE" method="POST">
           <button class="ui medium pink button logout-btn" type="submit">
             Logout
           </button>
@@ -20,11 +20,11 @@
     </div>
     <%} else { %>
     <div class="right menu">
-      <a href="/login" class="item custom-no-grey-bg-hover">
+      <a href="/users/login" class="item custom-no-grey-bg-hover">
         <h4 class="custom-light-grey-link">Login</h4>
       </a>
       <div class="item">
-        <button class="ui medium pink button">Sign up</button>
+        <a href="/users/signup" class="ui medium pink button">Sign up</a>
       </div>
     </div>
     <%}%>
