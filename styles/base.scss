@@ -1,0 +1,19 @@
+* {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+:root {
+  --color_1: #3a3a3a;
+  --color_2: #222222;
+  --color_3: rgb(186, 186, 186);
+  --color_4: #0b90f3;
+  --color_5: #e72291;
+}
+
+.custom-text-color_1 {
+  color: var(--color_1);
+}
+
+button:hover {
+  box-shadow: 0 0 4px rgba($color: #000000, $alpha: 0.3) !important;
+}

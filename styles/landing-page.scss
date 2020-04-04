@@ -1,15 +1,44 @@
-.custom-hero {
-  width: 100vw;
-  height: 600px;
-  margin-top: 50px;
-  display: grid;
-  align-items: center;
-  align-content: center;
-  background: url(/assests/images/hero.jpg);
-  background-size: cover;
-  opacity: 0.6;
-}
+.custom-landing-page-main {
+  $hero_height: 54em;
 
-.custom-white {
-  color: white;
+  position: relative;
+  margin-top: 3.7em;
+
+  .custom-hero {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: $hero_height;
+    opacity: 0.3;
+    z-index: -1;
+
+    // background: linear-gradient(
+    //   rgba($color: #0b90f3, $alpha: 0.4),
+    //   rgba($color: #e72291, $alpha: 0.4)
+    // );
+    background: linear-gradient(
+        rgba($color: #0b90f3, $alpha: 0.4),
+        rgba($color: #e72291, $alpha: 0.4)
+      ),
+      url("/assets/images/hero.jpg");
+    background-position: bottom, bottom;
+    background-size: cover, cover;
+  }
+
+  .custom-hero-content {
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    grid-gap: 2em;
+    height: $hero_height;
+
+    .custom-bold {
+      font-weight: 600;
+    }
+
+    .custom-button-width {
+      width: fit-content;
+    }
+  }
 }
