@@ -6,6 +6,7 @@ const router = express.Router();
 
 const login = (email, password, db) => {
   return getUserWithEmail(email, db).then((user) => {
+    if(!user) return null
     if (bcrypt.compareSync(password, user.password)) {
       return user;
     }
