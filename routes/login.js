@@ -1,4 +1,5 @@
 const { getUserWithEmail } = require('../public/scripts/database')
+const bcrypt = require('bcrypt');
 
 const express = require("express");
 const router = express.Router();
