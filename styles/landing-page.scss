@@ -1,0 +1,15 @@
+.custom-hero {
+  width: 100vw;
+  height: 600px;
+  margin-top: 50px;
+  display: grid;
+  align-items: center;
+  align-content: center;
+  background: url(/assests/images/hero.jpg);
+  background-size: cover;
+  opacity: 0.6;
+}
+
+.custom-white {
+  color: white;
+}
