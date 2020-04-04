@@ -1,0 +1,23 @@
+@mixin center($property) {
+  position: relative;
+  top:$property;
+  left:$property;
+  transform: translate(-$property,-$property);
+}
+
+.custom-login-box {
+  @include center(50%);
+  max-width: 450px;
+
+  h2{
+    div{
+      color: var(--color_4);
+    }
+  }  
+}
+
+
+.custom-submit-btn {
+  display:block;
+  width: 50%;
+}
