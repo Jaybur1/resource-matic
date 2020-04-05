@@ -289,7 +289,10 @@ const getResources = (db, options) => {
 
   console.log(queryString);
 
-  // return queryExecute(queryString, queryParams, (rows) => rows);
+  return db
+    .query(queryString, queryParams)
+    .then((res) => res.rows[0])
+    .catch((err) => console.error("getResources error:", err));
 };
 
 module.exports = { getUserWithEmail, getUserWithId, addUser, updateUser, updateUserWithCreds, validatePassword, getResources };
