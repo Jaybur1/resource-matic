@@ -13,7 +13,7 @@ const bodyParser     = require("body-parser");
 const sass           = require("node-sass-middleware");
 const app            = express();
 const morgan         = require("morgan");
-const methodOverride = require("method-override");
+
 const cookieSession  = require("cookie-session");
 
 // PG database client/connection setup
@@ -25,7 +25,7 @@ db.connect();
 // "dev" = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan("dev"));
-app.use(methodOverride("_method"));
+
 app.use(cookieSession({
   name: "session",
   keys: ["key1"]
@@ -40,20 +40,13 @@ app.use("/styles", sass({
 }));
 app.use(express.static("public"));
 
-// Separated Routes for each Resource
-// Note: Feel free to replace the example routes below with your own
-const usersRoutes = require("./routes/users");
-const homeRoutes  = require("./routes/home");
-// const resourcesRoutes = require("./routes/resources");
-
-require("./routes/profile")(app, db);
-
 // Mount all resource routes
-// Note: Feel free to replace the example routes below with your own
-app.use("/users", usersRoutes(db));
-app.use("/home",  homeRoutes(db));
-// app.use("/resources", resourcesRoutes(db));
-// Note: mount other resources here, using the same pattern above
+app.use("/home",    require("./routes/home")(db));
+// app.use("/login",   require("./routes/login")(db));
+app.use("/users",   require("./routes/users")(db));
+app.use("/profile", require("./routes/profile")(db));
+
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
