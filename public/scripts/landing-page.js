@@ -1,3 +1,7 @@
+// landing-page.js
+//
+// Landing page support.
+
 import renderCards from "./landing-page/resource-cards.js";
 
 // Function to run when page is ready

@@ -54,6 +54,8 @@ const validatePassword = (db, userID, password) => {
     });
 };
 
+
+
 // ! Work in progress, don't use, add, or modify please -------------------------------------------- //
 // TODO (brainstorming for full getResources - Ali)
 // Options:
@@ -79,7 +81,7 @@ const validatePassword = (db, userID, password) => {
 
 const getResources = (db, options) => {
   const queryParams = [];
-  
+
   // ? SELECT section of query
   // Initialize query
   let queryString = `
@@ -88,19 +90,19 @@ const getResources = (db, options) => {
 
   // Comments are requested
   options.comments ? queryString += `, comments.message AS comments` : null;
-  
+
   // Likes are requested
   options.likes ? queryString += `, count(likes) AS likes` : null;
-  
+
   // Average ratings are requested
   options.avgRatings ? queryString += `, average(ratings.rating) AS avgRatings` : null;
-  
+
   // All ratings are requested
   options.ratings ? queryString += `, ratings.rating AS rating` : null;
-  
+
   // Users or current user are requested
   options.users || options.currentUser ? queryString += `, users.name AS users` : null;
-  
+
   // Categories are requested
   options.categories ? queryString += `, categories.name AS categories` : null;
   // ?
@@ -114,14 +116,14 @@ const getResources = (db, options) => {
 
   // Average ratings or all ratings are requested
   options.avgRatings || options.ratings ? queryString += `JOIN ratings ON ratings.resource_id = resources.id` : null;
-      
+
   // Users or current user are requested
   options.users || options.currentUser ? queryString += `JOIN users ON resources.user_id = users.id` : null;
 
   // Categories are requested
   options.categories ? queryString += `JOIN categories ON resources.category_id = categories.id` : null;
   // ?
-  
+
   // ? WHERE section of query
 
   // ?
@@ -132,7 +134,7 @@ const getResources = (db, options) => {
   // FROM properties
   // JOIN property_reviews ON properties.id = property_id
   // `;
-  
+
   // 3
   if (Object.keys(options).length > 0) {
     queryString += "WHERE ";
@@ -148,28 +150,28 @@ const getResources = (db, options) => {
     queryParams.indexOf(options.owner_id) > 0 ? queryString += " AND " : null;
     queryString += `properties.owner_id = $${queryParams.length} `;
   }
-  
+
   if (options.minimum_price_per_night) {
     queryParams.push(options.minimum_price_per_night * 100);
     queryParams.indexOf(options.minimum_price_per_night * 100) > 0 ? queryString += " AND " : null;
     queryString += `properties.cost_per_night >= $${queryParams.length} `;
   }
-  
+
   if (options.maximum_price_per_night) {
     queryParams.push((options.maximum_price_per_night * 100));
     queryParams.indexOf(options.maximum_price_per_night * 100) > 0 ? queryString += " AND " : null;
     queryString += `properties.cost_per_night <= $${queryParams.length} `;
   }
-  
+
   queryString += `
   GROUP BY properties.id
   `;
-  
+
   if (options.minimum_rating) {
     queryParams.push(options.minimum_rating);
     queryString += `HAVING avg(property_reviews.rating) >= $${queryParams.length} `;
   }
-  
+
   // 4
   queryParams.push(limit);
   queryString += `

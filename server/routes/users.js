@@ -1,8 +1,10 @@
-const { getUserWithEmail, addUser } = require("../database");
+const express = require("express");
+const router  = express.Router();
 const bcrypt = require("bcrypt");
 
-const express = require("express");
-const router = express.Router();
+const { getUserWithEmail, addUser } = require("../database");
+
+
 
 const login = (email, password, db) => {
   return getUserWithEmail(email, db).then((user) => {

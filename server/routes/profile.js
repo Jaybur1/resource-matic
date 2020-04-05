@@ -12,8 +12,6 @@ const SALT_ROUNDS = 10;
 
 module.exports = function(app, db) {
 
-  // TODO: Promisefy further
-  // TODO: Get user info from session
   // TODO: Better error handling
 
   // GET profile
