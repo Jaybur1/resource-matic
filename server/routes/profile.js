@@ -12,6 +12,9 @@ const SALT_ROUNDS = 10;
 
 
 
+// httpError logs an error and returns an HTTP status.
+//  TODO: Move to util module or something.
+
 const httpError = function(logMessage, err, res, httpStatus) {
   console.log(logMessage, err);
   res.status(httpStatus).end();
@@ -21,6 +24,7 @@ const httpError = function(logMessage, err, res, httpStatus) {
 
 module.exports = (db) => {
 
+  // TODO: Input validation
   // TODO: Better error handling
 
   // GET profile

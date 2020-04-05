@@ -11,7 +11,7 @@
         <i class="search icon"></i>
       </div>
     </div>
-    <% if(user){%>
+    <% if (user) { %>
     <div class="right menu">
       <a href="/profile" class="item custom-no-grey-bg-hover">
         <%= user.name %>
@@ -27,7 +27,7 @@
         </form>
       </div>
     </div>
-    <%} else { %>
+    <% } else { %>
     <div class="right menu">
       <a href="/users/login" class="item custom-no-grey-bg-hover">
         <h4 class="custom-light-grey-link custom-font-size">
@@ -40,6 +40,6 @@
         </a>
       </div>
     </div>
-    <%}%>
+    <% } %>
   </div>
 </nav>
