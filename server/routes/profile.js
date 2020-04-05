@@ -2,7 +2,9 @@
 //
 // Routes related to the profile page.
 
-const bcrypt = require("bcrypt");
+const express = require("express");
+const router  = express.Router();
+const bcrypt  = require("bcrypt");
 
 const { getUserWithId, updateUser, updateUserWithCreds, validatePassword } = require("../database");
 
@@ -10,75 +12,85 @@ const SALT_ROUNDS = 10;
 
 
 
-module.exports = function(app, db) {
+// httpError logs an error and returns an HTTP status.
+//  TODO: Move to util module or something.
 
+const httpError = function(logMessage, err, res, httpStatus) {
+  console.log(logMessage, err);
+  res.status(httpStatus).end();
+};
+
+
+
+module.exports = (db) => {
+
+  // TODO: Input validation
   // TODO: Better error handling
 
   // GET profile
   //    Render the user profile page.
 
-  app.get("/profile", (req, res) => {
-    getUserWithId(req.session.userId, db
-    ).then((user) => {
-      console.log(user);
-      res.render("profile", {
-        APP_NAME: "tSyn",
-        user: {
-          email:  user.email,
-          name:   user.name,
-          avatar: user.avatar
-        }
+  router.get("/", (req, res) => {
+    if (req.session.userId) {
+      getUserWithId(req.session.userId, db
+      ).then((user) => {
+        console.log(user);
+        res.render("profile", {
+          APP_NAME: "tSyn",
+          user: {
+            email:  user.email,
+            name:   user.name,
+            avatar: user.avatar
+          }
+        });
+      }).catch((_err) => {
+        //console.log("getUserWithId failed:", err);
+        res.redirect("/");
       });
-    }).catch((err) => {
-      console.log(err);
-      res.status(500).end();
-    });
+    } else {
+      res.redirect("/");
+    }
   });
 
   // PUT profile
   //    Update user info.
 
-  app.put("/profile", (req, res) => {
-    console.log(req.body);
-    const user = req.body;
-    // Save stuff that doesn't require a password:
-    if (!user.password) {
-      //console.log("Saving name, avatar...", user);
-      updateUser(db, [ user.name, user.avatar, req.session.userId ]
-      ).then(function(_updateRes) {
-        //console.log(_updateRes.rows);
-        //res.status(200).end();
-        res.redirect(303, "/home");
-      }).catch(function(err) {
-        console.log(err);
-        res.status(500).end();
-      });
-    // Check the password if changing login info:
-    } else {
-      //console.log("Saving name, avatar, email, password...");
-      validatePassword(db, req.session.userId, user.password
-      ).then(function() {
-        bcrypt.hash(user.newPassword, SALT_ROUNDS
-        ).then(function(pwHash) {
-          updateUserWithCreds(db, [ user.email, pwHash, user.name, user.avatar, req.session.userId ]
-          ).then(function(_updateRes) {
-            //console.log(_updateRes.rows);
-            //res.status(200).end();
-            res.status(200).end();
+  router.put("/", (req, res) => {
+    if (req.session.userId) {
+      const user = req.body;
+      // Save stuff that doesn't require a password:
+      if (!user.password) {
+        updateUser(db, [ user.name, user.avatar, req.session.userId ]
+        ).then(function(_updateRes) {
+          res.redirect(303, "/home");
+        }).catch(function(err) {
+          httpError("updateUser failed:", err, res, 500);
+        });
+      // Check the password if changing login info:
+      } else {
+        validatePassword(db, req.session.userId, user.password
+        ).then(function() {
+          bcrypt.hash(user.newPassword, SALT_ROUNDS
+          ).then(function(pwHash) {
+            updateUserWithCreds(db, [ user.email, pwHash, user.name, user.avatar, req.session.userId ]
+            ).then(function(_updateRes) {
+              res.status(200).end();
+            }).catch(function(err) {
+              httpError("updateUserWithCreds failed:", err, res, 500);
+            });
           }).catch(function(err) {
-            console.log(err);
-            res.status(500).end();
+            httpError("bcrypt.hash failed:", err, res, 500);
           });
         }).catch(function(err) {
-          console.log("bcrypt hash failed\n", err);
-          res.status(500).end();
+          httpError("validatePassword failed:", err, res, 403);
         });
-      }).catch(function(err) {
-        console.log("validatePassword failed\n", err);
-        res.status(403).end();
-      });
+      }
+    } else {
+      httpError("PUT /profile failed:", "No session", res, 303);
     }
   });
+
+  return router;
 
 };
 
