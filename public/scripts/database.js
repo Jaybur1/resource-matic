@@ -104,7 +104,22 @@ const getResources = (db, options) => {
   options.categories ? queryString += `, categories.name AS categories` : null;
   // ?
 
+  // ? Join section of query
+  // Comments are requested
+  options.comments ? queryString += `JOIN comments ON comments.resource_id = resources.id` : null;
 
+  // Likes are requested
+  options.likes ? queryString += `JOIN likes ON likes.resource_id = resources.id` : null;
+
+  // Average ratings or all ratings are requested
+  options.avgRatings || options.ratings ? queryString += `JOIN ratings ON ratings.resource_id = resources.id` : null;
+      
+  // Users or current user are requested
+  options.users || options.currentUser ? queryString += `JOIN users ON resources.user_id = users.id` : null;
+
+  // Categories are requested
+  options.categories ? queryString += `JOIN categories ON resources.category_id = categories.id` : null;
+  // ?
 
   // let queryString = `
   // SELECT resources.*, avg(property_reviews.rating) as average_rating
