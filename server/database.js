@@ -67,12 +67,14 @@ const validatePassword = (db, userID, password) => {
 //   users: true,
 //   currentUser: "",
 //   categories: ["", "", ""],
-//   sortByLatest: true,
-//   sortByOldest: true,
-//   sortByHighestRating: true,
-//   sortByLowestRating: true,
-//   sortByMostPopular: true,
-//   sortByLeastPopular: true,
+//   sort {
+//     byLatest: true,
+//     byOldest: true,
+//     byHighestRating: true,
+//     byLowestRating: true,
+//     byMostPopular: true,
+//     byLeastPopular: true,
+//   },
 //   limit: 0,
 //   filterByLiked: true,
 //   filterByCommented: true,
@@ -143,17 +145,54 @@ const getResources = (db, options) => {
   // ?
   
   // ? ORDER BY section of query
-  // Sort by latest requested
-  options.sortByLatest ? queryString += `ORDER BY resources.created DESC` : null;
-  
-  // Sort by oldest requested
-  options.sortByOldest ? queryString += `ORDER BY resources.created ASC` : null;
-  
-  // Sort by highest rating requested
-  options.sortByHighestRating ? queryString += `ORDER BY ratings.rating DESC` : null;
-  
-  // Sort by lowest rating requested
-  options.sortByLowestRating ? queryString += `ORDER BY ratings.rating ASC` : null;
+  // Any sorts needed
+  if (Object.keys(options.sort).length) {
+    queryString += `ORDER BY `;
+    
+    let alreadySorted = false;
+
+    // Sort by latest requested
+    if (options.byLatest) {
+      queryString += `resources.created DESC`;
+      alreadySorted = true;
+    }
+    
+    // Sort by oldest requested
+    if (options.byOldest) {
+      alreadySorted ? queryString += `, ` : null;
+      queryString += `resources.created ASC`;
+      alreadySorted = true;
+    }
+    
+    // Sort by highest rating requested
+    if (options.byHighestRating) {
+      alreadySorted ? queryString += `, ` : null;
+      queryString += `ratings.rating DESC`;
+      alreadySorted = true;
+    }
+    
+    // Sort by lowest rating requested
+    if (options.byLowestRating) {
+      alreadySorted ? queryString += `, ` : null;
+      queryString += `ratings.rating ASC`;
+      alreadySorted = true;
+    }
+    
+    // Sort by most popular requested
+    if (options.byMostPopular) {
+      alreadySorted ? queryString += `, ` : null;
+      queryString += `likes DESC`;
+      alreadySorted = true;
+    }
+    
+    // Sort by least popular requested
+    if (options.byMostPopular) {
+      alreadySorted ? queryString += `, ` : null;
+      queryString += `likes ASC`;
+      alreadySorted = true;
+    }
+  }
+
   
 
   // ?
