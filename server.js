@@ -60,10 +60,10 @@ app.use("/home", homeRoutes(db));
 app.get("/", (req, res) => {
   const userId = req.session.userId;
   console.log(userId);
-  if(!userId){
-  res.render("index",{user:null});
+  if (!userId) {
+    res.render("index",{user:null});
   }
-  res.redirect('/home')
+  res.redirect('/home');
 });
 
 app.listen(PORT, () => {
