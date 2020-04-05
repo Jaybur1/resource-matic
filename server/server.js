@@ -2,10 +2,14 @@
 //
 // Main entry point of the app.
 
-// load .env data into process.env
+// Load .env data into process.env
 require("dotenv").config();
 
-// Web server config
+// Database setup:
+const db = require("./pg.js")();
+db.connect();
+
+// Web server setup:
 const PORT           = process.env.PORT || 3000;
 const ENV            = process.env.ENV || "development";
 const express        = require("express");
@@ -13,19 +17,9 @@ const bodyParser     = require("body-parser");
 const sass           = require("node-sass-middleware");
 const app            = express();
 const morgan         = require("morgan");
-
 const cookieSession  = require("cookie-session");
 
-// PG database client/connection setup
-const { Pool } = require("pg");
-const db = new Pool(require("../lib/db.js"));
-db.connect();
-
-// Load the logger first so all (static) HTTP requests are logged to STDOUT
-// "dev" = Concise output colored by response status for development use.
-//         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan("dev"));
-
 app.use(cookieSession({
   name: "session",
   keys: ["key1"]
@@ -38,16 +32,15 @@ app.use("/styles", sass({
   debug:       true,
   outputStyle: "expanded"
 }));
+// Set the static assets route:
 app.use(express.static("public"));
-
-// Mount all resource routes
+// Mount all app endpoint routes:
 app.use("/home",    require("./routes/home")(db));
-// app.use("/login",   require("./routes/login")(db));
+//app.use("/login",   require("./routes/login")(db));
 app.use("/users",   require("./routes/users")(db));
 app.use("/profile", require("./routes/profile")(db));
 
-
-
+// Start listening for client connections:
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
@@ -66,3 +59,6 @@ app.get("/", (req, res) => {
     });
   }
 });
+
+
+
