@@ -89,3 +89,52 @@ As a user I want to [be able to] ...
 ## Wireframe
 
 ![Wireframe](docs/wireframe.png "Wireframe")
+
+## Routes
+
+### UI routes
+
+```
+GET    /            Show main landing page
+                    - redirect to /home if already logged in
+
+GET    /login       Show login page
+                    - redirect to /home if already logged in
+PUT    /login       Log in (create session)
+                    - redirect to /home if successful
+
+GET    /signup      Show new user registration page
+                    - redirect to /home if already logged in
+PUT    /signup      Create a new user account
+                    - redirect to /home if successful
+
+PUT    /logout      Log out (destroy session)
+                    - redirect to /
+
+GET    /profile     Show user profile page
+                    - redirect to / if not logged in
+PUT    /profile     Update user profile info
+                    - redirect to / if not logged in
+
+GET    /home        Show main resources page
+                    - redirect to / if not logged in
+```
+
+### API routes
+
+```
+GET    /resource    Retrieve a resource
+PATCH  /resource    Update a resource
+DELETE /resource    Remove a resource
+
+POST   /like        Add a like
+DELETE /like        Remove a like
+
+POST   /rating      Add a rating
+PATCH  /rating      Update a rating
+DELETE /rating      Remove a rating
+
+POST   /comment     Add a comment
+PATCH  /comment     Update a comment
+DELETE /comment     Remove a comment
+```
