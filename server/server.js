@@ -14,7 +14,7 @@ const cookieSession = require('cookie-session');
 
 // PG database client/connection setup
 const { Pool } = require('pg');
-const dbParams = require('./lib/db.js');
+const dbParams = require('../lib/db.js');
 const db = new Pool(dbParams);
 db.connect();
 
@@ -32,10 +32,10 @@ app.use(cookieSession({
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/styles", sass({
-  src: __dirname + "/styles",
-  dest: __dirname + "/public/styles",
-  debug: true,
-  outputStyle: 'expanded'
+  src:         `${__dirname}/../styles`,
+  dest:        `${__dirname}/../public/styles`,
+  debug:       true,
+  outputStyle: "expanded"
 }));
 app.use(express.static("public"));
 

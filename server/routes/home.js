@@ -1,4 +1,4 @@
-const { getUserWithId } = require('../public/scripts/database')
+const { getUserWithId } = require('../database')
 
 const express = require("express");
 const router = express.Router();

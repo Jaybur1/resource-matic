@@ -4,7 +4,7 @@
 
 const bcrypt = require("bcrypt");
 
-const { getUserWithId, updateUser, updateUserWithCreds, validatePassword } = require("../public/scripts/database");
+const { getUserWithId, updateUser, updateUserWithCreds, validatePassword } = require("../database");
 
 const SALT_ROUNDS = 10;
 

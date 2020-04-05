@@ -1,4 +1,4 @@
-const { getUserWithEmail, addUser } = require("../public/scripts/database");
+const { getUserWithEmail, addUser } = require("../database");
 const bcrypt = require("bcrypt");
 
 const express = require("express");
