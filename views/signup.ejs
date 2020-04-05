@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="/styles/error-message.css" />
     <link rel="stylesheet" type="text/css" href="/vendor/semantic/components/icon.min.css" />
     <!-- App scripts -->
-    <script type="text/javascript" src="/scripts/userHelpers.js"></script>
+    <!-- <script type="text/javascript" src="/scripts/userHelpers.js"></script> -->
 
   </head>
 
@@ -27,24 +27,24 @@
           Create new account
         </div>
       </h2>
-      <form class="signup-form ui large form" action="/users?_method=POST"  method="POST">
+      <form class="signup-form ui large form">
         <div class="ui stacked segment">
           <div class="field">
             <div class="ui left icon input">
               <i class="user icon"></i>
-              <input class="login-input name" type="text" name="name" placeholder="Your cool name" required="required">
+              <input class="login-input signup-name" type="text" name="name" placeholder="Your cool name" required="required">
             </div>
           </div>
           <div class="field">
             <div class="ui left icon input">
               <i class="user icon"></i>
-              <input class="login-input" type="text" name="email" placeholder="E-mail" required="required">
+              <input class="login-input signup-email" type="text" name="email" placeholder="E-mail" required="required">
             </div>
           </div>
           <div class="field">
             <div class="ui left icon input">
               <i class="lock icon"></i>
-              <input class="login-input" type="password" name="password" placeholder="Password" required="required">
+              <input class="login-input signup-password" type="password" name="password" placeholder="Password" required="required">
             </div>
           </div>
           <button class="ui fluid large pink button custom-submit-btn" type="submit">Create</button>

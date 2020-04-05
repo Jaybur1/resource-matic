@@ -3,12 +3,10 @@
 // Routes related to users.
 
 const express = require("express");
-const router  = express.Router();
-const bcrypt  = require("bcrypt");
+const router = express.Router();
+const bcrypt = require("bcrypt");
 
 const { getUserWithEmail, addUser } = require("../database");
-
-
 
 const login = (email, password, db) => {
   return getUserWithEmail(email, db).then((user) => {
@@ -40,41 +38,40 @@ module.exports = (db) => {
     login(email, password, db)
       .then((user) => {
         if (!user) {
-          res.send({err: 'Wrong email/password enterd'})
+          res.send({ err: "Wrong email/password enterd" });
           return;
         }
         req.session.userId = user.id;
-        res.send(user);
+        res.send({ redirect: "/home" });
       })
       .catch((error) => console.error(error));
   });
 
   //handle logout
-  router.delete("/", (req, res) => {
+  router.put("/logout", (req, res) => {
     req.session.userId = null;
-    res.redirect("/");
+    res.send({ redirect: "/" });
   });
 
   //handle register
   router.post("/", (req, res) => {
-    const { name, avatar, email, password } = req.body;
+    const { name, email, password } = req.body;
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     if (emailFormatValidation(email)) {
       getUserWithEmail(email, db).then((data) => {
-        const user = { name, email, password: hash, avatar };
+        const user = { name, email, password: hash };
         if (!data) {
           addUser(user, db).then((data) => {
             req.session.userId = data.id;
-            res.redirect("/home");
+            res.send({ redirect: "/home" });
           });
         } else {
-          res.render("signup", { user: null, err: "Email already exists" });
+          res.send({ err: "Email already exists" });
         }
       });
     } else {
-      res.render("signup", {
-        user: null,
+      res.send({
         err: "Email should be in the right format example@example.com",
       });
     }
