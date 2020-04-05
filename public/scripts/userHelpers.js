@@ -2,7 +2,6 @@
 //
 // user authentication support.
 
-
 const handleError = (data) => {
   console.log(data);
   $("body").toast({
