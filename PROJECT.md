@@ -51,40 +51,11 @@ As a user I want to [be able to] ...
 
 ## ERD
 
-- users
-  - username
-  - password
-  - name
-  - email
-  - phone
-  - etc..
-
-- categories
-  - name
-
-- resources
-  - user_id
-  - category
-  - title
-  - description
-  - content (json: url, image, etc)
-
-- likes
-  - user_id
-  - resource_id
-  - emoji_id
-
-- ratings
-  - user_id
-  - resource_id
-  - rating
-
-- comments
-  - user_id
-  - resource_id
-  - body
-
 ![ERD](docs/resource-wall-erd.png "ERD")
+
+- Each table has `created` and `updated` timestamp columns
+
+- `id` column as primary key for `likes`, `ratings`, and `comments` not necessary (use composite primary key from `user_id` and `resource_id`)
 
 ## Wireframe
 
