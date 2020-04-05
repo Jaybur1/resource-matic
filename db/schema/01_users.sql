@@ -9,7 +9,11 @@ CREATE TABLE users
   name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  avatar TEXT NOT NULL DEFAULT 'https://static.boredpanda.com/blog/wp-content/uploads/2017/03/58d8b70b540f3_GkyKh__880.jpg'
+  avatar TEXT NOT NULL DEFAULT 'https://static.boredpanda.com/blog/wp-content/uploads/2017/03/58d8b70b540f3_GkyKh__880.jpg',
+  created TIMESTAMP
+  WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated TIMESTAMP
+  WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 
