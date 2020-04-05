@@ -43,12 +43,15 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const homeRoutes = require("./routes/home");
+// const resourcesRoutes = require("./routes/resources");
+
+require("./routes/profile")(app, db);
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/users", usersRoutes(db));
-// app.use("/login", loginRoutes(db));
 app.use("/home", homeRoutes(db));
+// app.use("/resources", resourcesRoutes(db));
 // Note: mount other resources here, using the same pattern above
 
 
@@ -58,10 +61,10 @@ app.use("/home", homeRoutes(db));
 app.get("/", (req, res) => {
   const userId = req.session.userId;
   console.log(userId);
-  if(!userId){
-  res.render("index",{user:null});
+  if (!userId) {
+    res.render("index",{user:null});
   }
-  res.redirect('/home')
+  res.redirect('/home');
 });
 
 app.listen(PORT, () => {

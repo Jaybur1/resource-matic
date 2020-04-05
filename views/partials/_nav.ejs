@@ -1,18 +1,27 @@
 <nav class="ui top small fixed menu custom-nav-height">
   <div class="ui container">
     <div class="item">
-      <a href="/" class="item custom-no-grey-bg-hover">
-        <span class="ui big text custom-logo">Resource Wall</span>
+      <a href="/" class="item custom-no-grey-bg-hover custom-no-padding">
+        <p class="custom-logo">Resource Wall</p>
       </a>
+    </div>
+    <div class="item">
+      <div class="ui large icon input">
+        <input type="text" placeholder="Search resources..." />
+        <i class="search icon"></i>
+      </div>
     </div>
     <% if(user){%>
     <div class="right menu">
-      <a href="#" class="item custom-no-grey-bg-hover">
+      <a href="" class="item custom-no-grey-bg-hover">
         <%= user.name %>
       </a>
       <div class="item">
         <form action="/users?_method=DELETE" method="POST">
-          <button class="ui medium pink button logout-btn" type="submit">
+          <button
+            class="ui medium pink button logout-btn custom-font-size"
+            type="submit"
+          >
             Logout
           </button>
         </form>
@@ -21,10 +30,14 @@
     <%} else { %>
     <div class="right menu">
       <a href="/users/login" class="item custom-no-grey-bg-hover">
-        <h4 class="custom-light-grey-link">Login</h4>
+        <h4 class="custom-light-grey-link custom-font-size">
+          Login
+        </h4>
       </a>
       <div class="item">
-        <a href="/users/signup" class="ui medium pink button">Sign up</a>
+        <a href="/users/signup" class="ui medium pink button custom-font-size">
+          Sign up
+        </a>
       </div>
     </div>
     <%}%>
