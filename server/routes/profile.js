@@ -2,7 +2,9 @@
 //
 // Routes related to the profile page.
 
-const bcrypt = require("bcrypt");
+const express = require("express");
+const router  = express.Router();
+const bcrypt  = require("bcrypt");
 
 const { getUserWithId, updateUser, updateUserWithCreds, validatePassword } = require("../database");
 
@@ -10,14 +12,14 @@ const SALT_ROUNDS = 10;
 
 
 
-module.exports = function(app, db) {
+module.exports = (db) => {
 
   // TODO: Better error handling
 
   // GET profile
   //    Render the user profile page.
 
-  app.get("/profile", (req, res) => {
+  router.get("/", (req, res) => {
     getUserWithId(req.session.userId, db
     ).then((user) => {
       console.log(user);
@@ -38,8 +40,8 @@ module.exports = function(app, db) {
   // PUT profile
   //    Update user info.
 
-  app.put("/profile", (req, res) => {
-    console.log(req.body);
+  router.put("/", (req, res) => {
+    //console.log(req.body);
     const user = req.body;
     // Save stuff that doesn't require a password:
     if (!user.password) {
@@ -79,6 +81,8 @@ module.exports = function(app, db) {
       });
     }
   });
+
+  return router;
 
 };
 
