@@ -3,10 +3,14 @@
 // Landing page support.
 
 import retrieveMostPopularResources from "./landing-page/resource-cards.js";
+import renderPlaceholderCards from "./landing-page/placeholder-cards.js";
 
 // Function to run when page is ready
 const onReady = () => {
-  // Render popular resource cards to page
+  // Render placeholder cards
+  renderPlaceholderCards();
+
+  // Clear placeholder and render popular resource cards to page
   retrieveMostPopularResources();
 };
 
