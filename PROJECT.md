@@ -1,4 +1,27 @@
-# Goal
+# Table of Contents
+
+- [Project](#project)
+  - [Goal](#goal)
+  - [Stack Requirements](#stack-requirements)
+  - [Optional Requirements](#optional-requirements)
+  - [Requirements](#requirements)
+- [Design](#design)
+  - [User stories](#user-stories)
+  - [ERD](#erd)
+  - [Wireframe](#wireframe)
+  - [Routes](#routes)
+    - [UI routes](#ui-routes)
+    - [API routes](#api-routes)
+
+# Project
+
+**Option 7: Resource Wall**
+
+Pinterest for learners.
+
+Allow learners to save learning resources like tutorials, blogs and videos in a central place that is publicly available to any user.
+
+## Goal
 
 - Build a web app from start to finish using the tech and approaches learned to date
 - Turn requirements into a working product
@@ -25,12 +48,6 @@ Your projects must use:
 
 - SPA (Single-Page Application) Behaviour
 - Hosting, such as heroku, netlify, github pages, AWS, or Azure
-
-## Option 7: Resource Wall
-
-Pinterest for learners.
-
-Allow learners to save learning resources like tutorials, blogs and videos in a central place that is publicly available to any user.
 
 ## Requirements:
 
