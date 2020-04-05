@@ -1,3 +1,7 @@
+// resource-cards.js
+//
+// Resource cards support.
+
 // Function that renders popular cards to page
 const renderCards = () => {
   // Add elements to page

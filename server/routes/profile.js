@@ -1,10 +1,10 @@
 // profile.js
 //
-// Profile page routes.
+// Routes related to the profile page.
 
 const bcrypt = require("bcrypt");
 
-const { getUserWithId, updateUser, updateUserWithCreds, validatePassword } = require("../public/scripts/database");
+const { getUserWithId, updateUser, updateUserWithCreds, validatePassword } = require("../database");
 
 const SALT_ROUNDS = 10;
 
@@ -12,8 +12,6 @@ const SALT_ROUNDS = 10;
 
 module.exports = function(app, db) {
 
-  // TODO: Promisefy further
-  // TODO: Get user info from session
   // TODO: Better error handling
 
   // GET profile
