@@ -283,15 +283,15 @@ const getResources = (db, options) => {
   // ?
   
   // ? Limit section of query
-  queryParams.push(options.limit || 10);
+  queryParams.push(Number(options.limit) || 10);
   queryString += ` LIMIT $${queryParams.length};`;
   // ?
 
-  // console.log(queryString);
+  console.log(queryString);
 
   return db
     .query(queryString, queryParams)
-    .then((res) => res.rows[0])
+    .then((res) => res.rows)
     .catch((err) => console.error("getResources error:", err));
 };
 
