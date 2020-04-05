@@ -16,7 +16,6 @@ module.exports = (db) => {
       getUserWithId(userId, db).then(user => {
         res.render("home", {
           user: user,
-          err:  null
         });
       });
     } else {
