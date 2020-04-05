@@ -54,6 +54,7 @@ const validatePassword = (db, userID, password) => {
     });
 };
 
+// ! Work in progress, don't use, add, or modify please -------------------------------------------- //
 // TODO (brainstorming for full getResources - Ali)
 // Options:
 // {
@@ -104,7 +105,7 @@ const getResources = (db, options) => {
   options.categories ? queryString += `, categories.name AS categories` : null;
   // ?
 
-  // ? Join section of query
+  // ? JOIN section of query
   // Comments are requested
   options.comments ? queryString += `JOIN comments ON comments.resource_id = resources.id` : null;
 
@@ -120,6 +121,11 @@ const getResources = (db, options) => {
   // Categories are requested
   options.categories ? queryString += `JOIN categories ON resources.category_id = categories.id` : null;
   // ?
+  
+  // ? WHERE section of query
+
+  // ?
+
 
   // let queryString = `
   // SELECT resources.*, avg(property_reviews.rating) as average_rating
@@ -177,5 +183,6 @@ const getResources = (db, options) => {
   // 6
   return queryExecute(queryString, queryParams, (rows) => rows);
 };
+// ! ---------------------------------------------------------------------------------------- //
 
 module.exports = { getUserWithEmail, getUserWithId, addUser, updateUser, updateUserWithCreds, validatePassword, getResources };
