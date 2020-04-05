@@ -11,6 +11,23 @@
         <i class="search icon"></i>
       </div>
     </div>
+    <% if(user){%>
+    <div class="right menu">
+      <a href="" class="item custom-no-grey-bg-hover">
+        <%= user.name %>
+      </a>
+      <div class="item">
+        <form action="/users?_method=DELETE" method="POST">
+          <button
+            class="ui medium pink button logout-btn custom-font-size"
+            type="submit"
+          >
+            Logout
+          </button>
+        </form>
+      </div>
+    </div>
+    <%} else { %>
     <div class="right menu">
       <a href="#" class="item custom-no-grey-bg-hover">
         <h4 class="custom-light-grey-link custom-font-size">
@@ -23,5 +40,6 @@
         </button>
       </div>
     </div>
+    <%}%>
   </div>
 </nav>

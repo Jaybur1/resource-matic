@@ -1,0 +1,21 @@
+@mixin center($property) {
+  position: relative;
+  top:$property;
+  left:$property;
+  transform: translate(-$property,-$property);
+}
+
+.custom-login-box {
+  @include center(50%);
+  max-width: 450px;
+  transition: 0.3s;
+  h2{
+    div{
+      color: var(--color_4);
+    }
+  }
+
+  &:hover{
+    box-shadow: 4px 7px 9px -5px rgba(230,172,230,1);
+  }
+}

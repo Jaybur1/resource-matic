@@ -1,5 +1,5 @@
 .custom-landing-page-main {
-  $hero_height: 54em;
+  $hero_height: 24em;
 
   position: relative;
   margin-top: 3.7em;
@@ -12,11 +12,6 @@
     height: $hero_height;
     opacity: 0.3;
     z-index: -1;
-
-    // background: linear-gradient(
-    //   rgba($color: #0b90f3, $alpha: 0.4),
-    //   rgba($color: #e72291, $alpha: 0.4)
-    // );
     background: linear-gradient(
         rgba($color: #0b90f3, $alpha: 0.4),
         rgba($color: #e72291, $alpha: 0.4)
@@ -30,7 +25,7 @@
     display: grid;
     align-content: center;
     justify-items: center;
-    grid-gap: 2em;
+    grid-gap: 1em;
     height: $hero_height;
 
     .custom-bold {
@@ -40,5 +35,88 @@
     .custom-button-width {
       width: fit-content;
     }
+  }
+}
+
+.custom-popular-resources {
+  display: grid;
+  width: 100%;
+  padding: 3em 0;
+
+  .custom-text-center {
+    text-align: center;
+  }
+
+  .custom-resources {
+    padding-top: 2em;
+  }
+}
+
+.custom-padding {
+  padding: 1em;
+}
+
+.custom-bk-white {
+  background-color: white !important;
+}
+
+.custom-bk-grey {
+  background-color: var(--color_6) !important;
+}
+
+.custom-hover-text-blue:hover {
+  color: var(--color_4) !important;
+}
+
+.custom-responsive-text-size {
+  font-size: 3.3em !important;
+  margin-block-end: 0;
+}
+
+.custom-responsive-text-size-smaller {
+  font-size: 1.1em !important;
+  text-align: center !important;
+  margin-block-end: 1.5em;
+}
+
+@media only screen and (min-width: 768px) {
+  .custom-landing-page-main {
+    $hero_height: 32em;
+
+    .custom-hero {
+      height: $hero_height;
+    }
+
+    .custom-hero-content {
+      height: $hero_height;
+    }
+  }
+
+  .custom-responsive-text-size {
+    font-size: 5em !important;
+  }
+  .custom-responsive-text-size-smaller {
+    font-size: 1.5em !important;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .custom-landing-page-main {
+    $hero_height: 54em;
+
+    .custom-hero {
+      height: $hero_height;
+    }
+
+    .custom-hero-content {
+      height: $hero_height;
+    }
+  }
+
+  .custom-responsive-text-size {
+    font-size: 8em !important;
+  }
+  .custom-responsive-text-size-smaller {
+    font-size: 1.5em !important;
   }
 }

@@ -7,28 +7,41 @@
 
     <!-- App scripts -->
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="module" src="/scripts/landing-page.js"></script>
   </head>
 
   <body>
-    <%- include("partials/_nav") %>
+    <%- include("partials/_nav",user) %>
 
     <main class="custom-landing-page-main">
       <div class="custom-hero"></div>
-      <div class="ui container">
+      <section class="ui container">
         <div class="custom-hero-content">
-          <p>
-            <span class="ui massive text custom-bold">Resource Wall</span>
+          <p class="custom-bold custom-responsive-text-size">
+            Resource Wall
           </p>
-          <p>
-            <span class="ui large text custom-bold custom-text-color_1">
-              An app that holds all your favorite resources in one place!
-            </span>
+          <p
+            class="custom-responsive-text-size-smaller custom-bold custom-text-color_1"
+          >
+            An app that holds all your favorite resources in one place!
           </p>
-          <button class="ui pink massive button custom-button-width">
+          <a
+            href="/register"
+            class="ui pink massive button custom-button-width"
+          >
             Get Started
-          </button>
+          </a>
         </div>
-      </div>
+      </section>
+      <section class="ui container">
+        <div class="custom-popular-resources">
+          <h2 class="custom-text-center">Popular Resources</h2>
+          <div
+            class="ui special four doubling cards custom-resources"
+            id="popular-resources"
+          ></div>
+        </div>
+      </section>
     </main>
     <%- include("partials/_footer") %>
   </body>
