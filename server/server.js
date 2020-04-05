@@ -45,6 +45,7 @@ app.use("/home",    require("./routes/home")(db));
 // app.use("/login",   require("./routes/login")(db));
 app.use("/users",   require("./routes/users")(db));
 app.use("/profile", require("./routes/profile")(db));
+app.use("/resources", require("./routes/resources")(db));
 
 
 
