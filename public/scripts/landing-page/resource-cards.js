@@ -28,7 +28,7 @@ const createCards = () => {
       content: "https://fonts.google.com/"
     },
     {
-      name: "CSS Tricks",
+      name: "Coolors",
       thumbnail_photo: "https://pbs.twimg.com/profile_images/1149362281911869442/KnZENMUg.png",
       content: "https://coolors.co/"
     },
@@ -48,7 +48,7 @@ const createCards = () => {
       content: "https://fonts.google.com/"
     },
     {
-      name: "CSS Tricks",
+      name: "Coolors",
       thumbnail_photo: "https://pbs.twimg.com/profile_images/1149362281911869442/KnZENMUg.png",
       content: "https://coolors.co/"
     },

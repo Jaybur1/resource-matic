@@ -27,6 +27,7 @@ i:before * {
   color: var(--color_1);
 }
 
-button:hover {
+button:hover,
+.button:hover {
   box-shadow: 0 0 4px rgba($color: #000000, $alpha: 0.3) !important;
 }
