@@ -12,6 +12,13 @@ const SALT_ROUNDS = 10;
 
 
 
+const httpError = function(logMessage, err, res, httpStatus) {
+  console.log(logMessage, err);
+  res.status(httpStatus).end();
+};
+
+
+
 module.exports = (db) => {
 
   // TODO: Better error handling
@@ -46,48 +53,36 @@ module.exports = (db) => {
 
   router.put("/", (req, res) => {
     if (req.session.userId) {
-      //console.log(req.body);
       const user = req.body;
       // Save stuff that doesn't require a password:
       if (!user.password) {
-        //console.log("Saving name, avatar...", user);
         updateUser(db, [ user.name, user.avatar, req.session.userId ]
         ).then(function(_updateRes) {
-          //console.log(_updateRes.rows);
-          //res.status(200).end();
           res.redirect(303, "/home");
         }).catch(function(err) {
-          console.log(err);
-          res.status(500).end();
+          httpError("updateUser failed:", err, res, 500);
         });
       // Check the password if changing login info:
       } else {
-        //console.log("Saving name, avatar, email, password...");
         validatePassword(db, req.session.userId, user.password
         ).then(function() {
           bcrypt.hash(user.newPassword, SALT_ROUNDS
           ).then(function(pwHash) {
             updateUserWithCreds(db, [ user.email, pwHash, user.name, user.avatar, req.session.userId ]
             ).then(function(_updateRes) {
-              //console.log(_updateRes.rows);
-              //res.status(200).end();
               res.status(200).end();
             }).catch(function(err) {
-              console.log(err);
-              res.status(500).end();
+              httpError("updateUserWithCreds failed:", err, res, 500);
             });
           }).catch(function(err) {
-            console.log("bcrypt hash failed\n", err);
-            res.status(500).end();
+            httpError("bcrypt.hash failed:", err, res, 500);
           });
         }).catch(function(err) {
-          console.log("validatePassword failed\n", err);
-          res.status(403).end();
+          httpError("validatePassword failed:", err, res, 403);
         });
       }
     } else {
-      console.log("PUT /profile failed: No session");
-      res.status(303).end();
+      httpError("PUT /profile failed:", "No session", res, 303);
     }
   });
 
