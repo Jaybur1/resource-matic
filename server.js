@@ -43,6 +43,7 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const homeRoutes = require("./routes/home");
+const resourcesRoutes = require("./routes/resources");
 
 require("./routes/profile")(app, db);
 
@@ -50,6 +51,7 @@ require("./routes/profile")(app, db);
 // Note: Feel free to replace the example routes below with your own
 app.use("/users", usersRoutes(db));
 app.use("/home", homeRoutes(db));
+app.use("/resources", resourcesRoutes(db));
 // Note: mount other resources here, using the same pattern above
 
 
