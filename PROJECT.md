@@ -37,7 +37,7 @@ Your projects must use:
 - ES6 for server-side (NodeJS) code
 - NodeJS
 - Express
-  - RESTful routes
+  - RESTful routes (even if tracking a user session is not RESTful)
 - One or more CSS or UI "framework"s:
   - jQuery
   - A CSS preprocessor such as SASS, ~~Stylus, or PostCSS for styling -- or CSS Custom properties and no CSS preprocessor~~
@@ -49,7 +49,7 @@ Your projects must use:
 - SPA (Single-Page Application) Behaviour
 - Hosting, such as heroku, netlify, github pages, AWS, or Azure
 
-## Requirements:
+## Requirements
 
 - users should be able to save an external URL along with a title and description
 - users should be able to search for already-saved resources created by any user
