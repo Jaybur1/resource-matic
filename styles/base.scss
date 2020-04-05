@@ -1,5 +1,15 @@
-* {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+div {
   font-family: "Montserrat", sans-serif !important;
+}
+
+i:before * {
+  font-family: "Open Sans" !important;
 }
 
 :root {
