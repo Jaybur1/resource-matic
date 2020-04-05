@@ -8,7 +8,7 @@ const retrieveMostPopularResources = () => {
   $.ajax({
     method: "GET",
     url: "/resources",
-    data: {limit: 8, sortByMostPopular: true}
+    data: {likes: true, sorts: {byMostPopular: true}, limit: 8}
   })
     .then((resp) => {
       // On request success call render function
@@ -52,7 +52,7 @@ const createCards = (popularResources) => {
       </div>
       <div class="content custom-bk-grey">
         <a href="${resource.content}" target="_blank" class="ui header small center aligned custom-hover-text-blue"
-          >${resource.name}</a
+          >${resource.title}</a
         >
       </div>
     </div>
