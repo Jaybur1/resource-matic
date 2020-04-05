@@ -1,6 +1,6 @@
 // home.js
 //
-// Home page related routes.
+// Routes related to the home page.
 
 const express = require("express");
 const router = express.Router();

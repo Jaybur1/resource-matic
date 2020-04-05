@@ -1,6 +1,6 @@
 // profile.js
 //
-// Profile page routes.
+// Routes related to the profile page.
 
 const bcrypt = require("bcrypt");
 
