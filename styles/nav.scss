@@ -2,6 +2,7 @@
   font-weight: 600;
   font-family: "Berkshire Swash", cursive !important;
   color: var(--color_4);
+  font-size: 1.5em;
 }
 
 .custom-nav-height {
@@ -12,9 +13,27 @@
   color: var(--color_3);
 }
 
+nav .custom-font-size {
+  font-size: 0.9em !important;
+}
+
+nav .custom-no-padding {
+  padding: 0 !important;
+}
+
 .custom-no-grey-bg-hover:hover {
   background-color: rgba($color: white, $alpha: 0) !important;
   .custom-light-grey-link {
     color: var(--color_4);
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .custom-logo {
+    font-size: 2em;
+  }
+
+  nav .custom-font-size {
+    font-size: 1.07142857rem !important;
   }
 }
