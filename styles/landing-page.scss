@@ -80,6 +80,14 @@
   margin-block-end: 1.5em;
 }
 
+.custom-landing-page-main .custom-flex {
+  display: flex;
+
+  div {
+    height: 0.8em !important;
+  }
+}
+
 @media only screen and (min-width: 768px) {
   .custom-landing-page-main {
     $hero_height: 32em;

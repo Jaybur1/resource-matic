@@ -18,6 +18,8 @@ const retrieveMostPopularResources = () => {
 
 // Function that renders popular cards to page
 const renderCards = (popularResources) => {
+  // Clear placeholder cards
+  $("#popular-resources").empty();
   // Add elements to page
   $("#popular-resources").append(createCards(popularResources));
   // Add hover effect on cards
