@@ -104,7 +104,7 @@ const getResources = (db, options) => {
   options.users || options.currentUser ? queryString += `, users.name AS users` : null;
 
   // Categories are requested
-  options.categories ? queryString += `, categories.name AS categories` : null;
+  options.categories.length > 0 ? queryString += `, categories.name AS categories` : null;
   // ?
 
   // ? JOIN section of query
@@ -119,14 +119,46 @@ const getResources = (db, options) => {
 
   // Users or current user are requested
   options.users || options.currentUser ? queryString += `JOIN users ON resources.user_id = users.id` : null;
-
+  
   // Categories are requested
-  options.categories ? queryString += `JOIN categories ON resources.category_id = categories.id` : null;
+  options.categories.length > 0 ? queryString += `JOIN categories ON resources.category_id = categories.id` : null;
   // ?
+  
 
   // ? WHERE section of query
+  // Current user is requested
+  if (options.currentUser) {
+    queryParams.push(`${options.currentUser}`);
+    queryString += `WHERE users.id = $${queryParams.length}`;
+  }
+  
+  // Categories requested
+  if (options.categories.length > 0) {
+    // Can be filtered by multiple categories
+    options.categories.forEach(category => {
+      queryParams.push(`%${category}%`);
+      queryString += `AND categories.name LIKE $${queryParams.length}`;
+    });
+  }
+  // ?
+  
+  // ? ORDER BY section of query
+  // Sort by latest requested
+  options.sortByLatest ? queryString += `ORDER BY resources.created DESC` : null;
+  
+  // Sort by oldest requested
+  options.sortByOldest ? queryString += `ORDER BY resources.created ASC` : null;
+  
+  // Sort by highest rating requested
+  options.sortByHighestRating ? queryString += `ORDER BY ratings.rating DESC` : null;
+  
+  // Sort by lowest rating requested
+  options.sortByLowestRating ? queryString += `ORDER BY ratings.rating ASC` : null;
+  
 
   // ?
+
+
 
 
   // let queryString = `
@@ -136,54 +168,54 @@ const getResources = (db, options) => {
   // `;
 
   // 3
-  if (Object.keys(options).length > 0) {
-    queryString += "WHERE ";
-  }
+  // if (Object.keys(options).length > 0) {
+  //   queryString += "WHERE ";
+  // }
 
-  if (options.city) {
-    queryParams.push(`%${options.city}%`);
-    queryString += `city LIKE $${queryParams.length} `;
-  }
+  // if (options.city) {
+  //   queryParams.push(`%${options.city}%`);
+  //   queryString += `city LIKE $${queryParams.length} `;
+  // }
 
-  if (options.owner_id) {
-    queryParams.push(options.owner_id);
-    queryParams.indexOf(options.owner_id) > 0 ? queryString += " AND " : null;
-    queryString += `properties.owner_id = $${queryParams.length} `;
-  }
+  // if (options.owner_id) {
+  //   queryParams.push(options.owner_id);
+  //   queryParams.indexOf(options.owner_id) > 0 ? queryString += " AND " : null;
+  //   queryString += `properties.owner_id = $${queryParams.length} `;
+  // }
 
-  if (options.minimum_price_per_night) {
-    queryParams.push(options.minimum_price_per_night * 100);
-    queryParams.indexOf(options.minimum_price_per_night * 100) > 0 ? queryString += " AND " : null;
-    queryString += `properties.cost_per_night >= $${queryParams.length} `;
-  }
+  // if (options.minimum_price_per_night) {
+  //   queryParams.push(options.minimum_price_per_night * 100);
+  //   queryParams.indexOf(options.minimum_price_per_night * 100) > 0 ? queryString += " AND " : null;
+  //   queryString += `properties.cost_per_night >= $${queryParams.length} `;
+  // }
 
-  if (options.maximum_price_per_night) {
-    queryParams.push((options.maximum_price_per_night * 100));
-    queryParams.indexOf(options.maximum_price_per_night * 100) > 0 ? queryString += " AND " : null;
-    queryString += `properties.cost_per_night <= $${queryParams.length} `;
-  }
+  // if (options.maximum_price_per_night) {
+  //   queryParams.push((options.maximum_price_per_night * 100));
+  //   queryParams.indexOf(options.maximum_price_per_night * 100) > 0 ? queryString += " AND " : null;
+  //   queryString += `properties.cost_per_night <= $${queryParams.length} `;
+  // }
 
-  queryString += `
-  GROUP BY properties.id
-  `;
+  // queryString += `
+  // GROUP BY properties.id
+  // `;
 
-  if (options.minimum_rating) {
-    queryParams.push(options.minimum_rating);
-    queryString += `HAVING avg(property_reviews.rating) >= $${queryParams.length} `;
-  }
+  // if (options.minimum_rating) {
+  //   queryParams.push(options.minimum_rating);
+  //   queryString += `HAVING avg(property_reviews.rating) >= $${queryParams.length} `;
+  // }
 
-  // 4
-  queryParams.push(limit);
-  queryString += `
-  ORDER BY cost_per_night
-  LIMIT $${queryParams.length};
-  `;
+  // // 4
+  // queryParams.push(limit);
+  // queryString += `
+  // ORDER BY cost_per_night
+  // LIMIT $${queryParams.length};
+  // `;
 
   // 5
   // console.log(queryString, queryParams);
 
   // 6
-  return queryExecute(queryString, queryParams, (rows) => rows);
+  // return queryExecute(queryString, queryParams, (rows) => rows);
 };
 // ! ---------------------------------------------------------------------------------------- //
 
