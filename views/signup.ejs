@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="/styles/error-message.css" />
     <link rel="stylesheet" type="text/css" href="/vendor/semantic/components/icon.min.css" />
     <!-- App scripts -->
-    <script type="text/javascript" src="/scripts/loginHelpers.js"></script>
+    <script type="text/javascript" src="/scripts/userHelpers.js"></script>
 
   </head>
 
@@ -20,9 +20,6 @@
     <%- include("partials/_nav",user) %>
   </head>
   <body>
-    <%if(err){%>
-      <%- include("partials/_error",err) %> 
-    <%}  %> 
   <div class="ui middle aligned center aligned grid custom-login-box">
     <div class="column">
       <h2 class="ui header">
@@ -30,18 +27,12 @@
           Create new account
         </div>
       </h2>
-      <form class="login-form ui large form" action="/users?_method=POST"  method="POST">
+      <form class="signup-form ui large form" action="/users?_method=POST"  method="POST">
         <div class="ui stacked segment">
           <div class="field">
             <div class="ui left icon input">
               <i class="user icon"></i>
-              <input class="login-input" type="text" name="name" placeholder="Your cool name" required="required">
-            </div>
-          </div>
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="user icon"></i>
-              <input class="login-input" type="text" name="avatar" placeholder="avatar url">
+              <input class="login-input name" type="text" name="name" placeholder="Your cool name" required="required">
             </div>
           </div>
           <div class="field">

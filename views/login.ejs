@@ -11,14 +11,11 @@
     <link rel="stylesheet" type="text/css" href="/styles/login-page.css" />
     <link rel="stylesheet" type="text/css" href="/styles/error-message.css" />
     <!-- App scripts -->
-    <script type="text/javascript" src="/scripts/loginHelpers.js"></script>
+    <script type="text/javascript" src="/scripts/userHelpers.js"></script>
 
   </head>
   <body>
     <%- include("partials/_nav",user) %>
-    <%if(err){%>
-      <%- include("partials/_error",err) %> 
-    <%}  %> 
   <div class="ui middle aligned center aligned grid custom-login-box">
     <div class="column">
       <h2 class="ui header">

@@ -34,10 +34,7 @@ module.exports = (db) => {
     login(email, password, db)
       .then((user) => {
         if (!user) {
-          res.render("login", {
-            user: null,
-            err: "Login or Password not match",
-          });
+          res.send({err: 'Wrong email/password enterd'})
           return;
         }
         req.session.userId = user.id;
