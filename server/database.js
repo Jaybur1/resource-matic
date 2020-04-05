@@ -54,16 +54,12 @@ const validatePassword = (db, userID, password) => {
     });
 };
 
-
-
-// ! Work in progress, don't use, add, or modify please -------------------------------------------- //
-// TODO (brainstorming for full getResources - Ali)
+// ! Function that retrieves resources from db based on various options --------------------------- //
 // Options:
 // {
 //   comments: true,
 //   likes: true,
 //   avgRatings: true,
-//   ratings: true,
 //   users: true,
 //   currentUser: "",
 //   categories: ["", "", ""],
@@ -81,6 +77,35 @@ const validatePassword = (db, userID, password) => {
 //   filterByRated: true,
 // }
 
+// Examples
+// ? Landing-page popular resources simple
+// getResources(db, {likes: true, sorts: {byMostPopular: true}, limit: 8});
+
+// ? My resources
+// getResources(db, {currentUser: "Ali", comments: true, likes: true});
+
+// ? Liked, Rated, Commented resources (each can be on it's own)
+// getResources(db, {currentUser: "Alice", filterByLiked: true, filterByRated: true, filterByCommented: true});
+
+// ? All resources, feed page (different sorts can be applied)
+// getResources(db, {likes: true, comments: true, avgRatings: true, sorts: {byLeastPopular: true}});
+// getResources(db, {likes: true, comments: true, avgRatings: true, sorts: {byMostPopular: true}});
+// getResources(db, {likes: true, comments: true, avgRatings: true, sorts: {byHighestRating: true}});
+// getResources(db, {likes: true, comments: true, avgRatings: true, sorts: {byLowestRating: true}});
+// getResources(db, {likes: true, comments: true, avgRatings: true, sorts: {byLatest: true, byHighestRating: true}});
+// getResources(db, {likes: true, comments: true, avgRatings: true, sorts: {byOldest: true, byHighestRating: true}});
+
+// ? Category or multiple categories (different sorts can be applied)
+// getResources(db, { categories: ["Art"]});
+// getResources(db, {likes: true, avgRatings: true, categories: ["Art"]});
+// getResources(db, {likes: true, avgRatings: true, categories: ["Art", "Tech"]});
+// getResources(db, {likes: true, avgRatings: true, categories: ["Art", "Tech"], sorts: {byLeastPopular: true}});
+// getResources(db, {likes: true, avgRatings: true, categories: ["Art", "Tech"], sorts: {byLowestRating: true}});
+// getResources(db, {likes: true, avgRatings: true, categories: ["Art", "Tech"], sorts: {byHighestRating: true}});
+
+// ? Categories for single user
+// getResources(null, {likes: true, avgRatings: true, categories: ["Art", "Tech"], currentUser: "Ali"});
+// ! ---------------------------------------------------------------------------------------------------- //
 const getResources = (db, options) => {
   const queryParams = [];
 
@@ -95,10 +120,7 @@ const getResources = (db, options) => {
   options.likes ? queryString += `, count(likes) AS likes` : null;
 
   // Average ratings are requested
-  options.avgRatings ? queryString += `, avg(ratings.rating) AS avgRatings` : null;
-
-  // All ratings are requested
-  options.ratings ? queryString += `, ratings.rating AS rating` : null;
+  options.avgRatings ? queryString += `, avg(ratings.rating) AS avg_ratings` : null;
 
   // Users or current user are requested
   options.users || options.currentUser ? queryString += `, users.name AS users` : null;
@@ -122,26 +144,59 @@ const getResources = (db, options) => {
   options.avgRatings || options.ratings ? queryString += `JOIN ratings ON ratings.resource_id = resources.id ` : null;
 
   // Users or current user are requested
-  options.users || options.currentUser ? queryString += `JOIN users ON resources.user_id = users.id ` : null;
+  options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated ? queryString += `JOIN users ON resources.user_id = users.id ` : null;
   
   // Categories are requested
   options.categories ? queryString += `JOIN categories ON resources.category_id = categories.id ` : null;
+  
+  let alreadyFiltered = false;
+
+  // Liked by user
+  if (options.filterByLiked) {
+    queryString += `JOIN likes ON likes.resource_id = resources.id `;
+    alreadyFiltered ? null : queryString += `JOIN users ON users.id = likes.user_id `;
+    alreadyFiltered = true;
+  }
+  
+  // Commented by user
+  if (options.filterByCommented) {
+    queryString += `JOIN comments ON comments.resource_id = resources.id `;
+    alreadyFiltered ? null : queryString += `JOIN users ON users.id = comments.user_id `;
+    alreadyFiltered = true;
+  }
+  
+  // Rated by user
+  if (options.filterByRated) {
+    queryString += `JOIN ratings ON ratings.resource_id = resources.id `;
+    alreadyFiltered ? null : queryString += `JOIN users ON users.id = ratings.user_id `;
+    alreadyFiltered = true;
+  }
   // ?
   
 
   // ? WHERE section of query
+  let alreadyWhere = false;
+
   // Current user is requested
   if (options.currentUser) {
     queryParams.push(`${options.currentUser}`);
     queryString += ` WHERE users.name = $${queryParams.length} `;
+    alreadyWhere = true;
   }
   
   // Categories requested
   if (options.categories) {
     // Can be filtered by multiple categories
-    options.categories.forEach(category => {
+    options.categories.forEach((category, index) => {
       queryParams.push(`%${category}%`);
-      queryString += ` AND categories.name LIKE $${queryParams.length} `;
+
+      if (index === 0) {
+        alreadyWhere ? queryString += ` AND ` :  queryString += ` WHERE `;
+      } else {
+        queryString += ` OR `;
+      }
+
+      queryString += `categories.name LIKE $${queryParams.length} `;
     });
   }
   // ?
@@ -150,28 +205,32 @@ const getResources = (db, options) => {
   let alreadyGrouped = false;
 
   // Likes are requested
-  if (options.likes) {
+  if (options.likes && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
     queryString += ` GROUP BY resources.id`;
     alreadyGrouped = true;
   }
   
-  if (options.comments) {
-    alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY `;
+  // Comments are requested
+  if (options.comments && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
+    alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY resources.id, `;
     queryString += `comments.body`;
     alreadyGrouped = true;
   }
   
-  if (options.ratings) {
-    alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY `;
-    queryString += `ratings.rating `;
+  // Categories are requested
+  if (options.categories && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
+    alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY resources.id, `;
+    queryString += `categories.name `;
+    alreadyGrouped = true;
+  }
+  
+  // Users or current user are requested
+  if (options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
+    alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY resources.id, `;
+    queryString += `users.name `;
     alreadyGrouped = true;
   }
   // ?
-
-  // if (options.minimum_rating) {
-  //   queryParams.push(options.minimum_rating);
-  //   queryString += `HAVING avg(property_reviews.rating) >= $${queryParams.length} `;
-  // }
   
   // ? ORDER BY section of query
   // Any sorts needed
@@ -232,22 +291,5 @@ const getResources = (db, options) => {
 
   // return queryExecute(queryString, queryParams, (rows) => rows);
 };
-// ! ---------------------------------------------------------------------------------------- //
-
-// getResources(null, {});
-// getResources(null, {currentUser: "Ali"});
-// getResources(null, {currentUser: "Ali", comments: true});
-// getResources(null, {comments: true});
-// getResources(null, {comments: true, likes: true, ratings: true});
-// getResources(null, {likes: true, ratings: true});
-// getResources(null, {likes: true, avgRatings: true});
-// getResources(null, {likes: true, avgRatings: true, sorts: {byHighestRating: true}});
-// getResources(null, {likes: true, avgRatings: true, sorts: {byLowestRating: true}});
-// getResources(null, {likes: true, avgRatings: true, sorts: {byMostPopular: true}});
-// getResources(null, {likes: true, avgRatings: true, sorts: {byLeastPopular: true}});
-// getResources(null, {likes: true, avgRatings: true, sorts: {byLatest: true}});
-// getResources(null, {likes: true, avgRatings: true, sorts: {byOldest: true}});
-// getResources(null, {likes: true, avgRatings: true, sorts: {byOldest: true, byLeastPopular: true}});
-// getResources(null, {likes: true, avgRatings: true, sorts: {byOldest: true, byMostPopular: true}});
 
 module.exports = { getUserWithEmail, getUserWithId, addUser, updateUser, updateUserWithCreds, validatePassword, getResources };
