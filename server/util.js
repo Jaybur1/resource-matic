@@ -27,6 +27,7 @@ const renderView = function(res, view, args) {
   args.app.description = c.APP_DESCRIPTION;
   args.app.version     = c.APP_VERSION;
   args.app.copyright   = c.APP_COPYRIGHT;
+  args.app.siteIcon    = c.APP_SITEICON;
   // Just in case someone tries to sneak some sensitive data to the client:
   if (args.user) {
     delete args.user.id;
