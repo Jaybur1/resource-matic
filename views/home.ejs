@@ -13,68 +13,19 @@
     <main class="custom-home-page">
       <div class="ui container custom-main-container">
         <section>
-          <!-- <div class="ui vertical medium menu">
-            <div class="item">
-              <div class="header">Design</div>
-              <div class="menu">
-                <a class="item">Responsive Design</a>
-                <a class="item">Themes</a>
-                <a class="item">Adobe Xd</a>
-                <a class="item">Sketch</a>
-              </div>
-            </div>
-            <div class="item">
-              <div class="header">Front-end Development</div>
-              <div class="menu">
-                <a class="item">HTML</a>
-                <a class="item">Javascript</a>
-                <a class="item">CSS</a>
-                <a class="item">SASS</a>
-                <a class="item">jQuery</a>
-              </div>
-            </div>
-            <div class="item">
-              <div class="header">Back-end Development</div>
-              <div class="menu">
-                <a class="item">Node JS</a>
-                <a class="item">Express</a>
-                <a class="item">Databases</a>
-                <a class="item">HTTP</a>
-              </div>
-            </div>
-            <div class="item">
-              <div class="header">Popular Libraries</div>
-              <div class="menu">
-                <a class="item">Axios</a>
-                <a class="item">Date-Fns</a>
-                <a class="item">Charts JS</a>
-                <a class="item">Three JS</a>
-              </div>
-            </div>
-          </div> -->
           <div class="ui vertical menu custom-right-menu">
-            <a class="active item">Feed</a>
-            <!-- <div class="item"> -->
-            <div class="menu">
-              <a class="item">Add</a>
-              <a class="item">Remove</a>
-              <!-- </div> -->
-            </div>
-            <a class="item"> <i class="grid layout icon"></i> Browse </a>
-            <a class="item">
-              Messages
+            <a href="/profile" class="item">
+              <img class="ui avatar image" src="<%= user.avatar %>" />
+              <span class="header custom-user"><%= user.name %></span>
             </a>
-            <div class="ui dropdown item">
-              More
-              <i class="dropdown icon"></i>
-              <div class="menu">
-                <a class="item"><i class="edit icon"></i> Edit Profile</a>
-                <a class="item"><i class="globe icon"></i> Choose Language</a>
-                <a class="item"
-                  ><i class="settings icon"></i> Account Settings</a
-                >
-              </div>
-            </div>
+            <a class="active item"
+              ><i class="stream icon"></i>Feed</a
+            >
+            <a class="item"><i class="glasses icon"></i></i> Browse </a>
+            <a class="item"><i class="fire icon"></i></i> Popular </a>
+            <a class="item"><i class="user tie icon"></i></i> My Resources </a>
+            <a class="item"><i class="star icon"></i> Favorites </a>
+            <a class="item"><i class="project diagram icon"></i></i> Categories </a>
           </div>
         </section>
       </div>
