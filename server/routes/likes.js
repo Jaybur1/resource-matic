@@ -21,8 +21,8 @@ module.exports = (db) => {
     } else if (!resourceID) {
       util.httpError("GET /like failed:", "Resource ID not specified", res, 400);
     } else {
-      //db.query("SELECT COUNT(likes), emoji_id FROM likes WHERE resource_id = $1 GROUP BY emoji_id", [ resourceID ])
-      db.query("SELECT COUNT(*) FROM likes WHERE resource_id = $1", [ resourceID ])
+      //db.query("SELECT COUNT(*) AS numLikes, emoji_id FROM likes WHERE resource_id = $1 GROUP BY emoji_id", [ resourceID ])
+      db.query("SELECT COUNT(*) AS numLikes FROM likes WHERE resource_id = $1", [ resourceID ])
         .then((queryRes) => {
           res.status(200).json(queryRes.rows[0]);
         }).catch((err) => {
