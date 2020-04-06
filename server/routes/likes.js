@@ -26,7 +26,7 @@ module.exports = (db) => {
         .then((queryRes) => {
           res.status(200).json(queryRes.rows[0]);
         }).catch((err) => {
-          util.httpError("GET /like failed:", err, res, 500);
+          util.httpError("GET /like SELECT failed:", err, res, 500);
         });
     }
   });
@@ -46,7 +46,7 @@ module.exports = (db) => {
         .then((_queryRes) => {
           res.status(200).end();
         }).catch((err) => {
-          util.httpError("POST /like failed:", err, res, 500);
+          util.httpError("POST /like INSERT failed:", err, res, 500);
         });
     }
   });
@@ -66,7 +66,7 @@ module.exports = (db) => {
         .then((_queryRes) => {
           res.status(200).end();
         }).catch((err) => {
-          util.httpError("DELETE /like failed:", err, res, 500);
+          util.httpError("DELETE /like DELETE failed:", err, res, 500);
         });
     }
   });
