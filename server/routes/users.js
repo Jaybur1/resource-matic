@@ -47,7 +47,7 @@ module.exports = (db) => {
     login(email, password, db)
       .then((user) => {
         if (!user) {
-          res.send({ err: "Wrong email/password enterd" });
+          res.send({ err: "Incorrect email or password" });
           return;
         }
         req.session.userId = user.id;
@@ -79,12 +79,12 @@ module.exports = (db) => {
               res.send({ redirect: "/home" });
             });
           } else {
-            res.send({ err: "Email already exists" });
+            res.send({ err: "An account with this email address already exists" });
           }
         });
       } else {
         res.send({
-          err: "Email should be in the right format example@example.com",
+          err: "Please enter an email address",
         });
       }
     });
