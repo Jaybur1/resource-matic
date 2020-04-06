@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
   <head>
-
     <title><%= app.name %> - Sign up</title>
 
     <%- include("partials/_head") %>
 
     <link rel="stylesheet" type="text/css" href="/styles/login-page.css" />
-
-    <script type="text/javascript" src="/scripts/userHelpers.js"></script>
-
   </head>
 
   <body>
-
     <%- include("partials/_nav") %>
 
     <div class="ui middle aligned center aligned grid custom-login-box">
@@ -30,22 +24,45 @@
             <div class="field">
               <div class="ui left icon input">
                 <i class="user icon"></i>
-                <input class="login-input signup-name" type="text" name="name" placeholder="Your cool name" required="required">
+                <input
+                  class="login-input signup-name"
+                  type="text"
+                  name="name"
+                  placeholder="Your cool name"
+                  required="required"
+                />
               </div>
             </div>
             <div class="field">
               <div class="ui left icon input">
                 <i class="user icon"></i>
-                <input class="login-input signup-email" type="text" name="email" placeholder="E-mail" required="required">
+                <input
+                  class="login-input signup-email"
+                  type="text"
+                  name="email"
+                  placeholder="E-mail"
+                  required="required"
+                />
               </div>
             </div>
             <div class="field">
               <div class="ui left icon input">
                 <i class="lock icon"></i>
-                <input class="login-input signup-password" type="password" name="password" placeholder="Password" required="required">
+                <input
+                  class="login-input signup-password"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required="required"
+                />
               </div>
             </div>
-            <button class="ui fluid large pink button custom-submit-btn" type="submit">Create</button>
+            <button
+              class="ui fluid large pink button custom-submit-btn"
+              type="submit"
+            >
+              Create
+            </button>
           </div>
         </form>
         <div class="ui message">
@@ -53,7 +70,5 @@
         </div>
       </div>
     </div>
-
   </body>
-
 </html>
