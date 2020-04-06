@@ -39,7 +39,13 @@ module.exports = (db) => {
 
   router.post("/", (req, res) => {
     if (req.session.userId) {
-
+      db.query("INSERT INTO likes (user_id, resource_id) VALUES ($1, $2)", [ req.session.userId, req.body.resourceID ])
+        .then((queryRes) => {
+          console.log(queryRes);
+          res.status(200).end();
+        }).catch((err) => {
+          util.httpError("GET /like failed:", err, res, 500);
+        });
     } else {
       util.httpError("POST /like failed:", "No session", res, 403);
     }
