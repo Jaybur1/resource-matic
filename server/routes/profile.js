@@ -11,6 +11,24 @@ const { getUserWithId, updateUser, updateUserWithCreds, validatePassword } = req
 
 
 
+// renderView renders an EJS view with default template arguments added.
+//  TODO: Move to util module or something.
+
+const renderView = function(res, view, args) {
+  if (!args.app) {
+    args.app = {};
+  }
+  args.app.name        = c.APP_NAME;
+  args.app.description = c.APP_DESCRIPTION;
+  args.app.version     = c.APP_VERSION;
+  // Just in case:
+  if (args.user) {
+    delete args.user.id;
+    delete args.user.password;
+  }
+  res.render(view, args);
+};
+
 // httpError logs an error and returns an HTTP status.
 //  TODO: Move to util module or something.
 
@@ -34,10 +52,7 @@ module.exports = (db) => {
       getUserWithId(req.session.userId, db
       ).then((user) => {
         console.log(user);
-        res.render("profile", {
-          app: {
-            name: c.APP_NAME,
-          },
+        renderView(res, "profile", {
           user: {
             email:  user.email,
             name:   user.name,
