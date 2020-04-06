@@ -16,7 +16,7 @@ if (!COOKIE_SECRET) {
 }
 
 // Database setup:
-const db = require("./pg.js")();
+const db = require("./pg.js");
 db.connect().catch((err) => {
   console.log("db.connect failed:\n", err);
   process.exit(1);
