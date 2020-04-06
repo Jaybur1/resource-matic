@@ -1,0 +1,42 @@
+.custom-home-page {
+  margin-top: 3.7em;
+  padding-top: 3em;
+  min-height: 100vh;
+  align-content: center;
+
+  .custom-home-page-background {
+    position: fixed;
+    top: 3.7em;
+    height: calc(100vh - 3.7em);
+    width: 100vw;
+    background: linear-gradient(
+        rgba($color: #0b90f3, $alpha: 0.05),
+        rgba($color: #e72291, $alpha: 0.05)
+      ),
+      url("/assets/images/swirl.png");
+  }
+
+  .custom-right-menu {
+    position: fixed;
+    box-shadow: none !important;
+
+    .item {
+      font-weight: 500 !important;
+    }
+
+    .custom-user {
+      padding-left: 0.5em;
+      line-height: 2em;
+    }
+  }
+
+  .ui.vertical.menu .active.item {
+    background: var(--color_5);
+    color: white;
+  }
+
+  .custom-main-container {
+    width: 60%;
+    margin-left: 18em;
+  }
+}

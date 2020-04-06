@@ -2,6 +2,9 @@
 //
 // Navigation bar support.
 
+// TODO: Move to app.js which imports everything else:
+JSON.stringifyPretty = (object) => JSON.stringify(object, null, 2);
+
 // Function that loads nav bar interactions
 const navBarInteractions = () => {
   // toggle modal on click
@@ -14,7 +17,7 @@ const navBarInteractions = () => {
       $(".browse").addClass("active");
     }
   });
-  
+
   // close modal when user clicks anywhere outside modal
   $("body").on("click", function(e) {
     if (!e.target.classList.contains("custom-no-close")) {

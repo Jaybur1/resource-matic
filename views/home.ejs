@@ -3,15 +3,414 @@
 <html lang="en">
   <head>
     <title><%= app.name %> - Home</title>
-
     <%- include("partials/_head") %>
   </head>
 
   <body>
     <%- include("partials/_nav") %>
 
-    <!-- <h1 style="width: 100%; margin-top: 7em; text-align: center;">
-      You're the best <%= user.name %> ever.
-    </h1> -->
+    <main class="custom-home-page">
+      <div class="custom-home-page-background"></div>
+      <div class="ui container">
+        <section>
+          <div class="ui vertical menu custom-right-menu">
+            <a href="/profile" class="item">
+              <img class="ui avatar image" src="<%= user.avatar %>" />
+              <span class="header custom-user"><%= user.name %></span>
+            </a>
+            <a class="active item"
+              ><i class="stream icon"></i>Feed</a
+            >
+            <a class="item"><i class="glasses icon"></i></i> Browse </a>
+            <a class="item"><i class="fire icon"></i></i> Popular </a>
+            <a class="item"><i class="user tie icon"></i></i> My Resources </a>
+            <a class="item"><i class="star icon"></i> Favorites </a>
+            <a class="item"><i class="project diagram icon"></i></i> Categories </a>
+          </div>
+        </section>
+        <section class="custom-main-container">
+          <div class="custom-feed">
+            <article class="ui fluid card" >
+              <div class="content">
+                <div class="right floated meta">14h</div>
+                <img class="ui avatar image" src="<%= user.avatar %>"> &nbsp Elliot
+              </div>
+              <div class=" content custom-resource-area">
+                <a class="custom-image-link" href="https://css-tricks.com/" target="_blank">
+                  <div class="custom-image-hover"></div>
+                  <img class="custom-resource-image" src="https://i0.wp.com/css-tricks.com/wp-content/uploads/2019/06/akqRGyta_400x400.jpg?ssl=1">
+                </a>
+                <div class="custom-resource-name">
+                  <a href="https://css-tricks.com/" target="_blank">CSS Tricks</a>
+                  <span class="custom-resource-description">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur iure est corrupti saepe culpa at, distinctio eligendi nihil sit ut molestiae maxime id 
+                  </span>
+                </div>
+              </div>
+              <div class="content">
+                <span class="right floated">
+                  <i class="heart outline like icon"></i>
+                  17 likes
+                </span>
+                <i class="comment icon"></i>
+                3 comments
+              </div>
+              <div class="content">
+                <div class="ui content comments">
+                  <div class="custom-view-previous">View previous comments</div>
+                  <div class="comment">
+                    <div class="avatar">
+                      <img src="<%= user.avatar %>">
+                    </div>
+                    <div class="content">
+                      <span class="author">Matt</span>
+                      <div class="metadata">
+                        <span class="date">Today at 5:42PM</span>
+                      </div>
+                      <div class="text">
+                        How artistic!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <div class="avatar">
+                      <img src="<%= user.avatar %>">
+                    </div>
+                    <div class="content">
+                      <span class="author">Elliot Fu</span>
+                      <div class="metadata">
+                        <span class="date">Yesterday at 12:30AM</span>
+                      </div>
+                      <div class="text">
+                        <p>This has been very useful for my research. Thanks as well!</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <div class="avatar">
+                      <img src="<%= user.avatar %>">
+                    </div>
+                    <div class="content">
+                      <span class="author">Joe Henderson</span>
+                      <div class="metadata">
+                        <span class="date">5 days ago</span>
+                      </div>
+                      <div class="text">
+                        Dude, this is awesome. Thanks so much
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="extra content">
+                <div class="ui large transparent left icon input">
+                  <i class="comment outline icon"></i>
+                  <input type="text" placeholder="Add comment...">
+                </div>
+              </div>
+            </article>
+            <article class="ui fluid card" >
+              <div class="content">
+                <div class="right floated meta">14h</div>
+                <img class="ui avatar image" src="<%= user.avatar %>"> &nbsp Elliot
+              </div>
+              <div class=" content custom-resource-area">
+                <a class="custom-image-link" href="https://css-tricks.com/" target="_blank">
+                  <div class="custom-image-hover"></div>
+                  <img class="custom-resource-image" src="https://i0.wp.com/css-tricks.com/wp-content/uploads/2019/06/akqRGyta_400x400.jpg?ssl=1">
+                </a>
+                <div class="custom-resource-name">
+                  <a href="https://css-tricks.com/" target="_blank">CSS Tricks</a>
+                  <span class="custom-resource-description">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur iure est corrupti saepe culpa at, distinctio eligendi nihil sit ut molestiae maxime id 
+                  </span>
+                </div>
+              </div>
+              <div class="content">
+                <span class="right floated">
+                  <i class="heart outline like icon"></i>
+                  17 likes
+                </span>
+                <i class="comment icon"></i>
+                3 comments
+              </div>
+              <div class="content">
+                <div class="ui content comments">
+                  <div class="custom-view-previous">View previous comments</div>
+                  <div class="comment">
+                    <div class="avatar">
+                      <img src="<%= user.avatar %>">
+                    </div>
+                    <div class="content">
+                      <span class="author">Matt</span>
+                      <div class="metadata">
+                        <span class="date">Today at 5:42PM</span>
+                      </div>
+                      <div class="text">
+                        How artistic!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <div class="avatar">
+                      <img src="<%= user.avatar %>">
+                    </div>
+                    <div class="content">
+                      <span class="author">Elliot Fu</span>
+                      <div class="metadata">
+                        <span class="date">Yesterday at 12:30AM</span>
+                      </div>
+                      <div class="text">
+                        <p>This has been very useful for my research. Thanks as well!</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <div class="avatar">
+                      <img src="<%= user.avatar %>">
+                    </div>
+                    <div class="content">
+                      <span class="author">Joe Henderson</span>
+                      <div class="metadata">
+                        <span class="date">5 days ago</span>
+                      </div>
+                      <div class="text">
+                        Dude, this is awesome. Thanks so much
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="extra content">
+                <div class="ui large transparent left icon input">
+                  <i class="comment outline icon"></i>
+                  <input type="text" placeholder="Add comment...">
+                </div>
+              </div>
+            </article>
+            <article class="ui fluid card" >
+              <div class="content">
+                <div class="right floated meta">14h</div>
+                <img class="ui avatar image" src="<%= user.avatar %>"> &nbsp Elliot
+              </div>
+              <div class=" content custom-resource-area">
+                <a class="custom-image-link" href="https://css-tricks.com/" target="_blank">
+                  <div class="custom-image-hover"></div>
+                  <img class="custom-resource-image" src="https://i0.wp.com/css-tricks.com/wp-content/uploads/2019/06/akqRGyta_400x400.jpg?ssl=1">
+                </a>
+                <div class="custom-resource-name">
+                  <a href="https://css-tricks.com/" target="_blank">CSS Tricks</a>
+                  <span class="custom-resource-description">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur iure est corrupti saepe culpa at, distinctio eligendi nihil sit ut molestiae maxime id 
+                  </span>
+                </div>
+              </div>
+              <div class="content">
+                <span class="right floated">
+                  <i class="heart outline like icon"></i>
+                  17 likes
+                </span>
+                <i class="comment icon"></i>
+                3 comments
+              </div>
+              <div class="content">
+                <div class="ui content comments">
+                  <div class="custom-view-previous">View previous comments</div>
+                  <div class="comment">
+                    <div class="avatar">
+                      <img src="<%= user.avatar %>">
+                    </div>
+                    <div class="content">
+                      <span class="author">Matt</span>
+                      <div class="metadata">
+                        <span class="date">Today at 5:42PM</span>
+                      </div>
+                      <div class="text">
+                        How artistic!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <div class="avatar">
+                      <img src="<%= user.avatar %>">
+                    </div>
+                    <div class="content">
+                      <span class="author">Elliot Fu</span>
+                      <div class="metadata">
+                        <span class="date">Yesterday at 12:30AM</span>
+                      </div>
+                      <div class="text">
+                        <p>This has been very useful for my research. Thanks as well!</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <div class="avatar">
+                      <img src="<%= user.avatar %>">
+                    </div>
+                    <div class="content">
+                      <span class="author">Joe Henderson</span>
+                      <div class="metadata">
+                        <span class="date">5 days ago</span>
+                      </div>
+                      <div class="text">
+                        Dude, this is awesome. Thanks so much
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="extra content">
+                <div class="ui large transparent left icon input">
+                  <i class="comment outline icon"></i>
+                  <input type="text" placeholder="Add comment...">
+                </div>
+              </div>
+            </article>
+            <article class="ui fluid card" >
+              <div class="content">
+                <div class="right floated meta">14h</div>
+                <img class="ui avatar image" src="<%= user.avatar %>"> &nbsp Elliot
+              </div>
+              <div class=" content custom-resource-area">
+                <a class="custom-image-link" href="https://css-tricks.com/" target="_blank">
+                  <div class="custom-image-hover"></div>
+                  <img class="custom-resource-image" src="https://i0.wp.com/css-tricks.com/wp-content/uploads/2019/06/akqRGyta_400x400.jpg?ssl=1">
+                </a>
+                <div class="custom-resource-name">
+                  <a href="https://css-tricks.com/" target="_blank">CSS Tricks</a>
+                  <span class="custom-resource-description">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur iure est corrupti saepe culpa at, distinctio eligendi nihil sit ut molestiae maxime id 
+                  </span>
+                </div>
+              </div>
+              <div class="content">
+                <span class="right floated">
+                  <i class="heart outline like icon"></i>
+                  17 likes
+                </span>
+                <i class="comment icon"></i>
+                3 comments
+              </div>
+              <div class="content">
+                <div class="ui content comments">
+                  <div class="custom-view-previous">View previous comments</div>
+                  <div class="comment">
+                    <div class="avatar">
+                      <img src="<%= user.avatar %>">
+                    </div>
+                    <div class="content">
+                      <span class="author">Matt</span>
+                      <div class="metadata">
+                        <span class="date">Today at 5:42PM</span>
+                      </div>
+                      <div class="text">
+                        How artistic!
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <div class="avatar">
+                      <img src="<%= user.avatar %>">
+                    </div>
+                    <div class="content">
+                      <span class="author">Elliot Fu</span>
+                      <div class="metadata">
+                        <span class="date">Yesterday at 12:30AM</span>
+                      </div>
+                      <div class="text">
+                        <p>This has been very useful for my research. Thanks as well!</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <div class="avatar">
+                      <img src="<%= user.avatar %>">
+                    </div>
+                    <div class="content">
+                      <span class="author">Joe Henderson</span>
+                      <div class="metadata">
+                        <span class="date">5 days ago</span>
+                      </div>
+                      <div class="text">
+                        Dude, this is awesome. Thanks so much
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="extra content">
+                <div class="ui large transparent left icon input">
+                  <i class="comment outline icon"></i>
+                  <input type="text" placeholder="Add comment...">
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
   </body>
 </html>
+
+<!-- <main style="width: 100%; max-width: 60rem; margin: 10rem auto 7rem;"> -->
+
+  <!-- <h1 style="width: 100%; margin-top: 7em; text-align: center;">
+    You're the best <%= user.name %> ever.
+  </h1> -->
+
+  <!-- <section style="padding: 1rem 2rem; background: #EEEEEE;">
+    <pre id="get-like"      >GET     /like    { resourceID: <input type="text" class="resource_id"> }</pre>
+    <pre id="post-like"     >POST    /like    { resourceID: <input type="text" class="resource_id"> }</pre>
+    <pre id="delete-like"   >DELETE  /like    { resourceID: <input type="text" class="resource_id"> }</pre>
+    <br>
+    <pre id="get-rating"    >GET     /rating  { resourceID: <input type="text" class="resource_id"> }</pre>
+    <pre id="post-rating"   >POST    /rating  { resourceID: <input type="text" class="resource_id">, rating: <input type="text" class="rating"> }</pre>
+    <pre id="delete-rating" >DELETE  /rating  { resourceID: <input type="text" class="resource_id"> }</pre>
+    <br>
+    <pre id="get-comment"   >GET     /comment { resourceID: <input type="text" class="resource_id"> }</pre>
+    <pre id="post-comment"  >POST    /comment { resourceID: <input type="text" class="resource_id">, content: <input type="text" class="content" value="Chickens."> }</pre>
+    <pre id="put-comment"   >PUT     /comment { resourceID: <input type="text" class="resource_id">, content: <input type="text" class="content" value="Kitties."> }</pre>
+    <pre id="delete-comment">DELETE  /comment { resourceID: <input type="text" class="resource_id"> }</pre>
+    <br>
+    <hr>
+    <div></div>
+  </section>
+
+  <style type="text/css">
+    main section pre:hover {
+      background: #EEFFEE;
+      cursor: pointer;
+    }
+    main section input {
+      width: 5rem;
+    }
+  </style>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("main section pre input").on("click", (_event) => false);
+      $("main section pre").on("click", function(event) {
+        idArray = $(this).attr("id").split("-");
+        const ajaxOptions = {
+          method: idArray[0].toUpperCase(),
+          url:    idArray[1],
+          data:   {
+            resourceID: $(this).find("input.resource_id").val(),
+            rating:     $(this).find("input.rating").val(),
+            content:    $(this).find("input.content").val(),
+          }
+        };
+        $.ajax(ajaxOptions).then((data, status, xhr) => {
+          console.log("success", { status, data, xhr });
+          $("main section div").prepend(`<pre>ajaxOptions: ${JSON.stringifyPretty(ajaxOptions)}</pre>` +
+                                        `<pre>status: ${status}</pre>` +
+                                        `<pre>data: ${JSON.stringifyPretty(data)}</pre>` +
+                                        `<pre>xhr: ${JSON.stringifyPretty(xhr)}</pre><hr>`);
+        }).catch((err) => {
+          console.log("error", err);
+          $("main section div").prepend(`<pre>${JSON.stringifyPretty(err)}</pre><hr>`);
+        });
+      });
+    });
+  </script> -->
