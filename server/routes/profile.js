@@ -5,8 +5,8 @@
 const express = require("express");
 const router  = express.Router();
 
-const util = require("../util");
-const { getUserWithId, updateUser, updateUserWithCreds, validatePassword } = require("../database");
+const util     = require("../util");
+const database = require("../database");
 
 
 
@@ -20,16 +20,10 @@ module.exports = (db) => {
 
   router.get("/", (req, res) => {
     if (req.session.userId) {
-      getUserWithId(req.session.userId, db
+      database.getUserWithId(req.session.userId, db
       ).then((user) => {
         console.log(user);
-        util.renderView(res, "profile", {
-          user: {
-            email:  user.email,
-            name:   user.name,
-            avatar: user.avatar
-          }
-        });
+        util.renderView(res, "profile", { user });
       }).catch((_err) => {
         //console.log("getUserWithId failed:", err);
         res.redirect("/");
@@ -47,7 +41,7 @@ module.exports = (db) => {
       const user = req.body;
       // Save stuff that doesn't require a password:
       if (!user.password) {
-        updateUser(db, [ user.name, user.avatar, req.session.userId ]
+        database.updateUser(db, [ user.name, user.avatar, req.session.userId ]
         ).then(function(_updateRes) {
           res.redirect(303, "/home");
         }).catch(function(err) {
@@ -55,11 +49,11 @@ module.exports = (db) => {
         });
       // Check the password if changing login info:
       } else {
-        validatePassword(db, req.session.userId, user.password
+        database.validatePassword(db, req.session.userId, user.password
         ).then(function() {
           util.hashPassword(user.newPassword
           ).then(function(pwHash) {
-            updateUserWithCreds(db, [ user.email, pwHash, user.name, user.avatar, req.session.userId ]
+            database.updateUserWithCreds(db, [ user.email, pwHash, user.name, user.avatar, req.session.userId ]
             ).then(function(_updateRes) {
               res.status(200).end();
             }).catch(function(err) {

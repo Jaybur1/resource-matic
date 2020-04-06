@@ -16,8 +16,9 @@ module.exports = Object.freeze({
 
   // App info:
   APP_NAME:        "Resource-O-Matic",
-  APP_DESCRIPTION: "Fabulously gorgeous InterWeb application.",
+  APP_DESCRIPTION: "Fabulously gorgeous InterWeb application that holds all your favorite resources in one place!.",
   APP_VERSION:     "4.2.0",
+  APP_COPYRIGHT:   "2020 Ali Sayed, Doug Ross, Jay Burbyga - All Rights Reserved",
 
   // Salt rounds for bcrypt:
   SALT_ROUNDS:  10,

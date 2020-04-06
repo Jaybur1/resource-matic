@@ -26,10 +26,13 @@ const renderView = function(res, view, args) {
   args.app.name        = c.APP_NAME;
   args.app.description = c.APP_DESCRIPTION;
   args.app.version     = c.APP_VERSION;
+  args.app.copyright   = c.APP_COPYRIGHT;
   // Just in case someone tries to sneak some sensitive data to the client:
   if (args.user) {
     delete args.user.id;
     delete args.user.password;
+  } else {
+    args.user = undefined;
   }
   res.render(view, args);
 };
@@ -41,6 +44,13 @@ const httpError = function(logMessage, err, res, httpStatus) {
   res.status(httpStatus).end();
 };
 
+// validateEmailFormat checks to see if a string contains a valid email address.
+
+const validateEmailFormat = function(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+};
+
 // hashPassword hashes a password with bcrypt.
 
 const hashPassword = function(password) {
@@ -49,7 +59,7 @@ const hashPassword = function(password) {
 
 
 
-module.exports = { renderView, httpError, hashPassword };
+module.exports = { renderView, httpError, validateEmailFormat, hashPassword };
 
 
 
