@@ -7,7 +7,10 @@ require("dotenv").config();
 
 // Database setup:
 const db = require("./pg.js")();
-db.connect();
+db.connect().catch((err) => {
+  console.log("db.connect failed:\n", err);
+  process.exit(1);
+});
 
 // Web server setup:
 const PORT           = process.env.PORT || 3000;
