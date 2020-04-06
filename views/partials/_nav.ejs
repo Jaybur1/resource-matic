@@ -5,26 +5,35 @@
         <p class="custom-logo">Resource Wall</p>
       </a>
     </div>
+    <% if (user) { %>
     <div class="item">
       <div class="ui large icon input">
         <input type="text" placeholder="Search resources..." />
         <i class="search icon"></i>
       </div>
     </div>
-    <% if (user) { %>
-    <div class="right menu">
-      <a href="/profile" class="item custom-no-grey-bg-hover">
-        <%= user.name %>
+    <div class="right menu item">
+      <a href="#" class="item">
+        <i class="icon add"></i>
       </a>
-      <div class="item">
-        <form class="logout-btn">
-          <button
-            class="ui medium pink button logout-btn custom-font-size"
-            type="submit"
-          >
-            Logout
-          </button>
-        </form>
+
+      <!-- <div class="ui menu item"> -->
+      <img
+        class="custom-avatar ui browse item"
+        src="<%= user.avatar %>"
+        alt="<%= user.name %> avatar"
+      />
+      <!-- </div> -->
+      <div class="ui popup bottom right transition hidden custom-popup">
+        <div>
+          <p class="custom-name"><%= user.name %></p>
+          <a class="item custom-profile">Profile Preferences</a>
+          <form>
+            <button class="custom-font-size custom-logout-btn" type="submit">
+              Logout
+            </button>
+          </form>
+        </div>
       </div>
     </div>
     <% } else { %>

@@ -28,6 +28,61 @@ nav .custom-no-padding {
   }
 }
 
+nav .custom-avatar {
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 5px;
+  padding: 0px !important;
+}
+
+nav .custom-popup {
+  margin-right: 0.8em !important;
+  margin-top: 3.7em !important;
+  width: 15em !important;
+  // height: 10em !important;
+
+  div {
+    display: grid;
+    justify-items: center;
+    height: 100%;
+    // grid-gap: 1em;
+    padding: 1em 0;
+
+    .custom-name {
+      font-size: 1.2em;
+      font-weight: 700;
+      border-bottom: 1px solid var(--color_3);
+      width: 100%;
+      text-align: center;
+      padding-bottom: 1.3em;
+      margin-block-end: 0;
+      color: var(--color_5);
+    }
+
+    .custom-profile {
+      border-bottom: 1px solid var(--color_3);
+      width: 100%;
+      text-align: center !important;
+      margin-bottom: 1.9em;
+      padding-left: 1.5em !important;
+      font-weight: 500 !important;
+    }
+
+    .custom-logout-btn {
+      box-shadow: none !important;
+      cursor: pointer;
+      padding: 0.5em 1.1em;
+      border: 1px solid var(--color_3);
+      color: var(--color_2);
+      border-radius: 5px;
+      font-weight: 500;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.03);
+      }
+    }
+  }
+}
+
 @media only screen and (min-width: 768px) {
   .custom-logo {
     font-size: 2em;
