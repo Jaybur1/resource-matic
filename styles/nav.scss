@@ -33,6 +33,14 @@ nav .custom-avatar {
   height: 2.5em;
   border-radius: 5px;
   padding: 0px !important;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0 4px rgba($color: #000000, $alpha: 0.2);
+  }
+}
+
+nav .custom-avatar.active {
+  box-shadow: 0 0 4px rgba($color: #000000, $alpha: 0.2) !important;
 }
 
 nav .custom-popup {

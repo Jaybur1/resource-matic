@@ -4,14 +4,28 @@
 
 // Function that loads nav bar interactions
 const navBarInteractions = () => {
-  $(".browse").on("mouseover", function() {
-    $(".custom-popup").removeClass("hidden").addClass("visible");
+  // toggle modal on click
+  $(".browse").on("click", function() {
+    if ($(".custom-popup").hasClass("visible")) {
+      $(".custom-popup").removeClass("visible").addClass("hidden");
+      $(".browse").removeClass("active");
+    } else {
+      $(".custom-popup").removeClass("hidden").addClass("visible");
+      $(".browse").addClass("active");
+    }
+  });
+  
+  // close modal when user clicks anywhere outside modal
+  $("body").on("click", function(e) {
+    if (!e.target.classList.contains("custom-no-close")) {
+      $(".custom-popup").removeClass("visible").addClass("hidden");
+      $(".browse").removeClass("active");
+    }
   });
 };
 
 // Function to run when page is ready
 const onReady = () => {
-  console.log("reahced");
   navBarInteractions();
 };
 

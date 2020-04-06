@@ -19,17 +19,24 @@
 
       <!-- <div class="ui menu item"> -->
       <img
-        class="custom-avatar ui browse item"
+        class="custom-avatar ui browse item custom-no-close"
         src="<%= user.avatar %>"
         alt="<%= user.name %> avatar"
       />
       <!-- </div> -->
-      <div class="ui popup bottom right transition hidden custom-popup">
-        <div>
-          <p class="custom-name"><%= user.name %></p>
-          <a class="item custom-profile">Profile Preferences</a>
-          <form>
-            <button class="custom-font-size custom-logout-btn" type="submit">
+      <div
+        class="ui popup bottom right transition hidden custom-popup custom-no-close"
+      >
+        <div class="custom-no-close">
+          <p class="custom-name custom-no-close"><%= user.name %></p>
+          <a href="/profile" class="item custom-profile custom-no-close"
+            >Profile Preferences</a
+          >
+          <form class="logout-btn">
+            <button
+              class="custom-font-size custom-logout-btn custom-no-close logout-btn"
+              type="submit"
+            >
               Logout
             </button>
           </form>
