@@ -21,8 +21,11 @@ module.exports = (db) => {
     if (req.session.userId) {
       database.getUserWithId(db, req.session.userId
       ).then((user) => {
-        console.log(user);
-        util.renderView(res, "profile", { user });
+        if (user) {
+          util.renderView(res, "profile", { user });
+        } else {
+          res.redirect("/");
+        }
       }).catch((_err) => {
         //console.log("getUserWithId failed:", err);
         res.redirect("/");
