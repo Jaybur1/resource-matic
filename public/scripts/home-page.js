@@ -2,8 +2,8 @@
 //
 // home page support.
 
-import feedRenderer from "./home-page/feed/feed.js";
+import retrieveFeedResources from "./home-page/feed/feed.js";
 
 $(document).ready(() => {
-  feedRenderer();
+  retrieveFeedResources();
 });

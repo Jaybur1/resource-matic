@@ -121,7 +121,7 @@ const getResources = (db, options) => {
   let queryString = `SELECT resources.*`;
 
   // Comments are requested
-  options.comments ? queryString += `, comments.body AS comments` : null;
+  options.comments ? queryString += `, comments.body AS comments, comments.created as comment_created_at` : null;
 
   // Likes are requested
   options.likes ? queryString += `, count(likes) AS likes` : null;
@@ -142,13 +142,13 @@ const getResources = (db, options) => {
 
   // ? JOIN section of query
   // Comments are requested
-  options.comments ? queryString += `JOIN comments ON comments.resource_id = resources.id ` : null;
+  options.comments ? queryString += `LEFT JOIN comments ON comments.resource_id = resources.id ` : null;
 
   // Likes are requested
-  options.likes ? queryString += `JOIN likes ON likes.resource_id = resources.id ` : null;
+  options.likes ? queryString += `LEFT JOIN likes ON likes.resource_id = resources.id ` : null;
 
   // Average ratings or all ratings are requested
-  options.avgRatings || options.ratings ? queryString += `JOIN ratings ON ratings.resource_id = resources.id ` : null;
+  options.avgRatings || options.ratings ? queryString += `LEFT JOIN ratings ON ratings.resource_id = resources.id ` : null;
 
   // Users or current user are requested
   options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated ? queryString += `JOIN users ON resources.user_id = users.id ` : null;
@@ -220,7 +220,7 @@ const getResources = (db, options) => {
   // Comments are requested
   if (options.comments && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
     alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY resources.id, `;
-    queryString += `comments.body`;
+    queryString += `comments.body, comments.created`;
     alreadyGrouped = true;
   }
 
@@ -290,7 +290,7 @@ const getResources = (db, options) => {
   // ?
 
   // ? Limit section of query
-  queryParams.push(Number(options.limit) || 10);
+  queryParams.push(Number(options.limit) || 50);
   queryString += ` LIMIT $${queryParams.length};`;
   // ?
 
