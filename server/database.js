@@ -365,18 +365,46 @@ const getResources = (db, options) => {
     .catch((err) => console.error("getResources error:", err));
 };
 
+//handle adding a new resource
 const addResource = (resource, db) => {
-  const resourceVals = Object.values(resource); //$1content,$2title,$3description,$4thumbnail_photo,$user_id
+  const resourceVals = Object.values(resource); //$1content,$2title,$3category_id, $4description,$5thumbnail_photo,$6user_id
+  console.log(resourceVals)
   return db
     .query(
       "INSERT INTO resources (user_id, category_id, title,description,content,thumbnail_photo) " +
-        "VALUES ($5,2, $2, $3, $1, $4) RETURNING *",
+        "VALUES ($6,$3, $2, $4, $1, $5) RETURNING *",
       resourceVals
     )
     .then((res) => res.rows[0])
     .catch((err) => console.error("addResource error:", err));
 };
 
+//handling all categories
+const getCategories = (db) => {
+
+  return db
+    .query("SELECT * FROM categories")
+    .then((res) => res.rows)
+    .catch((err) => console.log("getAllCategories error:", err));
+  
+};
+
+//get category by name
+const getCategoriesWithName = (name,db) => {
+  return db
+    .query("SELECT * FROM categories WHERE name = $1",[name])
+    .then((res) => res.rows[0])
+    .catch((err) => console.log("getAllCategories error:", err));
+  
+};
+//handle create new category
+const addCategory = (name,db) => {
+  return db
+    .query("INSERT INTO categories (name) VALUES($1) RETURNING *",[name])
+    .then((res) => res.rows[0])
+    .catch((err) => console.log("getAllCategories error:", err));
+  
+}
 module.exports = {
   getUserWithEmail,
   getUserWithId,
@@ -387,4 +415,7 @@ module.exports = {
   validatePassword,
   getResources,
   addResource,
+  getCategories,
+  getCategoriesWithName,
+  addCategory
 };
