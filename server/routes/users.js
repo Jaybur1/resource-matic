@@ -12,7 +12,7 @@ const database = require("../database");
 
 
 const login = (email, password, db) => {
-  return database.getUserWithEmail(email, db).then((user) => {
+  return database.getUserWithEmail(db, email).then((user) => {
     if (!user) return null;
     if (bcrypt.compareSync(password, user.password)) {
       return user;
@@ -71,7 +71,7 @@ module.exports = (db) => {
     const { name, email, password } = req.body;
     util.hashPassword(password).then((hashedPassword) => {
       if (util.validateEmailFormat(email)) {
-        database.getUserWithEmail(email, db).then((existingUser) => {
+        database.getUserWithEmail(db, email).then((existingUser) => {
           if (!existingUser) {
             const newUser = { name, email, password: hashedPassword };
             database.addUser(newUser, db).then((addedUser) => {
