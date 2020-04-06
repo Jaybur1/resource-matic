@@ -9,13 +9,20 @@ const util = require("../util");
 const database = require("../database");
 
 module.exports = (db) => {
-  // GET /user/login
+  // GET /categories
 
   router.get("/", (_req, res) => {
-    database.getAllCategories(db).then((data) => {
+    database.getCategories(db).then((data) => {
       res.send(data);
     });
   });
+
+  router.post("/"), (_req, res) => {
+    const categoryName = _req.body.name
+    database.getCategoriesWithName(categoryName,db).then(data => {
+      console.log(data);
+    })
+  }
 
   return router;
 };

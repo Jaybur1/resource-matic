@@ -12,17 +12,41 @@ const getCategories = () => {
   });
 };
 
-const updateCategoryList = () => {
-  getCategories().then((data) => {
-    let categoryList = "";
-    data.forEach((obj) => {
-      categoryList += `<option class='item' value=${obj.id}>${obj.name}</option>`;
-    });
-    return categoryList
-  }).then(list => {
-    $(".category-menu").html(list);
-  })
+const newCategoryCall = (name) => {
+  return $.ajax({
+    method: "POST",
+    url: "/categories",
+    data: {name},
+    success: (data, _status, _xhr) => {
+      return data;
+    },
+  });
 }
+const updateCategoryList = () => {
+  getCategories()
+    .then((data) => {
+      let categoryList = "";
+      data.forEach((obj) => {
+        categoryList += `<option class='item' value=${obj.id}>${obj.name}</option>`;
+      });
+      return categoryList;
+    })
+    .then((list) => {
+      $(".category-menu").html(list);
+    });
+};
+
+const handleNewCategory = () => {
+  $("#check-box").on("change", (e) => {
+    if (e.target.checked) {
+      $(".category-menu").attr("disabled", "true");
+      $(".other-category").removeAttr("disabled");
+    } else {
+      $(".category-menu").removeAttr("disabled");
+      $(".other-category").attr("disabled", "true");
+    }
+  });
+};
 
 const newResourceCall = (data) => {
   return $.ajax({
@@ -48,17 +72,17 @@ const handleThumbnail_photo = () => {
 // Function that loads new resource interactions
 const newResourceHendler = () => {
   handleThumbnail_photo();
-   
   $(".create-new-resource").on("click", function () {
     //update category list acording to db
     updateCategoryList();
-   //toggle create new resource
+    //toggle create new resource
     $(".ui.modal").modal("show");
 
     $(".cancel-form").on("click", () => {
       $(".ui.modal").modal("hide");
     });
 
+    handleNewCategory();
     //handle submit new resource
     $(".new-resource-form").on("submit", function (e) {
       e.preventDefault();
@@ -69,9 +93,13 @@ const newResourceHendler = () => {
       });
       objdata.thumbnail_photo = `https://api.faviconkit.com/${objdata.content}/144`;
 
-      newResourceCall(objdata);
-      //hide on submition
-      $(".ui.modal").modal("hide");
+      if (!objdata.categoryName) {
+        newResourceCall(objdata);
+        //hide on submition
+        $(".ui.modal").modal("hide");
+      } else {
+        newCategoryCall(objdata);
+      }
     });
   });
 };
