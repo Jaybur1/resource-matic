@@ -3,20 +3,22 @@
 // new-resource support.
 
 const getCategories = () => {
-  return  $.ajax({
+  return $.ajax({
     method: "GET",
     url: "/categories",
     success: (data, _status, _xhr) => {
-      return data
+      return data;
     },
   });
-}
+};
 const categorySelect = () => {
   $(".category-select").on("click", () => {
-   getCategories().then(data => console.log(data));
-    //     <div class="item" data-value="1">Male</div>
-    // <div class="item" data-value="0">Female</div>
-    $('.selection.dropdown').dropdown();
+    getCategories().then((data) => {
+      data.forEach(obj => {
+        $('.category-menu').html(`<div class="item" data-value="${obj.id}">${obj.name}</div>`)
+      })
+    });
+    $(".selection.dropdown").dropdown();
   });
 };
 

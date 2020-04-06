@@ -13,8 +13,7 @@ module.exports = (db) => {
 
   router.get("/", (_req, res) => {
     database.getAllCategories(db).then((data) => {
-      console.log(data)
-      res.send(data)
+      res.send(data);
     });
   });
 
