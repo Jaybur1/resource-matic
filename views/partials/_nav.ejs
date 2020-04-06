@@ -20,22 +20,35 @@
 
         <!--     -------------------------------------------------------------------    -->
 
-        <div class="ui modal">
+        <div class="ui modal custom-modal">
           <i class="close icon"></i>
           <form class="ui form new-resource-form">
             <div class="fields">
               <div class="field">
                 <label>Resource URL</label>
-                <input class="resource-url" type="text" name="content" placeholder="Google, Twitter etc.">
+                <input class="resource-url" type="text" name="content" placeholder="Google, Twitter etc." required="required">
               </div>
               <div class="field image content thumbnail-photo"> 
               </div>
             </div>
-            
-            <div class="field">
-              <label>Resource Title</label>
-              <input class="title" type="text" name="title" placeholder="Google, Twitter etc.">
+            <div class="fields">
+              <div class="field">
+                <label>Resource Title</label>
+                <input class="title" type="text" name="title" placeholder="Google, Twitter etc." required="required">
+              </div>
+              <div class="field">
+                <label>Category</label>
+                <div class="ui selection dropdown category-select">
+                    <input type="hidden" name="category">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">category</div>
+                    <div class="menu">
+
+                    </div>
+                </div>
             </div>
+            </div>
+            
 
             <div class="field">
               <label>Description</label>
@@ -95,9 +108,9 @@
   </div>
   <div class="custom-mobile-nav inverted">
     <button class="item">
-      <i class="home active icon"></i>
+      <a href="/"><i class="home active icon"></i></a>
     </button>
-    <button class="item">
+    <button class="item create-new-resource">
       <i class="add icon"></i>
     </button>
     <button class="item">

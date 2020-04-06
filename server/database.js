@@ -365,6 +365,7 @@ const getResources = (db, options) => {
     .catch((err) => console.error("getResources error:", err));
 };
 
+//handle adding a new resource
 const addResource = (resource, db) => {
   const resourceVals = Object.values(resource); //$1content,$2title,$3description,$4thumbnail_photo,$user_id
   return db
@@ -377,6 +378,14 @@ const addResource = (resource, db) => {
     .catch((err) => console.error("addResource error:", err));
 };
 
+//handling all categories
+const getAllCategories = (db) => {
+  return db
+    .query("SELECT * FROM categories")
+    .then((res) => res.rows)
+    .catch((err) => console.log("getAllCategories error:", err));
+};
+
 module.exports = {
   getUserWithEmail,
   getUserWithId,
@@ -387,4 +396,5 @@ module.exports = {
   validatePassword,
   getResources,
   addResource,
+  getAllCategories,
 };
