@@ -11,12 +11,10 @@ const database = require("../database");
 
 const resourcesRoutes = (db) => {
   // Handle request resources
-  router.get("/", (req, res) => {
+  router.get("/", (req, res) =>
     database.getResources(db, req.query)
-      .then((resp) => {
-        res.json(resp);
-      });
-  });
+      .then((queryRes) => res.json(queryRes))
+  );
 
   return router;
 };
