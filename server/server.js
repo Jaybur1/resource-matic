@@ -54,6 +54,7 @@ app.use("/profile",   require("./routes/profile")(db));
 app.use("/resources", require("./routes/resources")(db));
 app.use("/like",      require("./routes/likes")(db));
 app.use("/rating",    require("./routes/ratings")(db));
+app.use("/comment",   require("./routes/comments")(db));
 
 app.get("/testing", (req, res) => {
   if (req.session.userId) {
