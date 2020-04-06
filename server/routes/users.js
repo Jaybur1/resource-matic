@@ -60,7 +60,7 @@ module.exports = (db) => {
   //    Logs a user out (destroy the current session).
 
   router.put("/logout", (req, res) => {
-    req.session.userId = null;
+    req.session = null;
     res.send({ redirect: "/" });
   });
 
