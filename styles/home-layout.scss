@@ -1,0 +1,20 @@
+.custom-home-page {
+  margin-top: 3.7em;
+  padding-top: 2em;
+  min-height: 100vh;
+  // opacity: 0.3;
+
+  background: linear-gradient(
+    rgba($color: #0b90f3, $alpha: 0.05),
+    rgba($color: #e72291, $alpha: 0.05)
+  );
+  // background-position: bottom, bottom;
+  // background-size: cover, cover;
+}
+
+.custom-home-page {
+  .custom-right-menu {
+    position: fixed;
+    // height: calc(100vh - var(--top_distance));
+  }
+}
