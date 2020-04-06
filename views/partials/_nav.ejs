@@ -16,11 +16,13 @@
       <div class="item custom-add-resource-button custom-no-grey-bg-hover">
         <span>Add Resource <i class="icon add"></i></span>
       </div>
-      <img
-        class="custom-avatar ui browse item custom-no-close"
-        src="<%= user.avatar %>"
-        alt="<%= user.name %> avatar"
-      />
+      <a href="/profile">
+        <img
+          class="custom-avatar ui browse item custom-no-close"
+          src="<%= user.avatar %>"
+          alt="<%= user.name %> avatar"
+        />
+      </a>
       <div
         class="ui popup bottom right transition hidden custom-popup custom-no-close"
       >
