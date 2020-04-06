@@ -4,60 +4,56 @@
 
   <head>
 
-    <title>Resource - Login</title>
+    <title><%= app.name %> - Sign up</title>
 
-    <%- include('partials/_head.ejs') %>
+    <%- include("partials/_head") %>
 
     <link rel="stylesheet" type="text/css" href="/styles/login-page.css" />
-    <link rel="stylesheet" type="text/css" href="/styles/error-message.css" />
-    <link rel="stylesheet" type="text/css" href="/vendor/semantic/components/icon.min.css" />
-    <!-- App scripts -->
-    <!-- <script type="text/javascript" src="/scripts/userHelpers.js"></script> -->
+
+    <script type="text/javascript" src="/scripts/userHelpers.js"></script>
 
   </head>
 
   <body>
-    <%- include("partials/_nav",user) %>
-  </head>
-  <body>
-  <div class="ui middle aligned center aligned grid custom-login-box">
-    <div class="column">
-      <h2 class="ui header">
-        <div class="content">
-          Create new account
+
+    <%- include("partials/_nav") %>
+
+    <div class="ui middle aligned center aligned grid custom-login-box">
+      <div class="column">
+        <h2 class="ui header">
+          <div class="content">
+            Create new account
+          </div>
+        </h2>
+        <form class="signup-form ui large form">
+          <div class="ui stacked segment">
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input class="login-input signup-name" type="text" name="name" placeholder="Your cool name" required="required">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input class="login-input signup-email" type="text" name="email" placeholder="E-mail" required="required">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input class="login-input signup-password" type="password" name="password" placeholder="Password" required="required">
+              </div>
+            </div>
+            <button class="ui fluid large pink button custom-submit-btn" type="submit">Create</button>
+          </div>
+        </form>
+        <div class="ui message">
+          Already have an account? <a href="/users/login">Log in</a>
         </div>
-      </h2>
-      <form class="signup-form ui large form">
-        <div class="ui stacked segment">
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="user icon"></i>
-              <input class="login-input signup-name" type="text" name="name" placeholder="Your cool name" required="required">
-            </div>
-          </div>
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="user icon"></i>
-              <input class="login-input signup-email" type="text" name="email" placeholder="E-mail" required="required">
-            </div>
-          </div>
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="lock icon"></i>
-              <input class="login-input signup-password" type="password" name="password" placeholder="Password" required="required">
-            </div>
-          </div>
-          <button class="ui fluid large pink button custom-submit-btn" type="submit">Create</button>
-        </div>
-      </form>
-      <div class="ui message">
-        Already have an account? <a href="/users/login">Log in</a>
       </div>
     </div>
-  </div>
-  
-  </body>
-  
+
   </body>
 
 </html>

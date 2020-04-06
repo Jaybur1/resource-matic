@@ -17,7 +17,7 @@ const logOut = () => {
   return $.ajax({
     method: "PUT",
     url: "/users/logout",
-    success: (data, textStatus) => {
+    success: (data, _status, _xhr) => {
       window.location.href = data.redirect;
     },
   });
@@ -28,7 +28,7 @@ const logIn = (data) => {
     method: "PUT",
     url: "/users/login",
     data,
-    success: (data, textStatus) => {
+    success: (data, _status, _xhr) => {
       if (data.redirect) {
         window.location.href = data.redirect;
       } else {
@@ -43,7 +43,7 @@ const signUp = (data) => {
     method: "POST",
     url: "/users",
     data,
-    success: (data, textStatus) => {
+    success: (data, _status, _xhr) => {
       if (data.redirect) {
         window.location.href = data.redirect;
       } else {
@@ -58,11 +58,10 @@ const signUp = (data) => {
 const userAuth = () => {
   $(".login-form").on("submit", (e) => {
     e.preventDefault();
-    const user_input = {
+    logIn({
       email: $(".login-email").val(),
       password: $(".login-password").val(),
-    };
-    logIn(user_input);
+    });
   });
 
   $(".logout-btn").on("submit", (e) => {
@@ -72,12 +71,11 @@ const userAuth = () => {
 
   $(".signup-form").on("submit", (e) => {
     e.preventDefault();
-    const user_input = {
+    signUp({
       name: $(".signup-name").val(),
       email: $(".signup-email").val(),
       password: $(".signup-password").val(),
-    };
-    signUp(user_input);
+    });
   });
 };
 

@@ -6,27 +6,34 @@ const bcrypt = require("bcrypt");
 
 
 
-const getUserWithEmail = (email, db) => {
+const getUserWithEmail = (db, email) => {
   return db
     .query("SELECT * FROM users WHERE email = $1", [ email ])
     .then((res) => res.rows[0])
     .catch((err) => console.error("getUserWithEmail error:", err));
 };
 
-const getUserWithId = (id, db) => {
+const getUserWithId = (db, id) => {
   return db
     .query("SELECT * FROM users WHERE id = $1", [ id ])
     .then((res) => res.rows[0])
     .catch((err) => console.error("getUserWithId error:", err));
 };
 
-const addUser = (user, db) => {
+const addUser = (db, user) => {
   const userVals = Object.values(user); // name,email,password,avatar
   return db
     .query("INSERT INTO users (name, email, password) " +
            "VALUES ($1, $2, $3) RETURNING *", userVals)
     .then((res) => res.rows[0])
     .catch((err) => console.error("addUser error:", err));
+};
+
+const deleteUser = (db, userID) => {
+  return db
+    .query("DELETE users WHERE id = $1", [ userID ])
+    .then((res) => res.rows[0])
+    .catch((err) => console.error("deleteUser error:", err));
 };
 
 const updateUser = (db, user) => {
@@ -128,7 +135,7 @@ const getResources = (db, options) => {
   // Categories are requested
   options.categories ? queryString += `, categories.name AS categories` : null;
   // ?
-  
+
   // ? FROM section of query
   queryString += ` FROM resources `;
   // ?
@@ -145,10 +152,10 @@ const getResources = (db, options) => {
 
   // Users or current user are requested
   options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated ? queryString += `JOIN users ON resources.user_id = users.id ` : null;
-  
+
   // Categories are requested
   options.categories ? queryString += `JOIN categories ON resources.category_id = categories.id ` : null;
-  
+
   let alreadyFiltered = false;
 
   // Liked by user
@@ -157,14 +164,14 @@ const getResources = (db, options) => {
     alreadyFiltered ? null : queryString += `JOIN users ON users.id = likes.user_id `;
     alreadyFiltered = true;
   }
-  
+
   // Commented by user
   if (options.filterByCommented) {
     queryString += `JOIN comments ON comments.resource_id = resources.id `;
     alreadyFiltered ? null : queryString += `JOIN users ON users.id = comments.user_id `;
     alreadyFiltered = true;
   }
-  
+
   // Rated by user
   if (options.filterByRated) {
     queryString += `JOIN ratings ON ratings.resource_id = resources.id `;
@@ -172,7 +179,7 @@ const getResources = (db, options) => {
     alreadyFiltered = true;
   }
   // ?
-  
+
 
   // ? WHERE section of query
   let alreadyWhere = false;
@@ -183,7 +190,7 @@ const getResources = (db, options) => {
     queryString += ` WHERE users.name = $${queryParams.length} `;
     alreadyWhere = true;
   }
-  
+
   // Categories requested
   if (options.categories) {
     // Can be filtered by multiple categories
@@ -200,7 +207,7 @@ const getResources = (db, options) => {
     });
   }
   // ?
-  
+
   // ? GROUP BY section of query
   let alreadyGrouped = false;
 
@@ -209,21 +216,21 @@ const getResources = (db, options) => {
     queryString += ` GROUP BY resources.id`;
     alreadyGrouped = true;
   }
-  
+
   // Comments are requested
   if (options.comments && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
     alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY resources.id, `;
     queryString += `comments.body`;
     alreadyGrouped = true;
   }
-  
+
   // Categories are requested
   if (options.categories && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
     alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY resources.id, `;
     queryString += `categories.name `;
     alreadyGrouped = true;
   }
-  
+
   // Users or current user are requested
   if (options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
     alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY resources.id, `;
@@ -231,12 +238,12 @@ const getResources = (db, options) => {
     alreadyGrouped = true;
   }
   // ?
-  
+
   // ? ORDER BY section of query
   // Any sorts needed
   if (options.sorts) {
     queryString += ` ORDER BY `;
-    
+
     let alreadySorted = false;
 
     // Sort by latest requested
@@ -244,35 +251,35 @@ const getResources = (db, options) => {
       queryString += `resources.created DESC`;
       alreadySorted = true;
     }
-    
+
     // Sort by oldest requested
     if (options.sorts.byOldest) {
       alreadySorted ? queryString += `, ` : null;
       queryString += `resources.created ASC`;
       alreadySorted = true;
     }
-    
+
     // Sort by highest average rating requested
     if (options.sorts.byHighestRating) {
       alreadySorted ? queryString += `, ` : null;
       queryString += `avg(ratings.rating) DESC`;
       alreadySorted = true;
     }
-    
+
     // Sort by lowest average rating requested
     if (options.sorts.byLowestRating) {
       alreadySorted ? queryString += `, ` : null;
       queryString += `avg(ratings.rating) ASC`;
       alreadySorted = true;
     }
-    
+
     // Sort by most popular requested
     if (options.sorts.byMostPopular) {
       alreadySorted ? queryString += `, ` : null;
       queryString += `likes DESC`;
       alreadySorted = true;
     }
-    
+
     // Sort by least popular requested
     if (options.sorts.byLeastPopular) {
       alreadySorted ? queryString += `, ` : null;
@@ -281,7 +288,7 @@ const getResources = (db, options) => {
     }
   }
   // ?
-  
+
   // ? Limit section of query
   queryParams.push(Number(options.limit) || 10);
   queryString += ` LIMIT $${queryParams.length};`;
@@ -295,4 +302,4 @@ const getResources = (db, options) => {
     .catch((err) => console.error("getResources error:", err));
 };
 
-module.exports = { getUserWithEmail, getUserWithId, addUser, updateUser, updateUserWithCreds, validatePassword, getResources };
+module.exports = { getUserWithEmail, getUserWithId, addUser, deleteUser, updateUser, updateUserWithCreds, validatePassword, getResources };

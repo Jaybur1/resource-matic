@@ -18,15 +18,10 @@ $(document).ready(function(_event) {
     $.ajax({
       url:    "/profile",
       method: "PUT",
-      data:   user,
+      data:   user
     }).then(function(_data, _status, _xhr) {
-      // console.log("SUCCESS");
-      // console.log(_data, _status, _xhr);
-      //$("main form").append("<br>success");
       window.location = "/home";
     }).catch(function(xhr, _status, _message) {
-      // console.log("ERROR");
-      // console.error(err, xhr);
       $("main form").append(`<br>error: ${JSON.stringify(xhr, null, 2)}`);
     });
 
@@ -89,6 +84,23 @@ $(document).ready(function(_event) {
       //   ]
       // }
     }
+  });
+
+  $("main button.negative").on("click", function(event) {
+
+    event.preventDefault();
+    const user = $("main form").serializeArray();
+    $.ajax({
+      url:    "/profile",
+      method: "DELETE",
+      data:   user
+    }).then(function(_data, _status, _xhr) {
+      console.log("SUCCESS");
+      window.location = "/";
+    }).catch(function(xhr, _status, _message) {
+      $("main form").append(`<br>error: ${JSON.stringify(xhr, null, 2)}`);
+    });
+
   });
 
 });

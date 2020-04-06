@@ -1,8 +1,8 @@
 # **Resource Wall**
 
-Resource Wall is a hybrid single-page web app that uses HTML5/SASS->CSS3/jQuery/Fomantic-UI client-side and Node.js/Express/Postgres server-side.  It allows for user sign-up and login, and management of "resources" that are displayed to all users on a feed-style home page.  Categories and search features allow for easy sorting and locating any resource.
+Resource Wall is a hybrid single-page web app that uses HTML5/SASS->CSS3/jQuery/Fomantic-UI client-side and Node.js/Express/Postgres server-side. It allows for user sign-up and login, and management of "resources" that are displayed to all users on a feed-style home page. Categories and search features allow for easy sorting and locating any resource.
 
-This a [Lighthouse Labs](https://www.lighthouselabs.ca/) midterm project by [Ali Sayed](https://github.com/aliyasser20), [Doug Ross](https://github.com/d0ugr), and [Jay Burbyga](https://github.com/Jaybur1).  See [`docs/PROJECT.md`](docs/PROJECT.md) for project notes.
+This a [Lighthouse Labs](https://www.lighthouselabs.ca/) midterm project by [Ali Sayed](https://github.com/aliyasser20), [Doug Ross](https://github.com/d0ugr), and [Jay Burbyga](https://github.com/Jaybur1). See [`docs/PROJECT.md`](docs/PROJECT.md) for project notes.
 
 ## **Screenshots**
 
@@ -10,11 +10,11 @@ Resource Wall is the most beautiful web app you've ever seen.
 
 Resource Wall being awesome:
 
-![screenshot-01](docs/images/screenshot-01-bad-mf.png)
+<!-- ![screenshot-01](docs/images/screenshot-01-bad-mf.png) -->
 
 Not really usable on a Nokia 8110:
 
-![Nokia 8110](docs/images/screenshot-99-nokia-8110.png)
+<!-- ![Nokia 8110](docs/images/screenshot-99-nokia-8110.png) -->
 
 ## **Getting Started**
 
@@ -30,7 +30,7 @@ cd midterm-resource-hub
 npm install
 ```
 
-Create a database and user in Postgres for Resource Wall to use and edit .env to match your setup.  Then create tables with:
+Create a database and user in Postgres for Resource Wall to use and edit .env to match your setup. Then create tables with:
 
 ```
 node bin/resetdb.js

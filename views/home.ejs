@@ -4,25 +4,18 @@
 
   <head>
 
-    <title>Resource - Login</title>
-    <%- include('partials/_head.ejs') %>
-    <!-- App scripts -->
+    <title><%= app.name %> - Home</title>
 
+    <%- include("partials/_head") %>
 
   </head>
 
   <body>
-    <%- include("partials/_nav",user) %>
-  </head>
-  <body>
-  <br />
-  <br />
-  <br />
-  <br />
-  <h3>home page</h3>
-  
-  </body>
-  
+
+    <%- include("partials/_nav") %>
+
+    <h1 style="width: 100%; margin-top: 7em; text-align: center;">You're the best <%= user.name %> ever.</h1>
+
   </body>
 
 </html>

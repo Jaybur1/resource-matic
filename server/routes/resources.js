@@ -2,21 +2,22 @@
 //
 // Resource-related routes.
 
-const express = require("express");
-const router  = express.Router();
+const router = require("express").Router();
 
-const { getResources } = require("../database");
+const database = require("../database");
+
+
 
 const resourcesRoutes = (db) => {
   // Handle request resources
-  router.get("/", (req, res) => {
-    getResources(db, req.query)
-      .then((resp) => {
-        res.json(resp);
-      });
-  });
+  router.get("/", (req, res) =>
+    database.getResources(db, req.query)
+      .then((queryRes) => res.json(queryRes))
+  );
 
   return router;
 };
+
+
 
 module.exports = resourcesRoutes;

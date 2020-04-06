@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
   <head>
-
-    <title><%= APP_NAME %> - Profile</title>
+    <title><%= app.name %> - Profile</title>
 
     <%- include("partials/_head") %>
 
-    <!-- Profile page styles -->
     <link rel="stylesheet" type="text/css" href="/styles/profile-page.css" />
-    <!-- Profile page scripts -->
-    <script type="text/javascript" src="/scripts/profile-page.js"></script>
 
+    <script type="text/javascript" src="/scripts/profile-page.js"></script>
   </head>
 
   <body>
-
     <%- include("partials/_nav") %>
 
     <main>
@@ -24,37 +19,50 @@
         <div id="avatar" src="<%= user.avatar %>"></div>
         <div class="field">
           <label>Display name</label>
-          <input type="text" name="name" placeholder="Display name" value="<%= user.name %>">
+          <input
+            type="text"
+            name="name"
+            placeholder="Display name"
+            value="<%= user.name %>"
+          />
         </div>
         <button class="ui button huge">Save</button>
-        <br>
-        <br>
+        <br />
+        <br />
         <div class="ui divider"></div>
         <p>To update your login info, enter your current password</p>
         <div class="field">
           <label>Password</label>
-          <input type="password" name="password" placeholder="Password">
+          <input type="password" name="password" placeholder="Password" />
         </div>
         <div class="field">
           <label>Email address</label>
-          <input type="text" name="email" placeholder="Email address" value="<%= user.email %>">
+          <input
+            type="text"
+            name="email"
+            placeholder="Email address"
+            value="<%= user.email %>"
+          />
         </div>
         <p>
-          To change your password, enter a new one here.<br>
+          To change your password, enter a new one here.<br />
           Leave it blank to keep your current password.
         </p>
         <div class="field">
           <label>New password</label>
-          <input type="password" name="newPassword" placeholder="Password">
+          <input type="password" name="newPassword" placeholder="Password" />
         </div>
         <div class="field">
           <label>Verify password</label>
-          <input type="password" name="verifyPassword" placeholder="Password again">
+          <input
+            type="password"
+            name="verifyPassword"
+            placeholder="Password again"
+          />
         </div>
-        <button class="ui button huge">Save</button>
+        <button class="ui button huge left floated">Save</button>
+        <div class=""><button class="ui negative button huge right floated">Delete Account</button></div>
       </form>
     </main>
-
   </body>
-
 </html>

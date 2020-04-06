@@ -2,14 +2,16 @@
 //
 // Routes related to users.
 
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const bcrypt = require("bcrypt");
 
-const { getUserWithEmail, addUser } = require("../database");
+const util     = require("../util");
+const database = require("../database");
+
+
 
 const login = (email, password, db) => {
-  return getUserWithEmail(email, db).then((user) => {
+  return database.getUserWithEmail(db, email).then((user) => {
     if (!user) return null;
     if (bcrypt.compareSync(password, user.password)) {
       return user;
@@ -18,63 +20,73 @@ const login = (email, password, db) => {
   });
 };
 
-//validates thats the input email is in the right format => example@example.com
-const emailFormatValidation = (email) => {
-  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
-};
+
 
 module.exports = (db) => {
-  router.get("/login", (req, res) => {
-    res.render("login", { user: null, err: null });
-  });
-  router.get("/signup", (req, res) => {
-    res.render("signup", { user: null, err: null });
+
+  // GET /user/login
+  //    Renders the login page.
+
+  router.get("/login", (_req, res) => {
+    util.renderView(res, "login");
   });
 
-  //Handle login
+  // GET /user/signup
+  //    Renders the new user registration page.
+
+  router.get("/signup", (_req, res) => {
+    util.renderView(res, "signup");
+  });
+
+  // PUT /user/login
+  //    Logs a user in (creates a session).
+
   router.put("/login", (req, res) => {
     const { email, password } = req.body;
     login(email, password, db)
       .then((user) => {
         if (!user) {
-          res.send({ err: "Wrong email/password enterd" });
+          res.send({ err: "Incorrect email or password" });
           return;
         }
         req.session.userId = user.id;
         res.send({ redirect: "/home" });
       })
-      .catch((error) => console.error(error));
+      .catch((err) => console.error(err));
   });
 
-  //handle logout
+  // PUT /user/logout
+  //    Logs a user out (destroy the current session).
+
   router.put("/logout", (req, res) => {
-    req.session.userId = null;
+    req.session = null;
     res.send({ redirect: "/" });
   });
 
-  //handle register
+  // POST /user/register
+  //    Registers a new user.
+
   router.post("/", (req, res) => {
     const { name, email, password } = req.body;
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(password, salt);
-    if (emailFormatValidation(email)) {
-      getUserWithEmail(email, db).then((data) => {
-        const user = { name, email, password: hash };
-        if (!data) {
-          addUser(user, db).then((data) => {
-            req.session.userId = data.id;
-            res.send({ redirect: "/home" });
-          });
-        } else {
-          res.send({ err: "Email already exists" });
-        }
-      });
-    } else {
-      res.send({
-        err: "Email should be in the right format example@example.com",
-      });
-    }
+    util.hashPassword(password).then((hashedPassword) => {
+      if (util.validateEmailFormat(email)) {
+        database.getUserWithEmail(db, email).then((existingUser) => {
+          if (!existingUser) {
+            const newUser = { name, email, password: hashedPassword };
+            database.addUser(db, newUser).then((addedUser) => {
+              req.session.userId = addedUser.id;
+              res.send({ redirect: "/home" });
+            });
+          } else {
+            res.send({ err: "An account with this email address already exists" });
+          }
+        });
+      } else {
+        res.send({
+          err: "Please enter an email address",
+        });
+      }
+    });
   });
 
   return router;
