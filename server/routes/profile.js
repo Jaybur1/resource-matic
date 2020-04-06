@@ -6,9 +6,8 @@ const express = require("express");
 const router  = express.Router();
 const bcrypt  = require("bcrypt");
 
+const c = require("../constants");
 const { getUserWithId, updateUser, updateUserWithCreds, validatePassword } = require("../database");
-
-const SALT_ROUNDS = 10;
 
 
 
@@ -36,7 +35,9 @@ module.exports = (db) => {
       ).then((user) => {
         console.log(user);
         res.render("profile", {
-          APP_NAME: "tSyn",
+          app: {
+            name: c.APP_NAME,
+          },
           user: {
             email:  user.email,
             name:   user.name,
@@ -70,7 +71,7 @@ module.exports = (db) => {
       } else {
         validatePassword(db, req.session.userId, user.password
         ).then(function() {
-          bcrypt.hash(user.newPassword, SALT_ROUNDS
+          bcrypt.hash(user.newPassword, c.SALT_ROUNDS
           ).then(function(pwHash) {
             updateUserWithCreds(db, [ user.email, pwHash, user.name, user.avatar, req.session.userId ]
             ).then(function(_updateRes) {
