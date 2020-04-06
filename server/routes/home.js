@@ -14,7 +14,7 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     const userId = req.session.userId;
     if (userId) {
-      database.getUserWithId(userId, db).then((user) => {
+      database.getUserWithId(db, userId).then((user) => {
         util.renderView(res, "home", { user });
       });
     } else {

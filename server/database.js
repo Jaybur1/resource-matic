@@ -13,7 +13,7 @@ const getUserWithEmail = (db, email) => {
     .catch((err) => console.error("getUserWithEmail error:", err));
 };
 
-const getUserWithId = (id, db) => {
+const getUserWithId = (db, id) => {
   return db
     .query("SELECT * FROM users WHERE id = $1", [ id ])
     .then((res) => res.rows[0])

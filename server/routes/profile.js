@@ -20,7 +20,7 @@ module.exports = (db) => {
 
   router.get("/", (req, res) => {
     if (req.session.userId) {
-      database.getUserWithId(req.session.userId, db
+      database.getUserWithId(db, req.session.userId
       ).then((user) => {
         console.log(user);
         util.renderView(res, "profile", { user });
