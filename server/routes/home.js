@@ -3,9 +3,10 @@
 // Routes related to the home page.
 
 const express = require("express");
-const router = express.Router();
+const router  = express.Router();
 
-const { getUserWithId } = require("../database");
+const util     = require("../util");
+const database = require("../database");
 
 
 
@@ -13,10 +14,8 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     const userId = req.session.userId;
     if (userId) {
-      getUserWithId(userId, db).then(user => {
-        res.render("home", {
-          user: user,
-        });
+      database.getUserWithId(userId, db).then((user) => {
+        util.renderView(res, "home", { user });
       });
     } else {
       res.redirect("/");
