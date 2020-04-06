@@ -4,18 +4,16 @@
 
 const bcrypt = require("bcrypt");
 
-
-
 const getUserWithEmail = (db, email) => {
   return db
-    .query("SELECT * FROM users WHERE email = $1", [ email ])
+    .query("SELECT * FROM users WHERE email = $1", [email])
     .then((res) => res.rows[0])
     .catch((err) => console.error("getUserWithEmail error:", err));
 };
 
 const getUserWithId = (db, id) => {
   return db
-    .query("SELECT * FROM users WHERE id = $1", [ id ])
+    .query("SELECT * FROM users WHERE id = $1", [id])
     .then((res) => res.rows[0])
     .catch((err) => console.error("getUserWithId error:", err));
 };
@@ -23,42 +21,55 @@ const getUserWithId = (db, id) => {
 const addUser = (db, user) => {
   const userVals = Object.values(user); // name,email,password,avatar
   return db
-    .query("INSERT INTO users (name, email, password) " +
-           "VALUES ($1, $2, $3) RETURNING *", userVals)
+    .query(
+      "INSERT INTO users (name, email, password) " +
+        "VALUES ($1, $2, $3) RETURNING *",
+      userVals
+    )
     .then((res) => res.rows[0])
     .catch((err) => console.error("addUser error:", err));
 };
 
 const deleteUser = (db, userID) => {
   return db
-    .query("DELETE users WHERE id = $1", [ userID ])
+    .query("DELETE users WHERE id = $1", [userID])
     .then((res) => res.rows[0])
     .catch((err) => console.error("deleteUser error:", err));
 };
 
 const updateUser = (db, user) => {
   return db
-    .query("UPDATE users SET name = $1, avatar = $2 WHERE id = $3 RETURNING *", user)
+    .query(
+      "UPDATE users SET name = $1, avatar = $2 WHERE id = $3 RETURNING *",
+      user
+    )
     .then((res) => res.rows[0])
     .catch((err) => console.error("updateUser error:", err));
 };
 
 const updateUserWithCreds = (db, user) => {
   return db
-    .query("UPDATE users SET email = $1, password = $2, name = $3, avatar = $4 WHERE id = $5 RETURNING *", user)
+    .query(
+      "UPDATE users SET email = $1, password = $2, name = $3, avatar = $4 WHERE id = $5 RETURNING *",
+      user
+    )
     .then((res) => res.rows[0])
     .catch((err) => console.error("updateUser error:", err));
 };
 
 const validatePassword = (db, userID, password) => {
-  return db
-    .query("SELECT password FROM users WHERE id = $1", [ userID ])
-    .then((res) => bcrypt.compare(password, res.rows[0].password))
-    // Do not use arrow function here or pwMatch will be undefined:
-    //    I swear, I've had it with arrow functions......
-    .then(function(pwMatch) {
-      return (pwMatch ? Promise.resolve() : Promise.reject("Password mismatch"));
-    });
+  return (
+    db
+      .query("SELECT password FROM users WHERE id = $1", [userID])
+      .then((res) => bcrypt.compare(password, res.rows[0].password))
+      // Do not use arrow function here or pwMatch will be undefined:
+      //    I swear, I've had it with arrow functions......
+      .then(function (pwMatch) {
+        return pwMatch
+          ? Promise.resolve()
+          : Promise.reject("Password mismatch");
+      })
+  );
 };
 
 // ! Function that retrieves resources from db based on various options --------------------------- //
@@ -121,19 +132,25 @@ const getResources = (db, options) => {
   let queryString = `SELECT resources.*`;
 
   // Comments are requested
-  options.comments ? queryString += `, comments.body AS comments` : null;
+  options.comments ? (queryString += `, comments.body AS comments`) : null;
 
   // Likes are requested
-  options.likes ? queryString += `, count(likes) AS likes` : null;
+  options.likes ? (queryString += `, count(likes) AS likes`) : null;
 
   // Average ratings are requested
-  options.avgRatings ? queryString += `, avg(ratings.rating) AS avg_ratings` : null;
+  options.avgRatings
+    ? (queryString += `, avg(ratings.rating) AS avg_ratings`)
+    : null;
 
   // Users or current user are requested
-  options.users || options.currentUser ? queryString += `, users.name AS users` : null;
+  options.users || options.currentUser
+    ? (queryString += `, users.name AS users`)
+    : null;
 
   // Categories are requested
-  options.categories ? queryString += `, categories.name AS categories` : null;
+  options.categories
+    ? (queryString += `, categories.name AS categories`)
+    : null;
   // ?
 
   // ? FROM section of query
@@ -142,44 +159,63 @@ const getResources = (db, options) => {
 
   // ? JOIN section of query
   // Comments are requested
-  options.comments ? queryString += `JOIN comments ON comments.resource_id = resources.id ` : null;
+  options.comments
+    ? (queryString += `JOIN comments ON comments.resource_id = resources.id `)
+    : null;
 
   // Likes are requested
-  options.likes ? queryString += `JOIN likes ON likes.resource_id = resources.id ` : null;
+  options.likes
+    ? (queryString += `JOIN likes ON likes.resource_id = resources.id `)
+    : null;
 
   // Average ratings or all ratings are requested
-  options.avgRatings || options.ratings ? queryString += `JOIN ratings ON ratings.resource_id = resources.id ` : null;
+  options.avgRatings || options.ratings
+    ? (queryString += `JOIN ratings ON ratings.resource_id = resources.id `)
+    : null;
 
   // Users or current user are requested
-  options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated ? queryString += `JOIN users ON resources.user_id = users.id ` : null;
+  options.users ||
+  (options.currentUser &&
+    !options.filterByLiked &&
+    !options.filterByCommented &&
+    !options.filterByRated)
+    ? (queryString += `JOIN users ON resources.user_id = users.id `)
+    : null;
 
   // Categories are requested
-  options.categories ? queryString += `JOIN categories ON resources.category_id = categories.id ` : null;
+  options.categories
+    ? (queryString += `JOIN categories ON resources.category_id = categories.id `)
+    : null;
 
   let alreadyFiltered = false;
 
   // Liked by user
   if (options.filterByLiked) {
     queryString += `JOIN likes ON likes.resource_id = resources.id `;
-    alreadyFiltered ? null : queryString += `JOIN users ON users.id = likes.user_id `;
+    alreadyFiltered
+      ? null
+      : (queryString += `JOIN users ON users.id = likes.user_id `);
     alreadyFiltered = true;
   }
 
   // Commented by user
   if (options.filterByCommented) {
     queryString += `JOIN comments ON comments.resource_id = resources.id `;
-    alreadyFiltered ? null : queryString += `JOIN users ON users.id = comments.user_id `;
+    alreadyFiltered
+      ? null
+      : (queryString += `JOIN users ON users.id = comments.user_id `);
     alreadyFiltered = true;
   }
 
   // Rated by user
   if (options.filterByRated) {
     queryString += `JOIN ratings ON ratings.resource_id = resources.id `;
-    alreadyFiltered ? null : queryString += `JOIN users ON users.id = ratings.user_id `;
+    alreadyFiltered
+      ? null
+      : (queryString += `JOIN users ON users.id = ratings.user_id `);
     alreadyFiltered = true;
   }
   // ?
-
 
   // ? WHERE section of query
   let alreadyWhere = false;
@@ -198,7 +234,7 @@ const getResources = (db, options) => {
       queryParams.push(`%${category}%`);
 
       if (index === 0) {
-        alreadyWhere ? queryString += ` AND ` :  queryString += ` WHERE `;
+        alreadyWhere ? (queryString += ` AND `) : (queryString += ` WHERE `);
       } else {
         queryString += ` OR `;
       }
@@ -212,28 +248,55 @@ const getResources = (db, options) => {
   let alreadyGrouped = false;
 
   // Likes are requested
-  if (options.likes && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
+  if (
+    options.likes &&
+    !options.filterByLiked &&
+    !options.filterByCommented &&
+    !options.filterByRated
+  ) {
     queryString += ` GROUP BY resources.id`;
     alreadyGrouped = true;
   }
 
   // Comments are requested
-  if (options.comments && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
-    alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY resources.id, `;
+  if (
+    options.comments &&
+    !options.filterByLiked &&
+    !options.filterByCommented &&
+    !options.filterByRated
+  ) {
+    alreadyGrouped
+      ? (queryString += `, `)
+      : (queryString += ` GROUP BY resources.id, `);
     queryString += `comments.body`;
     alreadyGrouped = true;
   }
 
   // Categories are requested
-  if (options.categories && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
-    alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY resources.id, `;
+  if (
+    options.categories &&
+    !options.filterByLiked &&
+    !options.filterByCommented &&
+    !options.filterByRated
+  ) {
+    alreadyGrouped
+      ? (queryString += `, `)
+      : (queryString += ` GROUP BY resources.id, `);
     queryString += `categories.name `;
     alreadyGrouped = true;
   }
 
   // Users or current user are requested
-  if (options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
-    alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY resources.id, `;
+  if (
+    options.users ||
+    (options.currentUser &&
+      !options.filterByLiked &&
+      !options.filterByCommented &&
+      !options.filterByRated)
+  ) {
+    alreadyGrouped
+      ? (queryString += `, `)
+      : (queryString += ` GROUP BY resources.id, `);
     queryString += `users.name `;
     alreadyGrouped = true;
   }
@@ -254,35 +317,35 @@ const getResources = (db, options) => {
 
     // Sort by oldest requested
     if (options.sorts.byOldest) {
-      alreadySorted ? queryString += `, ` : null;
+      alreadySorted ? (queryString += `, `) : null;
       queryString += `resources.created ASC`;
       alreadySorted = true;
     }
 
     // Sort by highest average rating requested
     if (options.sorts.byHighestRating) {
-      alreadySorted ? queryString += `, ` : null;
+      alreadySorted ? (queryString += `, `) : null;
       queryString += `avg(ratings.rating) DESC`;
       alreadySorted = true;
     }
 
     // Sort by lowest average rating requested
     if (options.sorts.byLowestRating) {
-      alreadySorted ? queryString += `, ` : null;
+      alreadySorted ? (queryString += `, `) : null;
       queryString += `avg(ratings.rating) ASC`;
       alreadySorted = true;
     }
 
     // Sort by most popular requested
     if (options.sorts.byMostPopular) {
-      alreadySorted ? queryString += `, ` : null;
+      alreadySorted ? (queryString += `, `) : null;
       queryString += `likes DESC`;
       alreadySorted = true;
     }
 
     // Sort by least popular requested
     if (options.sorts.byLeastPopular) {
-      alreadySorted ? queryString += `, ` : null;
+      alreadySorted ? (queryString += `, `) : null;
       queryString += `likes ASC`;
       alreadySorted = true;
     }
@@ -302,4 +365,26 @@ const getResources = (db, options) => {
     .catch((err) => console.error("getResources error:", err));
 };
 
-module.exports = { getUserWithEmail, getUserWithId, addUser, deleteUser, updateUser, updateUserWithCreds, validatePassword, getResources };
+const addResource = (resource, db) => {
+  const resourceVals = Object.values(resource); //$1content,$2title,$3description,$4thumbnail_photo,$user_id
+  return db
+    .query(
+      "INSERT INTO resources (user_id, category_id, title,description,content,thumbnail_photo) " +
+        "VALUES ($5,2, $2, $3, $1, $4) RETURNING *",
+      resourceVals
+    )
+    .then((res) => res.rows[0])
+    .catch((err) => console.error("addResource error:", err));
+};
+
+module.exports = {
+  getUserWithEmail,
+  getUserWithId,
+  addUser,
+  deleteUser,
+  updateUser,
+  updateUserWithCreds,
+  validatePassword,
+  getResources,
+  addResource,
+};

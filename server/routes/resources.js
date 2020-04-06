@@ -15,8 +15,18 @@ const resourcesRoutes = (db) => {
       .then((queryRes) => res.json(queryRes))
   );
 
+  //Handle create new resource
+  router.post("/", (req,res) => {
+    const user_id = req.session.userId
+    const data = {...req.body,user_id}
+    database.addResource(data,db).then(resource => {
+      res.send(resource)
+    })
+  })
+
   return router;
 };
+
 
 
 
