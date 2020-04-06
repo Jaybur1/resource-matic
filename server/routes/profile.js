@@ -73,6 +73,23 @@ module.exports = (db) => {
     }
   });
 
+  router.delete("/", (req, res) => {
+    if (req.session.userId) {
+      const user = req.body;
+      console.log("DELETE /profile", user);
+      database.validatePassword(db, req.session.userId, user.password)
+        .then(database.deleteUser(db, req.session.userId))
+        .then(function() {
+          req.session = null;
+          res.status(200).end();
+        }).catch(function(err) {
+          util.httpError("DELETE /profile failed:", err, res, 500);
+        });
+    } else {
+      util.httpError("DELETE /profile failed:", "No session", res, 303);
+    }
+  });
+
   return router;
 
 };

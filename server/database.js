@@ -29,6 +29,13 @@ const addUser = (db, user) => {
     .catch((err) => console.error("addUser error:", err));
 };
 
+const deleteUser = (db, userID) => {
+  return db
+    .query("DELETE users WHERE id = $1", [ userID ])
+    .then((res) => res.rows[0])
+    .catch((err) => console.error("deleteUser error:", err));
+};
+
 const updateUser = (db, user) => {
   return db
     .query("UPDATE users SET name = $1, avatar = $2 WHERE id = $3 RETURNING *", user)
@@ -295,4 +302,4 @@ const getResources = (db, options) => {
     .catch((err) => console.error("getResources error:", err));
 };
 
-module.exports = { getUserWithEmail, getUserWithId, addUser, updateUser, updateUserWithCreds, validatePassword, getResources };
+module.exports = { getUserWithEmail, getUserWithId, addUser, deleteUser, updateUser, updateUserWithCreds, validatePassword, getResources };
