@@ -68,7 +68,7 @@ As a user I want to [be able to] ...
 
 ## ERD
 
-![ERD](docs/resource-wall-erd.png "ERD")
+![ERD](resource-wall-erd.png "ERD")
 
 - Each table has `created` and `updated` timestamp columns
 
@@ -76,7 +76,7 @@ As a user I want to [be able to] ...
 
 ## Wireframe
 
-![Wireframe](docs/wireframe.png "Wireframe")
+![Wireframe](wireframe.png "Wireframe")
 
 ## Routes
 
