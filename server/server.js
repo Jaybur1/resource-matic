@@ -4,6 +4,13 @@
 
 // Load .env data into process.env
 require("dotenv").config();
+const c = require("./constants");
+
+const COOKIE_SECRET  = process.env.COOKIE_SECRET || (process.env.development ? "totally-impossible-to-crack-cookie-secret" : "");
+if (!COOKIE_SECRET) {
+  console.log("Refusing to run without cookie secret outside development environment.");
+  process.exit(1);
+}
 
 // Database setup:
 const db = require("./pg.js")();
@@ -13,7 +20,7 @@ db.connect().catch((err) => {
 });
 
 // Web server setup:
-const PORT           = process.env.PORT || 3000;
+const PORT           = process.env.PORT || c.DEFAULT_PORT;
 const ENV            = process.env.ENV || "development";
 const express        = require("express");
 const bodyParser     = require("body-parser");
@@ -24,8 +31,8 @@ const cookieSession  = require("cookie-session");
 
 app.use(morgan("dev"));
 app.use(cookieSession({
-  name: "session",
-  keys: ["key1"]
+  name:   "session",
+  secret: COOKIE_SECRET
 }));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,7 +53,7 @@ app.use("/resources", require("./routes/resources")(db));
 
 // Start listening for client connections:
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
+  console.log(`${c.APP_NAME} listening on port ${PORT}`);
 });
 
 
