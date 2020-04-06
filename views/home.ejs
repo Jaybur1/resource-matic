@@ -16,19 +16,21 @@
       </h1> -->
 
       <section style="padding: 1rem 2rem; background: #EEEEEE;">
-        <pre id="get-like"      >GET     /like { resourceID: 1 }</pre>
-        <pre id="post-like"     >POST    /like { }</pre>
-        <pre id="delete-like"   >DELETE  /like { resourceID: 1 }</pre>
+        <pre id="get-like"      >GET     /like    { resourceID: 1 }</pre>
+        <pre id="post-like"     >POST    /like    { }</pre>
+        <pre id="delete-like"   >DELETE  /like    { resourceID: 1 }</pre>
         <br>
-        <pre id="get-rating"    >GET     /rating { resourceID: 1 }</pre>
-        <pre id="post-rating"   >POST    /rating { resourceID: 1, rating: 4 }</pre>
-        <pre id="delete-rating" >DELETE  /rating { resourceID: 1 }</pre>
+        <pre id="get-rating"    >GET     /rating  { resourceID: 1 }</pre>
+        <pre id="post-rating"   >POST    /rating  { resourceID: 1, rating: 4 }</pre>
+        <pre id="delete-rating" >DELETE  /rating  { resourceID: 1 }</pre>
         <br>
         <pre id="get-comment"   >GET     /comment { resourceID: 1 }</pre>
         <pre id="post-comment"  >POST    /comment { resourceID: 1, content: "Chickens." }</pre>
         <pre id="put-comment"   >PUT     /comment { resourceID: 1, content: "Kitties." }</pre>
         <pre id="delete-comment">DELETE  /comment { resourceID: 1 }</pre>
         <br>
+        <hr>
+        <div></div>
       </section>
 
       <style type="text/css">
@@ -45,12 +47,15 @@
             $.ajax({
               method: idArray[0],
               url:    idArray[1],
+              data:   {
+                resourceID: 1
+              }
             }).then((data, status, xhr) => {
               console.log("success");
-              $("main section").append(`<pre>${status}</pre><<pre>${JSON.stringify(data, null, 2)}</pre><pre>${JSON.stringify(xhr, null, 2)}</pre>`);
+              $("main section div").prepend(`<pre>${status}</pre><<pre>${JSON.stringify(data, null, 2)}</pre><pre>${JSON.stringify(xhr, null, 2)}</pre><hr>`);
             }).catch((err) => {
               console.log("error");
-              $("main section").append(`<pre>${JSON.stringify(err, null, 2)}</pre>`);
+              $("main section div").prepend(`<pre>${JSON.stringify(err, null, 2)}</pre><hr>`);
             });
           });
         })
