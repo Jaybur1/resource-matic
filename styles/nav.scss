@@ -57,7 +57,7 @@ nav .custom-popup {
     padding: 1em 0;
 
     .custom-name {
-      font-size: 1.2em;
+      font-size: 1.3em;
       font-weight: 700;
       border-bottom: 1px solid var(--color_3);
       width: 100%;
@@ -91,12 +91,81 @@ nav .custom-popup {
   }
 }
 
+nav .custom-add-resource-button {
+  span {
+    color: var(--color_3);
+    font-size: 1.2em;
+    font-weight: 500;
+    padding-top: 0.1em;
+    padding-right: 0.5em;
+    cursor: pointer;
+    &:hover {
+      color: var(--color_4);
+    }
+
+    i {
+      font-size: 0.95em;
+    }
+  }
+}
+
+nav .custom-search-bar,
+nav .custom-add-resource-button {
+  display: none !important;
+}
+
+nav .custom-mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 3.85em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background-color: white;
+  align-items: center;
+  box-shadow: 0 0 4px rgba($color: #000000, $alpha: 0.4);
+
+  button {
+    padding-left: 20px !important;
+    border: none;
+    cursor: pointer;
+    &:hover {
+      box-shadow: none !important;
+
+      i {
+        color: var(--color_5);
+      }
+    }
+    i {
+      font-size: 1.8em;
+      color: var(--color_3);
+    }
+
+    i.active {
+      color: var(--color_5);
+    }
+  }
+}
+
 @media only screen and (min-width: 768px) {
   .custom-logo {
     font-size: 2em;
   }
+}
 
+@media only screen and (min-width: 992px) {
   nav .custom-font-size {
     font-size: 1.07142857rem !important;
+  }
+
+  nav .custom-search-bar,
+  nav .custom-add-resource-button {
+    display: flex !important;
+  }
+
+  nav .custom-mobile-nav {
+    display: none;
   }
 }
