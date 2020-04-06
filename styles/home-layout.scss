@@ -4,11 +4,18 @@
   min-height: 100vh;
   align-content: center;
 
-  background: linear-gradient(
-      rgba($color: #0b90f3, $alpha: 0.05),
-      rgba($color: #e72291, $alpha: 0.05)
-    ),
-    url("/assets/images/swirl.png");
+  .custom-home-page-background {
+    position: fixed;
+    top: 3.7em;
+    height: calc(100vh - 3.7em);
+    width: 100vw;
+    background: linear-gradient(
+        rgba($color: #0b90f3, $alpha: 0.05),
+        rgba($color: #e72291, $alpha: 0.05)
+      ),
+      url("/assets/images/swirl.png");
+  }
+
   .custom-right-menu {
     position: fixed;
     box-shadow: none !important;
