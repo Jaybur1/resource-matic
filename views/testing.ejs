@@ -15,18 +15,19 @@
       <h1 style="width: 100%; text-align: center;">You're the best <%= user.name %> ever.</h1>
 
       <section style="padding: 1rem 2rem; background: #EEEEEE;">
-        <pre id="get-like"      >GET     /like    { resourceID: <input type="text" class="resource_id"> }</pre>
-        <pre id="post-like"     >POST    /like    { resourceID: <input type="text" class="resource_id"> }</pre>
-        <pre id="delete-like"   >DELETE  /like    { resourceID: <input type="text" class="resource_id"> }</pre>
+        <pre id="get-like"        >GET     /like         { resourceId: <input type="text" class="resource_id"> }</pre>
+        <pre id="post-like"       >POST    /like         { resourceId: <input type="text" class="resource_id"> }</pre>
+        <pre id="delete-like"     >DELETE  /like         { resourceId: <input type="text" class="resource_id"> }</pre>
         <br>
-        <pre id="get-rating"    >GET     /rating  { resourceID: <input type="text" class="resource_id"> }</pre>
-        <pre id="post-rating"   >POST    /rating  { resourceID: <input type="text" class="resource_id">, rating: <input type="text" class="rating"> }</pre>
-        <pre id="delete-rating" >DELETE  /rating  { resourceID: <input type="text" class="resource_id"> }</pre>
+        <pre id="get-rating"      >GET     /rating       { resourceId: <input type="text" class="resource_id"> }</pre>
+        <pre id="post-rating"     >POST    /rating       { resourceId: <input type="text" class="resource_id">, rating: <input type="text" class="rating"> }</pre>
+        <pre id="delete-rating"   >DELETE  /rating       { resourceId: <input type="text" class="resource_id"> }</pre>
         <br>
-        <pre id="get-comment"   >GET     /comment { resourceID: <input type="text" class="resource_id"> }</pre>
-        <pre id="post-comment"  >POST    /comment { resourceID: <input type="text" class="resource_id">, content: <input type="text" class="content" value="Chickens."> }</pre>
-        <pre id="put-comment"   >PUT     /comment { resourceID: <input type="text" class="resource_id">, content: <input type="text" class="content" value="Kitties."> }</pre>
-        <pre id="delete-comment">DELETE  /comment { resourceID: <input type="text" class="resource_id"> }</pre>
+        <pre id="get-comment/list">GET     /comment/list { resourceId: <input type="text" class="resource_id"> }</pre>
+        <pre id="get-comment"     >GET     /comment      { resourceId: <input type="text" class="resource_id">, commentIdList: <input type="text" class="id-list"> }</pre>
+        <pre id="post-comment"    >POST    /comment      { resourceId: <input type="text" class="resource_id">, content: <input type="text" class="content" value="Chickens."> }</pre>
+        <pre id="put-comment"     >PUT     /comment      { commentId:  <input type="text" class="comment_id" >, content: <input type="text" class="content" value="Kitties."> }</pre>
+        <pre id="delete-comment"  >DELETE  /comment      { commentId:  <input type="text" class="comment_id" > }</pre>
         <br>
         <hr>
         <div></div>
@@ -47,13 +48,18 @@
           $("main section pre input").on("click", (_event) => false);
           $("main section pre").on("click", function(event) {
             idArray = $(this).attr("id").split("-");
+            const $idList = $(this).find("input.id-list");
+            const idList  = ($idList.length > 0 ? $idList.val().trim() : undefined);
+            const commentIdList = (idList ? idList.split(",").filter(x => x) : undefined);
             const ajaxOptions = {
               method: idArray[0].toUpperCase(),
               url:    idArray[1],
               data:   {
-                resourceID: $(this).find("input.resource_id").val(),
-                rating:     $(this).find("input.rating").val(),
-                content:    $(this).find("input.content").val(),
+                resourceId:    $(this).find("input.resource_id").val(),
+                rating:        $(this).find("input.rating").val(),
+                commentIdList,
+                commentId:     $(this).find("input.comment_id").val(),
+                content:       $(this).find("input.content").val(),
               }
             };
             $.ajax(ajaxOptions).then((data, status, xhr) => {
