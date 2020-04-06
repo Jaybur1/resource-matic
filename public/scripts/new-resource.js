@@ -12,14 +12,10 @@ const getCategories = () => {
   });
 };
 const categorySelect = () => {
-  $(".category-select").on("click", () => {
-    getCategories().then((data) => {
-      data.forEach(obj => {
-        $('.category-menu').html(`<div class="item" data-value="${obj.id}">${obj.name}</div>`)
-      })
-    });
-    $(".selection.dropdown").dropdown();
-  });
+  // $(".category-select").on("click", () => {
+    
+
+  // });
 };
 
 const newResourceCall = (data) => {
@@ -49,6 +45,18 @@ const newResourceHendler = () => {
   categorySelect();
   handleThumbnail_photo();
   $(".create-new-resource").on("click", function () {
+
+    getCategories().then((data) => {
+      let categoryList = "";
+      data.forEach((obj) => {
+        categoryList += `<option class='item' value=${obj.id}>${obj.name}</option>`;
+      });
+      return categoryList
+    }).then(list => {
+      $(".category-menu").html(list);
+    })
+
+
     $(".ui.modal").modal("show");
     $(".cancel-form").on("click", () => {
       $(".ui.modal").modal("hide");
@@ -61,7 +69,7 @@ const newResourceHendler = () => {
         objdata[obj.name] = obj.value;
       });
       objdata.thumbnail_photo = `https://api.faviconkit.com/${objdata.content}/144`;
-
+      console.log(objdata)
       newResourceCall(objdata);
       $(".ui.modal").modal("hide");
     });

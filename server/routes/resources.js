@@ -19,6 +19,7 @@ const resourcesRoutes = (db) => {
   router.post("/", (req,res) => {
     const user_id = req.session.userId
     const data = {...req.body,user_id}
+    console.log(data)
     database.addResource(data,db).then(resource => {
       res.send(resource)
     })
