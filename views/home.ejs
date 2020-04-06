@@ -11,8 +11,8 @@
     <%- include("partials/_nav") %>
 
     <main class="custom-home-page">
-      <div class="ui container custom-main-container">
-        <section>
+      <div class="ui container">
+      <section>
           <div class="ui vertical menu custom-right-menu">
             <a href="/profile" class="item">
               <img class="ui avatar image" src="<%= user.avatar %>" />
@@ -26,6 +26,13 @@
             <a class="item"><i class="user tie icon"></i></i> My Resources </a>
             <a class="item"><i class="star icon"></i> Favorites </a>
             <a class="item"><i class="project diagram icon"></i></i> Categories </a>
+          </div>
+        </section>
+        <section class="custom-main-container">
+          <div class="custom-feed">
+            <article >
+  
+            </article>
           </div>
         </section>
       </div>

@@ -1,7 +1,8 @@
 .custom-home-page {
   margin-top: 3.7em;
-  padding-top: 2em;
+  padding-top: 3em;
   min-height: 100vh;
+  align-content: center;
 
   background: linear-gradient(
       rgba($color: #0b90f3, $alpha: 0.05),
@@ -25,5 +26,10 @@
   .ui.vertical.menu .active.item {
     background: var(--color_5);
     color: white;
+  }
+
+  .custom-main-container {
+    width: 60%;
+    margin-left: 18em;
   }
 }
