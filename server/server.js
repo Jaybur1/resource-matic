@@ -53,6 +53,7 @@ app.use("/users",     require("./routes/users")(db));
 app.use("/profile",   require("./routes/profile")(db));
 app.use("/resources", require("./routes/resources")(db));
 app.use("/like",      require("./routes/likes")(db));
+app.use("/rating",    require("./routes/ratings")(db));
 
 // Start listening for client connections:
 app.listen(process.env.PORT, () => {
