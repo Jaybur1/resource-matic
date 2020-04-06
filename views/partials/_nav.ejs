@@ -5,26 +5,39 @@
         <p class="custom-logo"><%= app.name %></p>
       </a>
     </div>
-    <div class="item">
+    <% if (user) { %>
+    <div class="item custom-search-bar">
       <div class="ui large icon input">
         <input type="text" placeholder="Search resources..." />
         <i class="search icon"></i>
       </div>
     </div>
-    <% if (user) { %>
-    <div class="right menu">
-      <a href="/profile" class="item custom-no-grey-bg-hover">
-        <%= user.name %>
-      </a>
-      <div class="item">
-        <form class="logout-btn">
-          <button
-            class="ui medium pink button logout-btn custom-font-size"
-            type="submit"
+    <div class="right menu item">
+      <div class="item custom-add-resource-button custom-no-grey-bg-hover">
+        <span>Add Resource <i class="icon add"></i></span>
+      </div>
+      <img
+        class="custom-avatar ui browse item custom-no-close"
+        src="<%= user.avatar %>"
+        alt="<%= user.name %> avatar"
+      />
+      <div
+        class="ui popup bottom right transition hidden custom-popup custom-no-close"
+      >
+        <div class="custom-no-close">
+          <p class="custom-name custom-no-close"><%= user.name %></p>
+          <a href="/profile" class="item custom-profile custom-no-close"
+            >Profile Preferences</a
           >
-            Logout
-          </button>
-        </form>
+          <form class="logout-btn">
+            <button
+              class="custom-font-size custom-logout-btn custom-no-close logout-btn"
+              type="submit"
+            >
+              Logout
+            </button>
+          </form>
+        </div>
       </div>
     </div>
     <% } else { %>
@@ -40,6 +53,21 @@
         </a>
       </div>
     </div>
-    <% } %>
+    <% } %> <% if (user) { %>
   </div>
+  <div class="custom-mobile-nav inverted">
+    <button class="item">
+      <i class="home active icon"></i>
+    </button>
+    <button class="item">
+      <i class="add icon"></i>
+    </button>
+    <button class="item">
+      <i class="search icon"></i>
+    </button>
+    <button class="item">
+      <i class="bars icon"></i>
+    </button>
+  </div>
+  <% } %>
 </nav>
