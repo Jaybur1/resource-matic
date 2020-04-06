@@ -16,18 +16,18 @@
       </h1> -->
 
       <section style="padding: 1rem 2rem; background: #EEEEEE;">
-        <pre id="get-like"      >GET     /like    { resourceID: <input type="text"> }</pre>
-        <pre id="post-like"     >POST    /like    { resourceID: <input type="text"> }</pre>
-        <pre id="delete-like"   >DELETE  /like    { resourceID: <input type="text"> }</pre>
+        <pre id="get-like"      >GET     /like    { resourceID: <input type="text" class="resource_id"> }</pre>
+        <pre id="post-like"     >POST    /like    { resourceID: <input type="text" class="resource_id"> }</pre>
+        <pre id="delete-like"   >DELETE  /like    { resourceID: <input type="text" class="resource_id"> }</pre>
         <br>
-        <pre id="get-rating"    >GET     /rating  { resourceID: <input type="text"> }</pre>
-        <pre id="post-rating"   >POST    /rating  { resourceID: <input type="text">, rating: 4 }</pre>
-        <pre id="delete-rating" >DELETE  /rating  { resourceID: <input type="text"> }</pre>
+        <pre id="get-rating"    >GET     /rating  { resourceID: <input type="text" class="resource_id"> }</pre>
+        <pre id="post-rating"   >POST    /rating  { resourceID: <input type="text" class="resource_id">, rating: <input type="text" class="rating"> }</pre>
+        <pre id="delete-rating" >DELETE  /rating  { resourceID: <input type="text" class="resource_id"> }</pre>
         <br>
-        <pre id="get-comment"   >GET     /comment { resourceID: <input type="text"> }</pre>
-        <pre id="post-comment"  >POST    /comment { resourceID: <input type="text">, content: "Chickens." }</pre>
-        <pre id="put-comment"   >PUT     /comment { resourceID: <input type="text">, content: "Kitties." }</pre>
-        <pre id="delete-comment">DELETE  /comment { resourceID: <input type="text"> }</pre>
+        <pre id="get-comment"   >GET     /comment { resourceID: <input type="text" class="resource_id"> }</pre>
+        <pre id="post-comment"  >POST    /comment { resourceID: <input type="text" class="resource_id">, content: <input type="text" class="content" value="Chickens."> }</pre>
+        <pre id="put-comment"   >PUT     /comment { resourceID: <input type="text" class="resource_id">, content: <input type="text" class="content" value="Kitties."> }</pre>
+        <pre id="delete-comment">DELETE  /comment { resourceID: <input type="text" class="resource_id"> }</pre>
         <br>
         <hr>
         <div></div>
@@ -52,21 +52,23 @@
               method: idArray[0].toUpperCase(),
               url:    idArray[1],
               data:   {
-                resourceID: $(this).find("input").val(),
-                rating:     4,
-                content:    "Chickens."
+                resourceID: $(this).find("input.resource_id").val(),
+                rating:     $(this).find("input.rating").val(),
+                content:    $(this).find("input.content").val(),
               }
             };
-            $.ajax(ajaxOptions)
-              .then((data, status, xhr) => {
-              console.log("success");
-              $("main section div").prepend(`<pre>ajaxOptions: ${JSON.stringifyPretty(ajaxOptions)}</pre><pre>status: ${status}</pre><pre>data: ${JSON.stringifyPretty(data)}</pre><pre>xhr: ${JSON.stringifyPretty(xhr)}</pre><hr>`);
+            $.ajax(ajaxOptions).then((data, status, xhr) => {
+              console.log("success", { status, data, xhr });
+              $("main section div").prepend(`<pre>ajaxOptions: ${JSON.stringifyPretty(ajaxOptions)}</pre>` +
+                                            `<pre>status: ${status}</pre>` +
+                                            `<pre>data: ${JSON.stringifyPretty(data)}</pre>` +
+                                            `<pre>xhr: ${JSON.stringifyPretty(xhr)}</pre><hr>`);
             }).catch((err) => {
-              console.log("error");
+              console.log("error", err);
               $("main section div").prepend(`<pre>${JSON.stringifyPretty(err)}</pre><hr>`);
             });
           });
-        })
+        });
       </script>
 
     </main>
