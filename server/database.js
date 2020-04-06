@@ -366,11 +366,11 @@ const getResources = (db, options) => {
 };
 
 const addResource = (resource, db) => {
-  const resourceVals = Object.values(resource); //$1content,$2title,$3description,$4category,$5thumbnail_photo,$6user_id
+  const resourceVals = Object.values(resource); //$1content,$2title,$3description,$4thumbnail_photo,$user_id
   return db
     .query(
       "INSERT INTO resources (user_id, category_id, title,description,content,thumbnail_photo) " +
-        "VALUES ($6, $4, $2, $3, 4$, $5) RETURNING *",
+        "VALUES ($5,2, $2, $3, $1, $4) RETURNING *",
       resourceVals
     )
     .then((res) => res.rows[0])
