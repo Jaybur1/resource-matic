@@ -12,6 +12,11 @@ module.exports = (db) => {
 
   // GET /like
   //    Get likes for a resource.
+  // Arguments:
+  //    resourceId   Integer: Resource ID of the like to delete.
+  // Returns: {
+  //   numLikes: <like_count>
+  // }
 
   router.get("/", (req, res) => {
     const userId     = req.session.userId;
@@ -33,6 +38,10 @@ module.exports = (db) => {
 
   // POST /like
   //    Add a like to a resource.
+  // Arguments:
+  //    resourceId   Integer: Resource ID of the like to delete.
+  // Returns:
+  //    Nothing.
 
   router.post("/", (req, res) => {
     const userId     = req.session.userId;
@@ -53,6 +62,10 @@ module.exports = (db) => {
 
   // DELETE /like
   //    Remove a like from a resource.
+  // Arguments:
+  //    resourceId   Integer: Resource ID of the like to delete.
+  // Returns:
+  //    Nothing.
 
   router.delete("/", (req, res) => {
     const userId     = req.session.userId;

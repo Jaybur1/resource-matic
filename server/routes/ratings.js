@@ -12,6 +12,11 @@ module.exports = (db) => {
 
   // GET /rating
   //    Gets ratings for a resource.
+  // Arguments:
+  //    resourceId   Integer: Resource ID of the average rating to retrieve.
+  // Returns: {
+  //   averageRating: <average_rating>
+  // }
 
   router.get("/", (req, res) => {
     const userId     = req.session.userId;
@@ -32,6 +37,11 @@ module.exports = (db) => {
 
   // POST /rating
   //    Add a rating to a resource.
+  // Arguments:
+  //    resourceId   Integer: Resource ID to add a rating for.
+  //    rating       Integer: Rating value.
+  // Returns: {
+  //    Nothing.
 
   router.post("/", (req, res) => {
     const userId     = req.session.userId;
@@ -55,6 +65,10 @@ module.exports = (db) => {
 
   // DELETE /rating
   //    Remove a rating from a resource.
+  // Arguments:
+  //    resourceId   Integer: Resource ID to delete a rating for.
+  // Returns: {
+  //    Nothing.
 
   router.delete("/", (req, res) => {
     const userId     = req.session.userId;
