@@ -3,15 +3,76 @@
 <html lang="en">
   <head>
     <title><%= app.name %> - Home</title>
-
     <%- include("partials/_head") %>
   </head>
 
   <body>
     <%- include("partials/_nav") %>
 
-    <!-- <h1 style="width: 100%; margin-top: 7em; text-align: center;">
-      You're the best <%= user.name %> ever.
-    </h1> -->
+    <main style="width: 100%; max-width: 60rem; margin: 10rem auto 7rem;">
+
+      <!-- <h1 style="width: 100%; margin-top: 7em; text-align: center;">
+        You're the best <%= user.name %> ever.
+      </h1> -->
+
+      <section style="padding: 1rem 2rem; background: #EEEEEE;">
+        <pre id="get-like"      >GET     /like    { resourceID: <input type="text" class="resource_id"> }</pre>
+        <pre id="post-like"     >POST    /like    { resourceID: <input type="text" class="resource_id"> }</pre>
+        <pre id="delete-like"   >DELETE  /like    { resourceID: <input type="text" class="resource_id"> }</pre>
+        <br>
+        <pre id="get-rating"    >GET     /rating  { resourceID: <input type="text" class="resource_id"> }</pre>
+        <pre id="post-rating"   >POST    /rating  { resourceID: <input type="text" class="resource_id">, rating: <input type="text" class="rating"> }</pre>
+        <pre id="delete-rating" >DELETE  /rating  { resourceID: <input type="text" class="resource_id"> }</pre>
+        <br>
+        <pre id="get-comment"   >GET     /comment { resourceID: <input type="text" class="resource_id"> }</pre>
+        <pre id="post-comment"  >POST    /comment { resourceID: <input type="text" class="resource_id">, content: <input type="text" class="content" value="Chickens."> }</pre>
+        <pre id="put-comment"   >PUT     /comment { resourceID: <input type="text" class="resource_id">, content: <input type="text" class="content" value="Kitties."> }</pre>
+        <pre id="delete-comment">DELETE  /comment { resourceID: <input type="text" class="resource_id"> }</pre>
+        <br>
+        <hr>
+        <div></div>
+      </section>
+
+      <style type="text/css">
+        main section pre:hover {
+          background: #EEFFEE;
+          cursor: pointer;
+        }
+        main section input {
+          width: 5rem;
+        }
+      </style>
+
+      <script type="text/javascript">
+        $(document).ready(function() {
+          $("main section pre input").on("click", (_event) => false);
+          $("main section pre").on("click", function(event) {
+            idArray = $(this).attr("id").split("-");
+            const ajaxOptions = {
+              method: idArray[0].toUpperCase(),
+              url:    idArray[1],
+              data:   {
+                resourceID: $(this).find("input.resource_id").val(),
+                rating:     $(this).find("input.rating").val(),
+                content:    $(this).find("input.content").val(),
+              }
+            };
+            $.ajax(ajaxOptions).then((data, status, xhr) => {
+              console.log("success", { status, data, xhr });
+              $("main section div").prepend(`<pre>ajaxOptions: ${JSON.stringifyPretty(ajaxOptions)}</pre>` +
+                                            `<pre>status: ${status}</pre>` +
+                                            `<pre>data: ${JSON.stringifyPretty(data)}</pre>` +
+                                            `<pre>xhr: ${JSON.stringifyPretty(xhr)}</pre><hr>`);
+            }).catch((err) => {
+              console.log("error", err);
+              $("main section div").prepend(`<pre>${JSON.stringifyPretty(err)}</pre><hr>`);
+            });
+          });
+        });
+      </script>
+
+    </main>
+
+    <%- include("partials/_footer") %>
   </body>
 </html>
