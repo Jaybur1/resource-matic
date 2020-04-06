@@ -20,7 +20,7 @@ const getUserWithId = (db, id) => {
     .catch((err) => console.error("getUserWithId error:", err));
 };
 
-const addUser = (user, db) => {
+const addUser = (db, user) => {
   const userVals = Object.values(user); // name,email,password,avatar
   return db
     .query("INSERT INTO users (name, email, password) " +

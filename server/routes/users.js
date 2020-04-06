@@ -74,7 +74,7 @@ module.exports = (db) => {
         database.getUserWithEmail(db, email).then((existingUser) => {
           if (!existingUser) {
             const newUser = { name, email, password: hashedPassword };
-            database.addUser(newUser, db).then((addedUser) => {
+            database.addUser(db, newUser).then((addedUser) => {
               req.session.userId = addedUser.id;
               res.send({ redirect: "/home" });
             });
