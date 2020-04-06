@@ -2,8 +2,7 @@
 //
 // Routes related to the profile page.
 
-const express = require("express");
-const router  = express.Router();
+const router = require("express").Router();
 
 const util     = require("../util");
 const database = require("../database");

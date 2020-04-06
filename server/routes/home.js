@@ -2,8 +2,7 @@
 //
 // Routes related to the home page.
 
-const express = require("express");
-const router  = express.Router();
+const router = require("express").Router();
 
 const util     = require("../util");
 const database = require("../database");
@@ -11,6 +10,7 @@ const database = require("../database");
 
 
 module.exports = (db) => {
+
   router.get("/", (req, res) => {
     const userId = req.session.userId;
     if (userId) {
@@ -23,4 +23,5 @@ module.exports = (db) => {
   });
 
   return router;
+
 };

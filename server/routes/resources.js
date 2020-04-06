@@ -2,8 +2,7 @@
 //
 // Resource-related routes.
 
-const express = require("express");
-const router  = express.Router();
+const router = require("express").Router();
 
 const database = require("../database");
 
@@ -18,5 +17,7 @@ const resourcesRoutes = (db) => {
 
   return router;
 };
+
+
 
 module.exports = resourcesRoutes;
