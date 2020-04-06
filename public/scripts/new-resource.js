@@ -98,7 +98,6 @@ const newResourceHendler = () => {
       objdata.thumbnail_photo = `https://api.faviconkit.com/${objdata.content}/144`;
 
       if (!objdata.categoryName) {
-        console.log(objdata)
         newResourceCall(objdata);
         //hide on submition
         $(".ui.modal").modal("hide");
