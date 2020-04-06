@@ -55,6 +55,23 @@ app.use("/resources", require("./routes/resources")(db));
 app.use("/like",      require("./routes/likes")(db));
 app.use("/rating",    require("./routes/ratings")(db));
 
+app.get("/testing", (req, res) => {
+  if (req.session.userId) {
+    require("./database").getUserWithId(db, req.session.userId
+    ).then((user) => {
+      if (user) {
+        util.renderView(res, "testing", { user });
+      } else {
+        res.redirect("/");
+      }
+    }).catch((_err) => {
+      res.redirect("/");
+    });
+  } else {
+    res.redirect("/");
+  }
+});
+
 // Start listening for client connections:
 app.listen(process.env.PORT, () => {
   console.log(`${c.APP_NAME} listening on port ${process.env.PORT}`);
