@@ -9,25 +9,25 @@
   <body>
     <%- include("partials/_nav") %>
 
-    <main style="width: 100%; max-width: 50rem; margin: 10rem auto 7rem;">
+    <main style="width: 100%; max-width: 60rem; margin: 10rem auto 7rem;">
 
       <!-- <h1 style="width: 100%; margin-top: 7em; text-align: center;">
         You're the best <%= user.name %> ever.
       </h1> -->
 
       <section style="padding: 1rem 2rem; background: #EEEEEE;">
-        <pre id="get-like"      >GET     /like    { resourceID: 1 }</pre>
-        <pre id="post-like"     >POST    /like    { resourceID: 1 }</pre>
-        <pre id="delete-like"   >DELETE  /like    { resourceID: 1 }</pre>
+        <pre id="get-like"      >GET     /like    { resourceID: <input type="text"> }</pre>
+        <pre id="post-like"     >POST    /like    { resourceID: <input type="text"> }</pre>
+        <pre id="delete-like"   >DELETE  /like    { resourceID: <input type="text"> }</pre>
         <br>
-        <pre id="get-rating"    >GET     /rating  { resourceID: 1 }</pre>
-        <pre id="post-rating"   >POST    /rating  { resourceID: 1, rating: 4 }</pre>
-        <pre id="delete-rating" >DELETE  /rating  { resourceID: 1 }</pre>
+        <pre id="get-rating"    >GET     /rating  { resourceID: <input type="text"> }</pre>
+        <pre id="post-rating"   >POST    /rating  { resourceID: <input type="text">, rating: 4 }</pre>
+        <pre id="delete-rating" >DELETE  /rating  { resourceID: <input type="text"> }</pre>
         <br>
-        <pre id="get-comment"   >GET     /comment { resourceID: 1 }</pre>
-        <pre id="post-comment"  >POST    /comment { resourceID: 1, content: "Chickens." }</pre>
-        <pre id="put-comment"   >PUT     /comment { resourceID: 1, content: "Kitties." }</pre>
-        <pre id="delete-comment">DELETE  /comment { resourceID: 1 }</pre>
+        <pre id="get-comment"   >GET     /comment { resourceID: <input type="text"> }</pre>
+        <pre id="post-comment"  >POST    /comment { resourceID: <input type="text">, content: "Chickens." }</pre>
+        <pre id="put-comment"   >PUT     /comment { resourceID: <input type="text">, content: "Kitties." }</pre>
+        <pre id="delete-comment">DELETE  /comment { resourceID: <input type="text"> }</pre>
         <br>
         <hr>
         <div></div>
@@ -38,26 +38,32 @@
           background: #EEFFEE;
           cursor: pointer;
         }
+        main section input {
+          width: 5rem;
+        }
       </style>
 
       <script type="text/javascript">
         $(document).ready(function() {
+          $("main section pre input").on("click", (_event) => false);
           $("main section pre").on("click", function(event) {
             idArray = $(this).attr("id").split("-");
-            $.ajax({
-              method: idArray[0],
+            const ajaxOptions = {
+              method: idArray[0].toUpperCase(),
               url:    idArray[1],
               data:   {
-                resourceID: 1,
+                resourceID: $(this).find("input").val(),
                 rating:     4,
                 content:    "Chickens."
               }
-            }).then((data, status, xhr) => {
+            };
+            $.ajax(ajaxOptions)
+              .then((data, status, xhr) => {
               console.log("success");
-              $("main section div").prepend(`<pre>${status}</pre><<pre>${JSON.stringify(data, null, 2)}</pre><pre>${JSON.stringify(xhr, null, 2)}</pre><hr>`);
+              $("main section div").prepend(`<pre>ajaxOptions: ${JSON.stringifyPretty(ajaxOptions)}</pre><pre>status: ${status}</pre><pre>data: ${JSON.stringifyPretty(data)}</pre><pre>xhr: ${JSON.stringifyPretty(xhr)}</pre><hr>`);
             }).catch((err) => {
               console.log("error");
-              $("main section div").prepend(`<pre>${JSON.stringify(err, null, 2)}</pre><hr>`);
+              $("main section div").prepend(`<pre>${JSON.stringifyPretty(err)}</pre><hr>`);
             });
           });
         })
