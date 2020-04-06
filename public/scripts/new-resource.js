@@ -2,26 +2,28 @@
 //
 // new-resource support.
 
-const getCategories = () => {
+const getCategories = (name = undefined) => {
   return $.ajax({
     method: "GET",
     url: "/categories",
+    data: { name },
     success: (data, _status, _xhr) => {
       return data;
     },
   });
 };
 
-const newCategoryCall = (name) => {
+const newCategoryCall = (data) => {
   return $.ajax({
     method: "POST",
     url: "/categories",
-    data: {name},
+    data,
     success: (data, _status, _xhr) => {
       return data;
     },
   });
-}
+};
+
 const updateCategoryList = () => {
   getCategories()
     .then((data) => {
@@ -41,9 +43,11 @@ const handleNewCategory = () => {
     if (e.target.checked) {
       $(".category-menu").attr("disabled", "true");
       $(".other-category").removeAttr("disabled");
+      $(".category-btn").removeAttr("disabled");
     } else {
       $(".category-menu").removeAttr("disabled");
       $(".other-category").attr("disabled", "true");
+      $(".category-btn").attr("disabled", "true");
     }
   });
 };
@@ -94,11 +98,16 @@ const newResourceHendler = () => {
       objdata.thumbnail_photo = `https://api.faviconkit.com/${objdata.content}/144`;
 
       if (!objdata.categoryName) {
+        console.log(objdata)
         newResourceCall(objdata);
         //hide on submition
         $(".ui.modal").modal("hide");
       } else {
-        newCategoryCall(objdata);
+        newCategoryCall({ name: objdata.categoryName }).then(data=> {
+          objdata.categoryName = data.id;
+          newResourceCall(objdata);
+          $(".ui.modal").modal("hide");
+        })
       }
     });
   });

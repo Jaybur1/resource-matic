@@ -17,12 +17,18 @@ module.exports = (db) => {
     });
   });
 
-  router.post("/"), (_req, res) => {
+  router.post("/", (_req, res) => {
     const categoryName = _req.body.name
     database.getCategoriesWithName(categoryName,db).then(data => {
-      console.log(data);
+      if(!data){
+        database.addCategory(categoryName,db).then(data => res.send(data))
+      }else{
+        res.send(data)
+      }
     })
-  }
+  });
+
+  
 
   return router;
 };
