@@ -2,13 +2,15 @@
 //
 // new-resource support.
 
+
 const newResourceCall = (data) => {
   return  $.ajax({
     method: "POST",
     url: "/resources",
     data,
     success: (data, _status, _xhr) => {
-      console.log(data)
+      $('.new-resource-form')[0].reset();
+      window.location.href = "/home"
     },
   });
 }
@@ -41,6 +43,7 @@ const newResourceHendler = () => {
       objdata.thumbnail_photo = `https://api.faviconkit.com/${objdata.content}/144`
 
       newResourceCall(objdata);
+      $('.ui.modal').modal('hide');
     })
   });
 };
