@@ -13,8 +13,46 @@
       </div>
     </div>
     <div class="right menu item">
-      <div class="item custom-add-resource-button custom-no-grey-bg-hover">
+      <div
+        class="item custom-add-resource-button custom-no-grey-bg-hover create-new-resource"
+      >
         <span>Add Resource <i class="icon add"></i></span>
+
+        <!--     -------------------------------------------------------------------    -->
+
+        <div class="ui modal">
+          <i class="close icon"></i>
+          <form class="ui form new-resource-form">
+            <div class="fields">
+              <div class="field">
+                <label>Resource URL</label>
+                <input class="resource-url" type="text" name="content" placeholder="Google, Twitter etc.">
+              </div>
+              <div class="field image content thumbnail-photo"> 
+              </div>
+            </div>
+            
+            <div class="field">
+              <label>Resource Title</label>
+              <input class="title" type="text" name="title" placeholder="Google, Twitter etc.">
+            </div>
+
+            <div class="field">
+              <label>Description</label>
+              <textarea class="resource-description" name="description" rows="2" maxlength="140"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Category</label>
+              <input class="category" type="text" name="category" placeholder="Javascript, Testing, Coffee etc.">
+            </div>
+            <div class="actions">
+              <div class="ui button cancel-form">Cancel</div>
+              <button class="ui button" type="submit">Create</buttona>
+            </div>
+          </form>
+        </div>
+        <!-- ---------------------------------------------------------------------------- -->
       </div>
       <img
         class="custom-avatar ui browse item custom-no-close"
