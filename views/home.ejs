@@ -17,7 +17,7 @@
 
       <section style="padding: 1rem 2rem; background: #EEEEEE;">
         <pre id="get-like"      >GET     /like    { resourceID: 1 }</pre>
-        <pre id="post-like"     >POST    /like    { }</pre>
+        <pre id="post-like"     >POST    /like    { resourceID: 1 }</pre>
         <pre id="delete-like"   >DELETE  /like    { resourceID: 1 }</pre>
         <br>
         <pre id="get-rating"    >GET     /rating  { resourceID: 1 }</pre>
@@ -48,7 +48,9 @@
               method: idArray[0],
               url:    idArray[1],
               data:   {
-                resourceID: 1
+                resourceID: 1,
+                rating:     4,
+                content:    "Chickens."
               }
             }).then((data, status, xhr) => {
               console.log("success");
