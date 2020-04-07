@@ -1,9 +1,17 @@
-.custom-modal {
-  padding: 20px;
-}
+
+  .custom-modal {
+    padding: 30px;
+    max-width: 800px;
+  }
+
+  .thumbnail-photo {
+    width: 44px;
+    height: 44px;
+    margin-top: 10px;
+    margin-left:-10px;
+  }
 
 
-.thumbnail-photo{
-  width:44px;
-  height:44px;
-}
+  #check-box {
+   margin: 10px;
+  }

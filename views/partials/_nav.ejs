@@ -21,8 +21,10 @@
         <span>Add Resource <i class="icon add"></i></span>
 
         <div class="ui modal custom-modal">
+     
           <i class="close icon"></i>
           <form class="ui form new-resource-form">
+            <h3 class="item">Add resource</h3>
             <div class="fields">
               <div class="field">
                 <label>Resource URL</label>
@@ -30,23 +32,23 @@
                   class="resource-url"
                   type="text"
                   name="content"
-                  placeholder="Google, Twitter etc."
+                  placeholder="ex: lighthouselabs.ca"
                   required="required"
                 />
               </div>
               <div class="field image content thumbnail-photo"></div>
-            </div>
-            <div class="fields">
               <div class="field">
                 <label>Resource Title</label>
                 <input
                   class="title"
                   type="text"
                   name="title"
-                  placeholder="Google, Twitter etc."
+                  placeholder="ex: Google, Twitter etc."
                   required="required"
                 />
               </div>
+            </div>
+            <div class="fields">
               <div class="field">
                 <label>Category</label>
                 <select class="category-menu" name="category_id">

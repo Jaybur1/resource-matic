@@ -81,7 +81,6 @@ const newResourceHendler = () => {
     updateCategoryList();
     //toggle create new resource
     $(".ui.modal").modal("show");
-
     $(".cancel-form").on("click", () => {
       $(".ui.modal").modal("hide");
     });
