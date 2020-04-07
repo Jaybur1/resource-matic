@@ -37,7 +37,7 @@ const feedCreator = (resources) => {
 };
 
 // Function the groups comments by resource
-const groupComments = (unGroupedResources) => {
+export const groupComments = (unGroupedResources) => {
   let groupedResources = [];
 
   // Loops through comments and checks if present in grouped comments, then combines comments for same resource
