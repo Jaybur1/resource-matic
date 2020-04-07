@@ -12,10 +12,17 @@ export const createCommentsHTML = (comments) => {
 };
 
 const createFourCommentsHTML = (comments) => {
+
+  const sortedComments = comments.sort(function(x, y) {
+    return new Date(x.timestamp) - new Date(y.timestamp);
+  });
+
   let fourCommentsHTML = "";
 
-  for (let i = 0; i < 4 && i < comments.length; i++) {
-    fourCommentsHTML += singleCommentHTML(comments[i]);
+  // console.log();
+
+  for (let i = 0; i < 3 && i < comments.length; i++) {
+    fourCommentsHTML += singleCommentHTML(sortedComments[i]);
   }
 
 
