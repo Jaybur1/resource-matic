@@ -8,30 +8,31 @@ const bcrypt = require("bcrypt");
 
 const getUserWithEmail = (db, email) => {
   return db
-    .query("SELECT * FROM users WHERE email = $1", [email])
+    .query("SELECT * FROM users WHERE email = $1", [ email ])
     .then((res) => res.rows[0])
     .catch((err) => console.error("getUserWithEmail error:", err));
 };
 
 const getUserWithId = (db, id) => {
   return db
-    .query("SELECT * FROM users WHERE id = $1", [id])
+    .query("SELECT * FROM users WHERE id = $1", [ id ])
     .then((res) => res.rows[0])
     .catch((err) => console.error("getUserWithId error:", err));
 };
 
 const addUser = (db, user) => {
+  const queryParams = [ user.name, user.email, user.password ];
   return db
     .query("INSERT INTO users " +
            "(name, email, password) " +
-           "VALUES ($1, $2, $3) RETURNING *", [ user.name, user.email, user.password ])
+           "VALUES ($1, $2, $3) RETURNING *", queryParams)
     .then((res) => res.rows[0])
     .catch((err) => console.error("addUser error:", err));
 };
 
 const deleteUser = (db, userID) => {
   return db
-    .query("DELETE users WHERE id = $1", [userID])
+    .query("DELETE users WHERE id = $1", [ userID ])
     .then((res) => res.rows[0])
     .catch((err) => console.error("deleteUser error:", err));
 };
@@ -55,7 +56,7 @@ const updateUserWithCreds = (db, user) => {
 
 const validatePassword = (db, userID, password) => {
   return db
-    .query("SELECT password FROM users WHERE id = $1", [userID])
+    .query("SELECT password FROM users WHERE id = $1", [ userID ])
     .then((res) => bcrypt.compare(password, res.rows[0].password))
     // Do not use arrow function here or pwMatch will be undefined:
     //    I swear, I've had it with arrow functions......
@@ -386,7 +387,7 @@ const getCategories = (db) => {
 //get category by name
 const getCategoriesWithName = (name,db) => {
   return db
-    .query("SELECT * FROM categories WHERE name = $1", [name])
+    .query("SELECT * FROM categories WHERE name = $1", [ name ])
     .then((res) => res.rows[0])
     .catch((err) => console.log("getAllCategories error:", err));
 };
@@ -394,7 +395,7 @@ const getCategoriesWithName = (name,db) => {
 //handle create new category
 const addCategory = (name,db) => {
   return db
-    .query("INSERT INTO categories (name) VALUES($1) RETURNING *", [name])
+    .query("INSERT INTO categories (name) VALUES($1) RETURNING *", [ name ])
     .then((res) => res.rows[0])
     .catch((err) => console.log("getAllCategories error:", err));
 };
