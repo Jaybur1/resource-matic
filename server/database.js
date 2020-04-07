@@ -135,7 +135,7 @@ const getResources = (db, options) => {
   options.comments ? queryString += `, comments.body AS comment, comments.created as comment_created_at` : null;
 
   // Likes are requested
-  options.likes ? (queryString += `, count(likes) AS likes`) : null;
+  options.likes ? (queryString += `, count(l1) AS likes`) : null;
 
   // Average ratings are requested
   options.avgRatings
@@ -156,60 +156,61 @@ const getResources = (db, options) => {
   // ?
 
   // ? JOIN section of query
-  // Comments are requested
-  options.comments ? queryString += `LEFT JOIN comments ON comments.resource_id = resources.id ` : null;
+  // Comments are requested or Commented by user
+  options.comments || options.filterByCommented ? queryString += `LEFT JOIN comments ON comments.resource_id = resources.id ` : null;
 
   // Likes are requested
-  options.likes ? queryString += `LEFT JOIN likes ON likes.resource_id = resources.id ` : null;
+  options.likes ? queryString += `LEFT JOIN likes l1 ON l1.resource_id = resources.id ` : null;
 
   // Average ratings or all ratings are requested
   options.avgRatings || options.ratings ? queryString += `LEFT JOIN ratings ON ratings.resource_id = resources.id ` : null;
 
   // Users or current user are requested
-  options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated ? queryString += `JOIN users u1 ON resources.user_id = u1.id LEFT JOIN users u2 ON comments.user_id = u2.id ` : null;
+  options.users || options.currentUser ? queryString += `JOIN users u1 ON resources.user_id = u1.id LEFT JOIN users u2 ON comments.user_id = u2.id ` : null;
 
   // Categories are requested
   options.categories
     ? (queryString += `JOIN categories ON resources.category_id = categories.id `)
     : null;
 
-  let alreadyFiltered = false;
-
   // Liked by user
-  if (options.filterByLiked) {
-    queryString += `JOIN likes ON likes.resource_id = resources.id `;
-    alreadyFiltered
-      ? null
-      : (queryString += `JOIN users ON users.id = likes.user_id `);
-    alreadyFiltered = true;
-  }
-
-  // Commented by user
-  if (options.filterByCommented) {
-    queryString += `JOIN comments ON comments.resource_id = resources.id `;
-    alreadyFiltered
-      ? null
-      : (queryString += `JOIN users ON users.id = comments.user_id `);
-    alreadyFiltered = true;
-  }
+  options.filterByLiked ? queryString += `JOIN likes l2 ON l2.resource_id = resources.id ` : null;
 
   // Rated by user
-  if (options.filterByRated) {
-    queryString += `JOIN ratings ON ratings.resource_id = resources.id `;
-    alreadyFiltered
-      ? null
-      : (queryString += `JOIN users ON users.id = ratings.user_id `);
-    alreadyFiltered = true;
-  }
+  options.filterByRated ? queryString += `JOIN ratings r2 ON r2.resource_id = resources.id ` : null;
   // ?
-
+  
   // ? WHERE section of query
   let alreadyWhere = false;
-
+  
   // Current user is requested
-  if (options.currentUser) {
+  if (options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
     queryParams.push(`${options.currentUser}`);
     queryString += ` WHERE u1.id = $${queryParams.length} `;
+    alreadyWhere = true;
+  }
+  
+  // Liked by user
+  if (options.filterByLiked) {
+    queryParams.push(`${options.currentUser}`);
+    alreadyWhere ? (queryString += ` OR `) : (queryString += ` WHERE `);
+    queryString += ` l2.user_id = $${queryParams.length} `;
+    alreadyWhere = true;
+  }
+  
+  // Rated by user
+  if (options.filterByRated) {
+    queryParams.push(`${options.currentUser}`);
+    alreadyWhere ? (queryString += ` OR `) : (queryString += ` WHERE `);
+    queryString += ` ratings.user_id = $${queryParams.length} `;
+    alreadyWhere = true;
+  }
+  
+  // Commented by user
+  if (options.filterByCommented) {
+    queryParams.push(`${options.currentUser}`);
+    alreadyWhere ? (queryString += ` OR `) : (queryString += ` WHERE `);
+    queryString += ` comments.user_id = $${queryParams.length} `;
     alreadyWhere = true;
   }
 
@@ -235,10 +236,7 @@ const getResources = (db, options) => {
 
   // Likes are requested
   if (
-    options.likes &&
-    !options.filterByLiked &&
-    !options.filterByCommented &&
-    !options.filterByRated
+    options.likes
   ) {
     queryString += ` GROUP BY resources.id`;
     alreadyGrouped = true;
@@ -246,10 +244,7 @@ const getResources = (db, options) => {
 
   // Comments are requested
   if (
-    options.comments &&
-    !options.filterByLiked &&
-    !options.filterByCommented &&
-    !options.filterByRated
+    options.comments
   ) {
     alreadyGrouped
       ? (queryString += `, `)
@@ -260,10 +255,7 @@ const getResources = (db, options) => {
 
   // Categories are requested
   if (
-    options.categories &&
-    !options.filterByLiked &&
-    !options.filterByCommented &&
-    !options.filterByRated
+    options.categories
   ) {
     alreadyGrouped
       ? (queryString += `, `)
@@ -275,10 +267,7 @@ const getResources = (db, options) => {
   // Users or current user are requested
   if (
     options.users ||
-    options.currentUser &&
-    !options.filterByLiked &&
-    !options.filterByCommented &&
-    !options.filterByRated
+    options.currentUser
   ) {
     alreadyGrouped
       ? (queryString += `, `)
@@ -343,15 +332,13 @@ const getResources = (db, options) => {
   queryString += ` LIMIT $${queryParams.length};`;
   // ?
 
-  console.log("____________", queryString);
+  // console.log("____________", queryString);
 
   return db
     .query(queryString, queryParams)
     .then((res) => res.rows)
     .catch((err) => console.error("getResources error:", err));
 };
-
-// getResources(null, {currentUser: "Alice", filterByLiked: true, filterByRated: true, filterByCommented: true});
 
 //handle adding a new resource
 const addResource = (resource, db) => {
@@ -367,10 +354,23 @@ const addResource = (resource, db) => {
     .catch((err) => console.error("addResource error:", err));
 };
 
-//handle delete resource
-const deleteResource = (resourceId,db) => {
-  //chack if this resource holds the last trace of the current category
-};
+// deleteResource deletes a resource
+//    INCOMPLETE
+
+// const deleteResource = (db, resourceId) => {
+//   // Check if this resource is the last reference to its category:
+//   db.query("SELECT category_id FROM resources WHERE resource_id = $1", [ resourceId ])
+//     .then((queryRes) => {
+//       db.query("SELECT COUNT(*) FROM resources WHERE category_id = $1", [ categoryId ])
+//       return queryRes.rows[0].category_id;
+//     })
+//     .then((categoryId) => {
+//       if (queryRes.rows[0].length) {
+//         db.query("DELETE FROM categories WHERE category_id = $1", [ categoryId ]))
+//       }
+//     })
+//     .catch((err) => err);
+// };
 
 //handling all categories
 const getCategories = (db) => {
@@ -379,7 +379,7 @@ const getCategories = (db) => {
     .query("SELECT * FROM categories")
     .then((res) => res.rows)
     .catch((err) => console.log("getAllCategories error:", err));
-  
+
 };
 
 //get category by name
@@ -388,7 +388,7 @@ const getCategoriesWithName = (name,db) => {
     .query("SELECT * FROM categories WHERE name = $1",[name])
     .then((res) => res.rows[0])
     .catch((err) => console.log("getCategoriesWithname error:", err));
-  
+
 };
 //handle create new category
 const addCategory = (name,db) => {
@@ -396,7 +396,7 @@ const addCategory = (name,db) => {
     .query("INSERT INTO categories (name) VALUES($1) RETURNING *",[name])
     .then((res) => res.rows[0])
     .catch((err) => console.log("addCategory error:", err));
-  
+
 };
 module.exports = {
   getUserWithEmail,
