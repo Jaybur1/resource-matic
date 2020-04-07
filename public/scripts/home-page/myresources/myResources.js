@@ -1,20 +1,62 @@
 import toggleResourceMenu from "../home-page-helpers/toggleRescourseMenu.js";
+import { groupComments } from "../feed/feed.js";
 
+
+const createCards = (createdResources,insertInto) => {
+  // Create html content for each resource
+  const createdResourcesHTML = createdResources.map(resource => ` 
+    <div class="ui card four wide column">
+    <div class="blurring dimmable image custom-bk-white">
+      <div class="ui dimmer">
+        <div class="content">
+          <div class="center">
+          <a
+          href="http://${resource.content}"
+            target="_blank"
+            class="ui large inverted button">
+            Check Resource
+            </a>
+            </div>
+          </div>
+          </div>
+        <img
+          class="custom-padding"
+          src="${resource.thumbnail_photo}"
+        />
+        </div>
+      <div class="content custom-bk-grey">
+        <a href="http://${resource.content}" target="_blank" class="ui header small center aligned custom-hover-text-blue"
+          >${resource.title}</a>
+      </div>
+    </div>
+  `).join(" ");
+
+
+  return createdResourcesHTML;
+};
 
 const getUserResources = () => {
   return $.ajax({
     method: "get",
     url: "/resources",
-
+    data: {
+      currentUser: true,
+      comments: true,
+      likes: true,
+      ratings: true,
+      sort: { byLatest: true },
+      limit:50,
+    },
     success: (data, _status, _xhr) => {
       return data;
     },
   });
-}
+};
 
 const toggleTabs = () => {
-  $('.tabular.menu .item').tab();
-}
+  $(".tabular.menu .item").tab();
+};
+
 const renderTabs = () => {
   const html = `
 <div class="ui conteiner">
@@ -25,7 +67,7 @@ const renderTabs = () => {
   <div class="item tab" data-tab="four"><i class="star icon"></i>Rated</div>
 </div>
 <div class="ui bottom attached tab segment active" data-tab="one">
-  <div class="user-resurces">No Resources yet ... <button class="ui button pink create-new-resource">add</button> some to fill this section</div>
+  <div class="user-resources">No Resources yet ... <a class="ui create-new-resource">add</a> some to fill this section</div>
 </div>
 <div class="ui bottom attached tab segment" data-tab="two">
   <div class="liked-resurces">No Resources yet ... like some to fill this section</div>
@@ -40,14 +82,20 @@ const renderTabs = () => {
 `;
 
 
-
+getUserResources().then(data => {
+  const resourceArr = groupComments(data);
+  if(resourceArr.length === 0){
+    $('.user-resources').html('No Resources yet ... <a class="ui create-new-resource">add</a> some to fill this section</div>')
+  }
+  $('.user-resources').html(`<div class="ui special cards container ui equal width grid">${createCards(resourceArr)}</div>`)
+});
   return html;
 };
 
 const retrieveMyResources = () => {
-  $(".my-resources-link").on("click", function() {
-    $('#home-page').html(renderTabs);
-    $('.tabular.menu .item').tab();
+  $(".my-resources-link").on("click", function () {
+    $("#home-page").html(renderTabs);
+    $(".tabular.menu .item").tab();
     toggleResourceMenu(this);
   });
 };

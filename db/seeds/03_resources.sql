@@ -1,5 +1,4 @@
 -- Resources table seeds here
-
 INSERT INTO resources
   (user_id,category_id,title,description,content,thumbnail_photo, created)
 VALUES
