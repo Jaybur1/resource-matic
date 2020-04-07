@@ -64,7 +64,7 @@ const validatePassword = (db, userID, password) => {
       .then((res) => bcrypt.compare(password, res.rows[0].password))
       // Do not use arrow function here or pwMatch will be undefined:
       //    I swear, I've had it with arrow functions......
-      .then(function (pwMatch) {
+      .then(function(pwMatch) {
         return pwMatch
           ? Promise.resolve()
           : Promise.reject("Password mismatch");
@@ -132,7 +132,7 @@ const getResources = (db, options) => {
   let queryString = `SELECT resources.*`;
 
   // Comments are requested
-  options.comments ? (queryString += `, comments.body AS comments`) : null;
+  options.comments ? queryString += `, comments.body AS comment, comments.created as comment_created_at` : null;
 
   // Likes are requested
   options.likes ? (queryString += `, count(likes) AS likes`) : null;
@@ -143,9 +143,7 @@ const getResources = (db, options) => {
     : null;
 
   // Users or current user are requested
-  options.users || options.currentUser
-    ? (queryString += `, users.name AS users`)
-    : null;
+  options.users || options.currentUser ? queryString += `, u1.name AS poster, u1.avatar AS poster_avatar, u2.name AS commenter, u2.avatar AS commenter_avatar` : null;
 
   // Categories are requested
   options.categories
@@ -159,28 +157,16 @@ const getResources = (db, options) => {
 
   // ? JOIN section of query
   // Comments are requested
-  options.comments
-    ? (queryString += `JOIN comments ON comments.resource_id = resources.id `)
-    : null;
+  options.comments ? queryString += `LEFT JOIN comments ON comments.resource_id = resources.id ` : null;
 
   // Likes are requested
-  options.likes
-    ? (queryString += `JOIN likes ON likes.resource_id = resources.id `)
-    : null;
+  options.likes ? queryString += `LEFT JOIN likes ON likes.resource_id = resources.id ` : null;
 
   // Average ratings or all ratings are requested
-  options.avgRatings || options.ratings
-    ? (queryString += `JOIN ratings ON ratings.resource_id = resources.id `)
-    : null;
+  options.avgRatings || options.ratings ? queryString += `LEFT JOIN ratings ON ratings.resource_id = resources.id ` : null;
 
   // Users or current user are requested
-  options.users ||
-  (options.currentUser &&
-    !options.filterByLiked &&
-    !options.filterByCommented &&
-    !options.filterByRated)
-    ? (queryString += `JOIN users ON resources.user_id = users.id `)
-    : null;
+  options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated ? queryString += `JOIN users u1 ON resources.user_id = u1.id LEFT JOIN users u2 ON comments.user_id = u2.id ` : null;
 
   // Categories are requested
   options.categories
@@ -268,7 +254,7 @@ const getResources = (db, options) => {
     alreadyGrouped
       ? (queryString += `, `)
       : (queryString += ` GROUP BY resources.id, `);
-    queryString += `comments.body`;
+    queryString += `comments.body, comments.created`;
     alreadyGrouped = true;
   }
 
@@ -289,15 +275,15 @@ const getResources = (db, options) => {
   // Users or current user are requested
   if (
     options.users ||
-    (options.currentUser &&
-      !options.filterByLiked &&
-      !options.filterByCommented &&
-      !options.filterByRated)
+    options.currentUser &&
+    !options.filterByLiked &&
+    !options.filterByCommented &&
+    !options.filterByRated
   ) {
     alreadyGrouped
       ? (queryString += `, `)
       : (queryString += ` GROUP BY resources.id, `);
-    queryString += `users.name `;
+    queryString += `u1.name, u1.avatar, u2.name, u2.avatar `;
     alreadyGrouped = true;
   }
   // ?
@@ -353,11 +339,11 @@ const getResources = (db, options) => {
   // ?
 
   // ? Limit section of query
-  queryParams.push(Number(options.limit) || 10);
+  queryParams.push(Number(options.limit) || 50);
   queryString += ` LIMIT $${queryParams.length};`;
   // ?
 
-  console.log(queryString);
+  // console.log("____________", queryString);
 
   return db
     .query(queryString, queryParams)
@@ -368,7 +354,7 @@ const getResources = (db, options) => {
 //handle adding a new resource
 const addResource = (resource, db) => {
   const resourceVals = Object.values(resource); //$1content,$2title,$3category_id, $4description,$5thumbnail_photo,$6user_id
-  console.log(resourceVals)
+  console.log(resourceVals);
   return db
     .query(
       "INSERT INTO resources (user_id, category_id, title,description,content,thumbnail_photo) " +
@@ -382,7 +368,7 @@ const addResource = (resource, db) => {
 //handle delete resource
 const deleteResource = (resourceId,db) => {
   //chack if this resource holds the last trace of the current category
-}
+};
 
 //handling all categories
 const getCategories = (db) => {
@@ -409,7 +395,7 @@ const addCategory = (name,db) => {
     .then((res) => res.rows[0])
     .catch((err) => console.log("getAllCategories error:", err));
   
-}
+};
 module.exports = {
   getUserWithEmail,
   getUserWithId,
