@@ -343,7 +343,7 @@ const getResources = (db, options) => {
   queryString += ` LIMIT $${queryParams.length};`;
   // ?
 
-  console.log(queryString);
+  // console.log("____________", queryString);
 
   return db
     .query(queryString, queryParams)
