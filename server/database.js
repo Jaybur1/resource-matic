@@ -1,10 +1,17 @@
 // database.js
 //
-// Helper functions for common database queries.
+// Helper functions for common database queries
+//    related to users, resources, and categories.
 
 const bcrypt = require("bcrypt");
 
 
+
+///////////////////
+/////  USERS  /////
+///////////////////
+
+// getUserWithEmail retrieves user information given an email address.
 
 const getUserWithEmail = (db, email) => {
   return db
@@ -13,12 +20,16 @@ const getUserWithEmail = (db, email) => {
     .catch((err) => console.error("getUserWithEmail error:", err));
 };
 
+// getUserWithId retrieves user information given a user ID.
+
 const getUserWithId = (db, id) => {
   return db
     .query("SELECT * FROM users WHERE id = $1", [ id ])
     .then((res) => res.rows[0])
     .catch((err) => console.error("getUserWithId error:", err));
 };
+
+// addUser adds a new user to the database.
 
 const addUser = (db, user) => {
   const queryParams = [ user.name, user.email, user.password ];
@@ -30,12 +41,17 @@ const addUser = (db, user) => {
     .catch((err) => console.error("addUser error:", err));
 };
 
+// deleteUser removes a user from the database given a user ID.
+
 const deleteUser = (db, userID) => {
   return db
     .query("DELETE users WHERE id = $1", [ userID ])
     .then((res) => res.rows[0])
     .catch((err) => console.error("deleteUser error:", err));
 };
+
+// updateUser updates user information that doesn't require a password check
+//    in the database given a user ID.
 
 const updateUser = (db, user) => {
   return db
@@ -45,6 +61,9 @@ const updateUser = (db, user) => {
     .catch((err) => console.error("updateUser error:", err));
 };
 
+// updateUserWithCreds updates user information that requires a password check
+//    in the database given a user ID.
+
 const updateUserWithCreds = (db, user) => {
   return db
     .query("UPDATE users " +
@@ -53,6 +72,8 @@ const updateUserWithCreds = (db, user) => {
     .then((res) => res.rows[0])
     .catch((err) => console.error("updateUser error:", err));
 };
+
+// validatePassword checks that a password matches the hash stored for a user.
 
 const validatePassword = (db, userID, password) => {
   return db
@@ -64,6 +85,12 @@ const validatePassword = (db, userID, password) => {
       return pwMatch ? Promise.resolve() : Promise.reject("Password mismatch");
     });
 };
+
+
+
+///////////////////////
+/////  RESOURCES  /////
+///////////////////////
 
 // ! Function that retrieves resources from db based on various options --------------------------- //
 // Options:
@@ -356,7 +383,8 @@ const getResources = (db, options) => {
     .catch((err) => console.error("getResources error:", err));
 };
 
-//handle adding a new resource
+// addResource adds a new resource to the database.
+
 const addResource = (db, resource) => {
   const queryParams = [
     resource.userId, resource.category_id,
@@ -371,12 +399,20 @@ const addResource = (db, resource) => {
     .catch((err) => console.error("addResource error:", err));
 };
 
-//handle delete resource
+// deleteResource deletes a resource from the database.
+
 // const deleteResource = (db, resourceId) => {
 //   // Check if this resource holds the last trace of the current category
 // };
 
-//handling all categories
+
+
+////////////////////////
+/////  CATEGORIES  /////
+////////////////////////
+
+// getCategories retrieves all the categories from the database.
+
 const getCategories = (db) => {
   return db
     .query("SELECT * FROM categories")
@@ -384,7 +420,8 @@ const getCategories = (db) => {
     .catch((err) => console.log("getCategories error:", err));
 };
 
-//get category by name
+// getCategoriesWithName retrieves a category given its name.
+
 const getCategoriesWithName = (db, name) => {
   return db
     .query("SELECT * FROM categories WHERE name = $1", [ name ])
@@ -392,7 +429,8 @@ const getCategoriesWithName = (db, name) => {
     .catch((err) => console.log("getCategoriesWithName error:", err));
 };
 
-//handle create new category
+// addCategory adds a new category to the database.
+
 const addCategory = (db, name) => {
   return db
     .query("INSERT INTO categories (name) VALUES ($1) RETURNING *", [ name ])
