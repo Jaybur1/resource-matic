@@ -53,7 +53,7 @@ const userAuth = () => {
   $(".login-form").on("submit", (e) => {
     e.preventDefault();
     logIn({
-      email: $(".login-email").val(),
+      email: $(".login-email").val().toLowerCase(),
       password: $(".login-password").val(),
     });
   });
@@ -67,7 +67,7 @@ const userAuth = () => {
     e.preventDefault();
     signUp({
       name: $(".signup-name").val(),
-      email: $(".signup-email").val(),
+      email: $(".signup-email").val().toLowerCase(),
       password: $(".signup-password").val(),
     });
   });
