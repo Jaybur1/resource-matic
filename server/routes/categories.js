@@ -21,14 +21,14 @@ module.exports = (db) => {
     const categoryName = _req.body.name.toLowerCase();
     database.getCategoriesWithName(categoryName,db).then(data => {
       if(!data){
-        database.addCategory(categoryName,db).then(data => res.send(data))
+        database.addCategory(db, categoryName).then(data => res.send(data))
       }else{
         res.send(data)
       }
     })
   });
 
-  
+
 
   return router;
 };

@@ -393,11 +393,11 @@ const getCategoriesWithName = (name,db) => {
 };
 
 //handle create new category
-const addCategory = (name,db) => {
+const addCategory = (db, name) => {
   return db
-    .query("INSERT INTO categories (name) VALUES($1) RETURNING *", [ name ])
+    .query("INSERT INTO categories (name) VALUES ($1) RETURNING *", [ name ])
     .then((res) => res.rows[0])
-    .catch((err) => console.log("getAllCategories error:", err));
+    .catch((err) => console.log("addCategory error:", err));
 };
 
 
