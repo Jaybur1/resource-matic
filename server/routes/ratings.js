@@ -20,13 +20,13 @@ module.exports = (db) => {
 
   router.get("/", (req, res) => {
     const userId     = req.session.userId;
-    const resourceID = req.query.resourceID;
+    const resourceId = req.query.resourceId;
     if (!userId) {
       util.httpError("GET /rating failed:", "No session", res, 403);
-    } else if (!resourceID) {
+    } else if (!resourceId) {
       util.httpError("GET /rating failed:", "Resource ID not specified", res, 400);
     } else {
-      db.query("SELECT AVG(rating) FROM ratings WHERE resource_id = $1", [ resourceID ])
+      db.query("SELECT AVG(rating) FROM ratings WHERE resource_id = $1", [ resourceId ])
         .then((queryRes) => {
           res.status(200).json({ averageRating: queryRes.rows[0].avg });
         }).catch((err) => {
@@ -45,16 +45,16 @@ module.exports = (db) => {
 
   router.post("/", (req, res) => {
     const userId     = req.session.userId;
-    const resourceID = req.body.resourceID;
+    const resourceId = req.body.resourceId;
     const rating     = req.body.rating;
     if (!userId) {
       util.httpError("POST /rating failed:", "No session", res, 403);
-    } else if (!resourceID) {
+    } else if (!resourceId) {
       util.httpError("POST /rating failed:", "Resource ID not specified", res, 400);
     } else if (!rating) {
       util.httpError("POST /rating failed:", "Rating not specified", res, 400);
     } else {
-      db.query("INSERT INTO ratings (user_id, resource_id, rating) VALUES ($1, $2, $3)", [ userId, resourceID, rating ])
+      db.query("INSERT INTO ratings (user_id, resource_id, rating) VALUES ($1, $2, $3)", [ userId, resourceId, rating ])
         .then((_queryRes) => {
           res.status(200).end();
         }).catch((err) => {
@@ -72,13 +72,13 @@ module.exports = (db) => {
 
   router.delete("/", (req, res) => {
     const userId     = req.session.userId;
-    const resourceID = req.body.resourceID;
+    const resourceId = req.body.resourceId;
     if (!userId) {
       util.httpError("DELETE /rating failed:", "No session", res, 403);
-    } else if (!resourceID) {
+    } else if (!resourceId) {
       util.httpError("DELETE /rating failed:", "Resource ID not specified", res, 400);
     } else {
-      db.query("DELETE FROM ratings WHERE user_id = $1 AND resource_id = $2", [ userId, resourceID ])
+      db.query("DELETE FROM ratings WHERE user_id = $1 AND resource_id = $2", [ userId, resourceId ])
         .then((_queryRes) => {
           res.status(200).end();
         }).catch((err) => {
