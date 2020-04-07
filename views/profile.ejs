@@ -1,68 +1,88 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
   <head>
     <title><%= app.name %> - Profile</title>
-
     <%- include("partials/_head") %>
-
     <link rel="stylesheet" type="text/css" href="/styles/profile-page.css" />
-
     <script type="text/javascript" src="/scripts/profile-page.js"></script>
   </head>
 
   <body>
     <%- include("partials/_nav") %>
-
     <main>
-      <form class="ui container form huge">
-        <div id="avatar" src="<%= user.avatar %>"></div>
-        <div class="field">
-          <label>Display name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Display name"
-            value="<%= user.name %>"
-          />
+      <form class="ui container form">
+        <div class="ui one column grid">
+          <div class="ui column raised huge segment">
+            <span class="ui blue ribbon huge label">Profile</span>
+            <div style="width: 100%; text-align: center;">
+              <div id="avatar" src="<%= user.avatar %>"></div>
+            </div>
+            <div class="field">
+              <label>Display name</label>
+              <div class="ui left icon input">
+                <i class="address card icon"></i>
+                <input type="text" name="name" placeholder="Display name" value="<%= user.name %>" />
+              </div>
+            </div>
+            <button class="ui large pink button huge">Save</button>
+          </div>
         </div>
-        <button class="ui button huge">Save</button>
-        <br />
-        <br />
-        <div class="ui divider"></div>
-        <p>To update your login info, enter your current password</p>
-        <div class="field">
-          <label>Password</label>
-          <input type="password" name="password" placeholder="Password" />
+        <br>
+        <br>
+        <br>
+        <div class="ui one column grid">
+          <div class="ui column raised huge segment">
+            <span class="ui blue ribbon huge label">Account</span><br><BR>
+            <div class="ui huge raised segment">
+              <span class="ui purple text">
+                To update your login info, enter your current password
+              </span>
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="password" placeholder="Password" />
+              </div>
+            </div>
+            <div class="field">
+              <label>Email address</label>
+              <div class="ui left icon input">
+                <i class="paper plane icon"></i>
+                <input type="text" name="email" placeholder="Email address" value="<%= user.email %>" />
+              </div>
+            </div>
+            <div class="ui huge raised segment">
+              <span class="ui purple text">
+                To change your password, enter a new one here.<br>
+                Leave it blank to keep your current password.
+              </span>
+            </div>
+            <div class="field">
+              <label>New password</label>
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="newPassword" placeholder="Password" />
+              </div>
+            </div>
+            <div class="field">
+              <label>Verify password</label>
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="verifyPassword" placeholder="Verify your password" />
+              </div>
+            </div>
+            <div class="ui container" style="display: flex; flex-flow: row wrap; justify-content: space-between;">
+              <button style="" class="ui large pink button huge">Save</button>
+              <div class=""><button class="ui negative button huge">Delete Account</button></div>
+            </div>
+          </div>
         </div>
-        <div class="field">
-          <label>Email address</label>
-          <input
-            type="text"
-            name="email"
-            placeholder="Email address"
-            value="<%= user.email %>"
-          />
-        </div>
-        <p>
-          To change your password, enter a new one here.<br />
-          Leave it blank to keep your current password.
-        </p>
-        <div class="field">
-          <label>New password</label>
-          <input type="password" name="newPassword" placeholder="Password" />
-        </div>
-        <div class="field">
-          <label>Verify password</label>
-          <input
-            type="password"
-            name="verifyPassword"
-            placeholder="Password again"
-          />
-        </div>
-        <button class="ui button huge left floated">Save</button>
-        <div class=""><button class="ui negative button huge right floated">Delete Account</button></div>
       </form>
     </main>
+    <%- include("partials/_footer") %>
   </body>
+
 </html>
