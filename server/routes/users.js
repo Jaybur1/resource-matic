@@ -27,15 +27,23 @@ module.exports = (db) => {
   // GET /user/login
   //    Renders the login page.
 
-  router.get("/login", (_req, res) => {
-    util.renderView(res, "login");
+  router.get("/login", (req, res) => {
+    if (req.session.userId) {
+      res.redirect("/home");
+    } else {
+      util.renderView(res, "login");
+    }
   });
 
   // GET /user/signup
   //    Renders the new user registration page.
 
-  router.get("/signup", (_req, res) => {
-    util.renderView(res, "signup");
+  router.get("/signup", (req, res) => {
+    if (req.session.userId) {
+      res.redirect("/home");
+    } else {
+      util.renderView(res, "signup");
+    }
   });
 
   // PUT /user/login
