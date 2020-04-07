@@ -1,3 +1,7 @@
+// profile-page.scss
+//
+// Profile page specific style.
+
 main {
   margin:              7rem auto 10rem;
   max-width:           50rem;
@@ -5,6 +9,11 @@ main {
   .column .segment {
     padding-top:         1.75rem !important;
     padding-bottom:      1.75rem !important;
+  }
+
+  .custom-avatar-container {
+    width:               100%;
+    text-align:          center;
   }
 
   #avatar {
@@ -15,6 +24,12 @@ main {
     border-radius:       5rem;
     background-position: center;
     background-size:     120%;
+  }
+
+  .custom-button-container {
+    display:             flex;
+    flex-flow:           row wrap;
+    justify-content:     space-between;
   }
 
   form button {
