@@ -100,10 +100,12 @@ const newResourceHendler = () => {
       objdata.thumbnail_photo = `https://api.faviconkit.com/${objdata.content}/144`;
 
       if (!objdata.categoryName) {
+
         newResourceCall(objdata);
         //hide on submition
         $(".ui.modal").modal("hide");
       } else {
+
         newCategoryCall({ name: objdata.categoryName }).then(data=> {
           objdata.categoryName = data.id;
           newResourceCall(objdata);
