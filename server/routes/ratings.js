@@ -26,11 +26,19 @@ module.exports = (db) => {
     } else if (!resourceId) {
       util.httpError("GET /rating failed:", "Resource ID not specified", res, 400);
     } else {
-      db.query("SELECT AVG(rating) FROM ratings WHERE resource_id = $1", [ resourceId ])
-        .then((queryRes) => {
-          res.status(200).json({ averageRating: queryRes.rows[0].avg });
+      db.query("SELECT rating FROM ratings WHERE user_id = $1 AND resource_id = $2", [ userId, resourceId ])
+        .then((ratingQueryRes) => {
+          db.query("SELECT AVG(rating) FROM ratings WHERE resource_id = $1", [ resourceId ])
+            .then((avgQueryRes) => {
+              res.status(200).json({
+                currentUserRating: (ratingQueryRes.rows.length === 1 ? ratingQueryRes.rows[0].rating : null),
+                averageRating:     avgQueryRes.rows[0].avg
+              });
+            }).catch((err) => {
+              util.httpError("GET /rating SELECT failed:", err, res, 500);
+            });
         }).catch((err) => {
-          util.httpError("GET /rating SELECT failed:", err, res, 500);
+          util.httpError("GET /rating SELECT rating failed:", err, res, 500);
         });
     }
   });
