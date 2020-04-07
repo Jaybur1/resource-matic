@@ -367,10 +367,23 @@ const addResource = (resource, db) => {
     .catch((err) => console.error("addResource error:", err));
 };
 
-//handle delete resource
-const deleteResource = (resourceId,db) => {
-  //chack if this resource holds the last trace of the current category
-};
+// deleteResource deletes a resource
+//    INCOMPLETE
+
+// const deleteResource = (db, resourceId) => {
+//   // Check if this resource is the last reference to its category:
+//   db.query("SELECT category_id FROM resources WHERE resource_id = $1", [ resourceId ])
+//     .then((queryRes) => {
+//       db.query("SELECT COUNT(*) FROM resources WHERE category_id = $1", [ categoryId ])
+//       return queryRes.rows[0].category_id;
+//     })
+//     .then((categoryId) => {
+//       if (queryRes.rows[0].length) {
+//         db.query("DELETE FROM categories WHERE category_id = $1", [ categoryId ]))
+//       }
+//     })
+//     .catch((err) => err);
+// };
 
 //handling all categories
 const getCategories = (db) => {
@@ -379,7 +392,7 @@ const getCategories = (db) => {
     .query("SELECT * FROM categories")
     .then((res) => res.rows)
     .catch((err) => console.log("getAllCategories error:", err));
-  
+
 };
 
 //get category by name
@@ -388,7 +401,7 @@ const getCategoriesWithName = (name,db) => {
     .query("SELECT * FROM categories WHERE name = $1",[name])
     .then((res) => res.rows[0])
     .catch((err) => console.log("getCategoriesWithname error:", err));
-  
+
 };
 //handle create new category
 const addCategory = (name,db) => {
@@ -396,7 +409,7 @@ const addCategory = (name,db) => {
     .query("INSERT INTO categories (name) VALUES($1) RETURNING *",[name])
     .then((res) => res.rows[0])
     .catch((err) => console.log("addCategory error:", err));
-  
+
 };
 module.exports = {
   getUserWithEmail,
