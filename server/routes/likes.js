@@ -15,7 +15,8 @@ module.exports = (db) => {
   // Arguments:
   //    resourceId   Integer: Resource ID of the like to delete.
   // Returns: {
-  //   numLikes: <like_count>
+  //   likedByCurrentUser: <boolean>
+  //   numLikes:           <like_count>
   // }
 
   router.get("/", (req, res) => {

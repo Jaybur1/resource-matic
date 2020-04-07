@@ -15,7 +15,8 @@ module.exports = (db) => {
   // Arguments:
   //    resourceId   Integer: Resource ID of the average rating to retrieve.
   // Returns: {
-  //   averageRating: <average_rating>
+  //   currentUserRating: null|<integer>
+  //   averageRating:     <average_rating>
   // }
 
   router.get("/", (req, res) => {
@@ -67,6 +68,34 @@ module.exports = (db) => {
           res.status(200).end();
         }).catch((err) => {
           util.httpError("POST /rating INSERT failed:", err, res, 500);
+        });
+    }
+  });
+
+  // PUT /rating
+  //    Update a rating for a resource.
+  // Arguments:
+  //    resourceId   Integer: Resource ID to add a rating for.
+  //    rating       Integer: Rating value.
+  // Returns: {
+  //    Nothing.
+
+  router.put("/", (req, res) => {
+    const userId     = req.session.userId;
+    const resourceId = req.body.resourceId;
+    const rating     = req.body.rating;
+    if (!userId) {
+      util.httpError("PUT /rating failed:", "No session", res, 403);
+    } else if (!resourceId) {
+      util.httpError("PUT /rating failed:", "Resource ID not specified", res, 400);
+    } else if (!rating) {
+      util.httpError("PUT /rating failed:", "Rating not specified", res, 400);
+    } else {
+      db.query("UPDATE ratings SET rating = $1 WHERE user_id = $2 AND resource_id = $3", [ rating, userId, resourceId ])
+        .then((_queryRes) => {
+          res.status(200).end();
+        }).catch((err) => {
+          util.httpError("PUT /rating UPDATE failed:", err, res, 500);
         });
     }
   });
