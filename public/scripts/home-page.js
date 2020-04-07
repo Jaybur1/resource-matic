@@ -3,9 +3,9 @@
 // home page support.
 
 import retrieveFeedResources from "./home-page/feed/feed.js";
-import retrieveMyResources from "./home-page/myresources/myResources.js";
+import toggleResourceMenu from "./home-page/home-page-helpers/toggleRescourseMenu.js";
 
 $(document).ready(() => {
   retrieveFeedResources();
-  retrieveMyResources();
+  toggleResourceMenu();
 });

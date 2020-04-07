@@ -1,4 +1,3 @@
-import toggleResourceMenu from "../home-page-helpers/toggleRescourseMenu.js";
 import { groupComments } from "../feed/feed.js";
 import {
   getUserResources,
@@ -26,7 +25,7 @@ const createCards = (createdResources) => {
           <a
             target="_blank"
             id =${resource.id}
-            class="ui tiny inverted button pink open-resource-btn">
+            class="ui tiny inverted button open-resource-btn">
             Check Resource
             </a>
             </div>
@@ -51,14 +50,12 @@ const createCards = (createdResources) => {
 
 const handleData = (data, container) => {
   const resourceArr = groupComments(data);
-  console.log(resourceArr);
   if (resourceArr.length === 0) {
     $(`.${container}`).html(
       'No Resources yet ... <a class="ui create-new-resource">add</a>/comment/like/rate some to fill the sections</div>'
     );
   } else {
     $(`.${container}`).html(`${createCards(resourceArr)}`);
-    console.log(container, $(`.${container}`).html());
     $(".special.cards .image").dimmer({
       on: "hover",
     });
@@ -76,16 +73,16 @@ const renderTabs = () => {
   <div class="item tab rate-tab" data-tab="four"><i class="star icon"></i>Rated</div>
 </div>
 <div class="ui bottom attached tab segment active" data-tab="one">
-  <div class="user-resources ui special four doubling cards custom-resources">No Resources yet ... <a class="ui create-new-resource">add</a> some to fill this section</div>
+  <div class="user-resources ui special four doubling cards custom-resources custom-padding">No Resources yet ... <a class="ui create-new-resource">add</a> some to fill this section</div>
 </div>
 <div class="ui bottom attached tab segment" data-tab="two">
-  <div class="liked-resources ui special four doubling cards custom-resources">No Resources yet ... like some to fill this section</div>
+  <div class="liked-resources ui special four doubling cards custom-resources custom-padding">No Resources yet ... like some to fill this section</div>
 </div>
 <div class="ui bottom attached tab segment" data-tab="three">
-  <div class="commented-resources ui special four doubling cards custom-resources">No Resources yet ... comment some to fill this section</div>
+  <div class="commented-resources ui special four doubling cards custom-resources custom-padding">No Resources yet ... comment some to fill this section</div>
 </div>
 <div class="ui bottom attached tab segment" data-tab="four">
-  <div class="rated-resources ui special four doubling cards custom-resources">No Resources yet ... rate some to fill this section</div>
+  <div class="rated-resources ui special four doubling cards custom-resources custom-padding">No Resources yet ... rate some to fill this section</div>
 </div>
 </div>
 `;
@@ -93,25 +90,22 @@ const renderTabs = () => {
 };
 
 const retrieveMyResources = () => {
-  $(".my-resources-link").on("click", function () {
-    $("#home-page").html(renderTabs);
-    $(".tabular.menu .item").tab();
-    toggleResourceMenu(this);
-    getUserResources().then((data) => {
-      handleData(data, "user-resources");
-    });
+  $("#home-page").html(renderTabs);
+  $(".tabular.menu .item").tab();
+  getUserResources().then((data) => {
+    handleData(data, "user-resources");
+  });
 
-    getResourcesUserLiked().then((data) => {
-      handleData(data, "liked-resources");
-    });
+  getResourcesUserLiked().then((data) => {
+    handleData(data, "liked-resources");
+  });
 
-    getResourcesUserCommented().then((data) => {
-      handleData(data, "commented-resources");
-    });
+  getResourcesUserCommented().then((data) => {
+    handleData(data, "commented-resources");
+  });
 
-    getResourcesUserRated().then((data) => {
-      handleData(data, "rated-resources");
-    });
+  getResourcesUserRated().then((data) => {
+    handleData(data, "rated-resources");
   });
 };
 
