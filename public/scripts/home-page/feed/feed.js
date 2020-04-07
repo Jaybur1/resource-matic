@@ -5,7 +5,7 @@ const retrieveFeedResources = () => {
   // AJAX GET request
   $.ajax({method: "GET",
     url: "/resources",
-    data: {likes: true, comments: true, avgRatings: true, users: true, sorts: {byOldest: true}}
+    data: {likes: true, comments: true, avgRatings: true, users: true, sorts: {byLatest: true}}
   })
     .then((resp) => {
     // On request success call render function
