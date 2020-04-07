@@ -1,6 +1,9 @@
 // new-reasource.js
 //
 // new-resource support.
+const capitalize = (str) => {
+  return str[0].toUpperCase() + str.substr(1).toLowerCase();
+}
 
 const getCategories = (name = undefined) => {
   return $.ajax({
@@ -29,7 +32,7 @@ const updateCategoryList = () => {
     .then((data) => {
       let categoryList = "";
       data.forEach((obj) => {
-        categoryList += `<option class='item' value=${obj.id}>${obj.name}</option>`;
+        categoryList += `<option class='item' value=${obj.id}>${capitalize(obj.name)}</option>`;
       });
       return categoryList;
     })

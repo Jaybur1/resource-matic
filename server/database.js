@@ -379,6 +379,11 @@ const addResource = (resource, db) => {
     .catch((err) => console.error("addResource error:", err));
 };
 
+//handle delete resource
+const deleteResource = (resourceId,db) => {
+  //chack if this resource holds the last trace of the current category
+}
+
 //handling all categories
 const getCategories = (db) => {
 

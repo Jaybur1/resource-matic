@@ -18,7 +18,7 @@ module.exports = (db) => {
   });
 
   router.post("/", (_req, res) => {
-    const categoryName = _req.body.name
+    const categoryName = _req.body.name.toLowerCase();
     database.getCategoriesWithName(categoryName,db).then(data => {
       if(!data){
         database.addCategory(categoryName,db).then(data => res.send(data))
