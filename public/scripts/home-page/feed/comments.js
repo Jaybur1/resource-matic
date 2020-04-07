@@ -11,6 +11,12 @@ export const createCommentsHTML = (comments) => {
   return commentsHTML;
 };
 
+export const showMoreComments = () => {
+  $(".custom-view-previous").on("click", function() {
+    console.log($(this).nextAll(".custom-comment-hidden"));
+  });
+};
+
 const createFourCommentsHTML = (comments) => {
 
   const sortedComments = comments.sort(function(x, y) {
@@ -19,19 +25,18 @@ const createFourCommentsHTML = (comments) => {
 
   let fourCommentsHTML = "";
 
-  // console.log();
-
-  for (let i = 0; i < 3 && i < comments.length; i++) {
-    fourCommentsHTML += singleCommentHTML(sortedComments[i]);
-  }
-
+  sortedComments.forEach((comment, index) => {
+    index > sortedComments.length - 4
+      ? fourCommentsHTML += singleCommentHTML(comment)
+      : fourCommentsHTML += singleCommentHTML(comment, true);
+  });
 
   return fourCommentsHTML || "";
 };
 
-const singleCommentHTML = (comment) => {
+const singleCommentHTML = (comment, hidden) => {
   const commentHTML = `
-  <div class="comment">
+  <div class="comment ${hidden ? "custom-comment-hidden" : ""}">
     <div class="avatar">
       <img src="${comment.avatar}">
     </div>

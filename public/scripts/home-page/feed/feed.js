@@ -1,4 +1,5 @@
 import feedCardCreator from "./feed-card.js";
+import { showMoreComments } from "./comments.js";
 
 // Function that retrieves most feed resources and calls create feed function
 const retrieveFeedResources = () => {
@@ -10,6 +11,9 @@ const retrieveFeedResources = () => {
     .then((resp) => {
     // On request success call render function
       feedRenderer(resp);
+
+      // Event listener for view more comments
+      showMoreComments();
     });
 };
 
