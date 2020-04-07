@@ -92,9 +92,10 @@ module.exports = (db) => {
     } else if (!content) {
       util.httpError("POST /comment failed:", "Content not specified", res, 400);
     } else {
-      db.query("INSERT INTO comments (user_id, resource_id, body) VALUES ($1, $2, $3)", [ userId, resourceId, content ])
-        .then((_queryRes) => {
-          res.status(200).end();
+      db.query("INSERT INTO comments (user_id, resource_id, body) " +
+               "VALUES ($1, $2, $3) RETURNING *", [ userId, resourceId, content ])
+        .then((queryRes) => {
+          res.json({ newCommentId: queryRes.rows[0].id });
         }).catch((err) => {
           util.httpError("POST /comment INSERT failed:", err, res, 500);
         });
