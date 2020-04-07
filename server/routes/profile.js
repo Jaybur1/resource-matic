@@ -43,7 +43,8 @@ module.exports = (db) => {
       const user = req.body;
       // Save stuff that doesn't require a password:
       if (!user.password) {
-        database.updateUser(db, [ user.name, user.avatar, req.session.userId ]
+        user.userId = req.session.userId;
+        database.updateUser(db, user
         ).then(function(_updateRes) {
           res.redirect(303, "/home");
         }).catch(function(err) {

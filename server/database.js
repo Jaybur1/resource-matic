@@ -54,9 +54,10 @@ const deleteUser = (db, userID) => {
 //    in the database given a user ID.
 
 const updateUser = (db, user) => {
+  const queryParams = [ user.name, user.avatar, user.userId ];
   return db
     .query("UPDATE users " +
-           "SET name = $1, avatar = $2 WHERE id = $3 RETURNING *", user)
+           "SET name = $1, avatar = $2 WHERE id = $3 RETURNING *", queryParams)
     .then((res) => res.rows[0])
     .catch((err) => console.error("updateUser error:", err));
 };
