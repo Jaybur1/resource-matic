@@ -1,10 +1,12 @@
+import { createCommentsHTML } from "./comments.js";
+
 const feedCardCreator = (resource) => {
   console.log(resource);
   const  cardHTML = `
   <article class="ui fluid card" >
   <div class="content">
     <div class="right floated meta">${$.timeago(resource.created)}</div>
-    <img class="ui avatar image" src="${resource.user_avatar}"> &nbsp ${resource.users}
+    <img class="ui avatar image" src="${resource.poster_avatar}"> &nbsp ${resource.poster}
   </div>
   <div class=" content custom-resource-area"> 
     <a class="custom-image-link" href="${resource.content}" target="_blank">
@@ -22,9 +24,9 @@ const feedCardCreator = (resource) => {
       ${resource.likes || null}
     </span>
     <i class="comment icon"></i>
-   ${resource.likes ? `${resource.likes} comments` : null} 
+   ${resource.comments ? `${resource.comments.length} ${resource.comments.length === 1 ? `comment` : `comments` }` : null} 
   </div>
-  
+  ${resource.comments.length > 0 ? createCommentsHTML(resource.comments) : ""}
   <div class="extra content">
     <div class="ui large transparent left icon input">
       <i class="comment outline icon"></i>
@@ -37,56 +39,4 @@ const feedCardCreator = (resource) => {
   return cardHTML;
 };
 
-
-
-
 export default feedCardCreator;
-
-
-{/* <div class="content">
-    <div class="ui content comments">
-      <div class="custom-view-previous">View previous comments</div>
-      <div class="comment">
-        <div class="avatar">
-          <img src="<%= user.avatar %>">
-        </div>
-        <div class="content">
-          <span class="author">Matt</span>
-          <div class="metadata">
-            <span class="date">Today at 5:42PM</span>
-          </div>
-          <div class="text">
-            How artistic!
-          </div>
-        </div>
-      </div>
-      <div class="comment">
-        <div class="avatar">
-          <img src="<%= user.avatar %>">
-        </div>
-        <div class="content">
-          <span class="author">Elliot Fu</span>
-          <div class="metadata">
-            <span class="date">Yesterday at 12:30AM</span>
-          </div>
-          <div class="text">
-            <p>This has been very useful for my research. Thanks as well!</p>
-          </div>
-        </div>
-      </div>
-      <div class="comment">
-        <div class="avatar">
-          <img src="<%= user.avatar %>">
-        </div>
-        <div class="content">
-          <span class="author">Joe Henderson</span>
-          <div class="metadata">
-            <span class="date">5 days ago</span>
-          </div>
-          <div class="text">
-            Dude, this is awesome. Thanks so much
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> */}

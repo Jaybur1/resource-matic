@@ -41,21 +41,37 @@ const groupComments = (unGroupedResources) => {
 
     groupedResources.forEach(currentResource => {
       if (currentResource.id === resource.id) {
-        currentResource.comments.push({comment: resource.comment, timestamp: resource.comment_created_at});
+        currentResource.comments.push({
+          message: resource.comment,
+          timestamp: resource.comment_created_at,
+          name: resource.commenter,
+          avatar: resource.commenter_avatar
+        });
         detected = true;
       }
     });
 
     if (!detected) {
+      let commentsArray = [];
+      
+
+      if (resource.comment) {
+        commentsArray = [ {
+          message: resource.comment,
+          timestamp: resource.comment_created_at,
+          name: resource.commenter,
+          avatar: resource.commenter_avatar
+        }];
+      }
+
       groupedResources.push({
         ...resource,
-        comments: [
-          {comment: resource.comment, timestamp: resource.comment_created_at}
-        ]
+        comments: commentsArray
       });
     }
   });
 
+  console.log(groupedResources);
   return groupedResources;
 };
 
