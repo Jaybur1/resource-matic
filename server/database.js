@@ -121,7 +121,7 @@ const getResources = (db, options) => {
   let queryString = `SELECT resources.*`;
 
   // Comments are requested
-  options.comments ? queryString += `, comments.body AS comments, comments.created as comment_created_at` : null;
+  options.comments ? queryString += `, comments.body AS comment, comments.created as comment_created_at` : null;
 
   // Likes are requested
   options.likes ? queryString += `, count(likes) AS likes` : null;
@@ -130,7 +130,7 @@ const getResources = (db, options) => {
   options.avgRatings ? queryString += `, avg(ratings.rating) AS avg_ratings` : null;
 
   // Users or current user are requested
-  options.users || options.currentUser ? queryString += `, users.name AS users` : null;
+  options.users || options.currentUser ? queryString += `, users.name AS users, users.avatar AS user_avatar` : null;
 
   // Categories are requested
   options.categories ? queryString += `, categories.name AS categories` : null;
@@ -234,7 +234,7 @@ const getResources = (db, options) => {
   // Users or current user are requested
   if (options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
     alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY resources.id, `;
-    queryString += `users.name `;
+    queryString += `users.name, users.avatar `;
     alreadyGrouped = true;
   }
   // ?

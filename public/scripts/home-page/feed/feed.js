@@ -5,7 +5,7 @@ const retrieveFeedResources = () => {
   // AJAX GET request
   $.ajax({method: "GET",
     url: "/resources",
-    data: {likes: true, comments: true, avgRatings: true, sorts: {byOldest: true}}
+    data: {likes: true, comments: true, avgRatings: true, users: true, sorts: {byOldest: true}}
   })
     .then((resp) => {
     // On request success call render function
@@ -23,12 +23,40 @@ const feedRenderer = (resources) => {
 
 // Function that creates feed html
 const feedCreator = (resources) => {
+
   const feedHTML = `
   <div class="custom-feed">
-    ${resources.map(resource => feedCardCreator(resource)).join(" ")}
+    ${groupComments(resources).map(resource => feedCardCreator(resource)).join(" ")}
   </div>`;
 
   return feedHTML;
+};
+
+// Function the groups comments by resource
+const groupComments = (unGroupedResources) => {
+  let groupedResources = [];
+
+  unGroupedResources.forEach(resource => {
+    let detected = false;
+
+    groupedResources.forEach(currentResource => {
+      if (currentResource.id === resource.id) {
+        currentResource.comments.push({comment: resource.comment, timestamp: resource.comment_created_at});
+        detected = true;
+      }
+    });
+
+    if (!detected) {
+      groupedResources.push({
+        ...resource,
+        comments: [
+          {comment: resource.comment, timestamp: resource.comment_created_at}
+        ]
+      });
+    }
+  });
+
+  return groupedResources;
 };
 
 export default retrieveFeedResources;
