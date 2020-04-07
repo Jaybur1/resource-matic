@@ -2,15 +2,11 @@
 //
 // user authentication support.
 
+import { capitalize } from "./new-resource.js";
+
 const handleError = (data) => {
-  console.log(data);
-  $("body").toast({
-    class: "error",
-    title: "Error",
-    message: data.err,
-    showProgress: "bottom",
-    showIcon: "fire",
-  });
+  $(".error-message").html(data.err);
+  $(".error-message").slideDown("fast");
 };
 
 const logOut = () => {
@@ -59,7 +55,7 @@ const userAuth = () => {
   $(".login-form").on("submit", (e) => {
     e.preventDefault();
     logIn({
-      email: $(".login-email").val(),
+      email: $(".login-email").val().toLowerCase(),
       password: $(".login-password").val(),
     });
   });
@@ -72,8 +68,8 @@ const userAuth = () => {
   $(".signup-form").on("submit", (e) => {
     e.preventDefault();
     signUp({
-      name: $(".signup-name").val(),
-      email: $(".signup-email").val(),
+      name: capitalize($(".signup-name").val()),
+      email: $(".signup-email").val().toLowerCase(),
       password: $(".signup-password").val(),
     });
   });
