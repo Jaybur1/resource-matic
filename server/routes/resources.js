@@ -9,24 +9,22 @@ const database = require("../database");
 
 
 const resourcesRoutes = (db) => {
-  // Handle request resources
-  router.get("/", (req, res) =>
-    database.getResources(db, req.query)
-      .then((queryRes) => res.json(queryRes))
-  );
 
-  //Handle create new resource
-  router.post("/", (req,res) => {
-    const user_id = req.session.userId
-    const data = {...req.body,user_id}
-    database.addResource(data,db).then(resource => {
-      res.send(resource)
-    })
-  })
+  // Handle request resources
+  router.get("/", (req, res) => {
+    database.getResources(db, req.query)
+      .then((queryRes) => res.json(queryRes));
+  });
+
+  // Handle create new resource
+  router.post("/", (req, res) => {
+    database.addResource({ userId: req.session.userId, ...req.body }, db)
+      .then(resource => res.send(resource));
+  });
 
   return router;
-};
 
+};
 
 
 
