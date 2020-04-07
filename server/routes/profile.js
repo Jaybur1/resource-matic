@@ -18,20 +18,20 @@ module.exports = (db) => {
   //    Render the user profile page.
 
   router.get("/", (req, res) => {
-    if (req.session.userId) {
+    if (!req.session.userId) {
+      res.redirect("/");
+    } else {
       database.getUserWithId(db, req.session.userId
       ).then((user) => {
-        if (user) {
-          util.renderView(res, "profile", { user });
-        } else {
+        if (!user) {
+          req.session = null;
           res.redirect("/");
+        } else {
+          util.renderView(res, "profile", { user });
         }
       }).catch((_err) => {
-        //console.log("getUserWithId failed:", err);
         res.redirect("/");
       });
-    } else {
-      res.redirect("/");
     }
   });
 
