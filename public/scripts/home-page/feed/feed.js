@@ -11,32 +11,34 @@ const retrieveFeedResources = () => {
     .then((resp) => {
     // On request success call render function
       feedRenderer(resp);
-
-      // Event listener for view more comments
-      showMoreComments(3);
-      
-      $.ajax({method: "GET",
-        url: "/likes",
-      })
-        .then(resp => console.log(resp));
-  
     });
 };
 
 // Function that renders feed to home page
-const feedRenderer = (resources) => {
+const feedRenderer = async(resources) => {
   // Clear main area of home page
   $("#home-page").empty();
   // Render feed
-  $("#home-page").append(feedCreator(resources));
+  $("#home-page").append(await feedCreator(resources));
+  // Event listener for view more comments
+  showMoreComments(3);
 };
 
 // Function that creates feed html
-const feedCreator = (resources) => {
+const feedCreator = async(resources) => {
+  // Group comments
+  const groupedResources = groupComments(resources);
+  const array = [];
+
+  // Create array of cards html
+  for (let i in groupedResources) {
+    array.push(await feedCardCreator(groupedResources[i]));
+  }
+
   // HTML for feed
   const feedHTML = `
   <div class="custom-feed">
-    ${groupComments(resources).map(resource => feedCardCreator(resource)).join(" ")}
+    ${array.join(" ")}
   </div>`;
 
   return feedHTML;
@@ -87,7 +89,6 @@ export const groupComments = (unGroupedResources) => {
     }
   });
 
-  console.log(groupedResources);
   return groupedResources;
 };
 
