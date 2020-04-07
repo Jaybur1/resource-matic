@@ -1,6 +1,7 @@
 import feedCardCreator from "./feed-card.js";
+import { showMoreComments } from "./comments.js";
 
-// Function that retrieves most feed resources and calls create feed function
+// Function that retrieves feed resources and calls create feed function and listeners
 const retrieveFeedResources = () => {
   // AJAX GET request
   $.ajax({method: "GET",
@@ -10,6 +11,9 @@ const retrieveFeedResources = () => {
     .then((resp) => {
     // On request success call render function
       feedRenderer(resp);
+
+      // Event listener for view more comments
+      showMoreComments(3);
     });
 };
 
@@ -23,7 +27,7 @@ const feedRenderer = (resources) => {
 
 // Function that creates feed html
 const feedCreator = (resources) => {
-
+  // HTML for feed
   const feedHTML = `
   <div class="custom-feed">
     ${groupComments(resources).map(resource => feedCardCreator(resource)).join(" ")}
@@ -33,14 +37,17 @@ const feedCreator = (resources) => {
 };
 
 // Function the groups comments by resource
-const groupComments = (unGroupedResources) => {
+export const groupComments = (unGroupedResources) => {
   let groupedResources = [];
 
+  // Loops through comments and checks if present in grouped comments, then combines comments for same resource
   unGroupedResources.forEach(resource => {
     let detected = false;
 
     groupedResources.forEach(currentResource => {
+      // Was found in grouped resources
       if (currentResource.id === resource.id) {
+        // Adds new comment to same resource
         currentResource.comments.push({
           message: resource.comment,
           timestamp: resource.comment_created_at,
@@ -51,11 +58,13 @@ const groupComments = (unGroupedResources) => {
       }
     });
 
+    // Was not found in grouped resources
     if (!detected) {
       let commentsArray = [];
       
-
+      // If there is a comment
       if (resource.comment) {
+        // Adds comment to array
         commentsArray = [ {
           message: resource.comment,
           timestamp: resource.comment_created_at,
@@ -64,6 +73,7 @@ const groupComments = (unGroupedResources) => {
         }];
       }
 
+      // Push to grouped resources
       groupedResources.push({
         ...resource,
         comments: commentsArray
@@ -75,3 +85,16 @@ const groupComments = (unGroupedResources) => {
 };
 
 export default retrieveFeedResources;
+
+// $.ajax({method: "GET",
+//     url: "/resources",
+//     data: {currentUser: true, comments: true, likes: true}
+//   })
+//     .then((resp) => {
+//     // On request success call render function
+//       feedRenderer(resp);
+
+//       // Event listener for view more comments
+//       showMoreComments(3);
+//     });
+// };

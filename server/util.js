@@ -17,6 +17,7 @@ process.env.production  = (process.env.ENV.substring(0, 4) === "prod");
 // renderView renders an EJS view with default template arguments added.
 
 const renderView = function(res, view, args) {
+  // Make sure information common to all views is present:
   if (!args) {
     args = {};
   }

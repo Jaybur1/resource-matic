@@ -13,12 +13,18 @@ module.exports = (db) => {
 
   router.get("/", (req, res) => {
     const userId = req.session.userId;
-    if (userId) {
-      database.getUserWithId(db, userId).then((user) => {
-        util.renderView(res, "home", { user });
-      });
-    } else {
+    if (!userId) {
       res.redirect("/");
+    } else {
+      database.getUserWithId(db, userId)
+        .then((user) => {
+          if (!user) {
+            req.session = null;
+            res.redirect("/");
+          } else {
+            util.renderView(res, "home", { user });
+          }
+        });
     }
   });
 
