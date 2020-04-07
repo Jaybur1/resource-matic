@@ -20,14 +20,14 @@ module.exports = (db) => {
 
   router.get("/", (req, res) => {
     const userId     = req.session.userId;
-    const resourceID = req.query.resourceID;
+    const resourceId = req.query.resourceId;
     if (!userId) {
       util.httpError("GET /like failed:", "No session", res, 403);
-    } else if (!resourceID) {
+    } else if (!resourceId) {
       util.httpError("GET /like failed:", "Resource ID not specified", res, 400);
     } else {
-      //db.query("SELECT COUNT(*) AS numLikes, emoji_id FROM likes WHERE resource_id = $1 GROUP BY emoji_id", [ resourceID ])
-      db.query("SELECT COUNT(*) FROM likes WHERE resource_id = $1", [ resourceID ])
+      //db.query("SELECT COUNT(*) AS numLikes, emoji_id FROM likes WHERE resource_id = $1 GROUP BY emoji_id", [ resourceId ])
+      db.query("SELECT COUNT(*) FROM likes WHERE resource_id = $1", [ resourceId ])
         .then((queryRes) => {
           res.status(200).json({ numLikes: queryRes.rows[0].count });
         }).catch((err) => {
@@ -45,13 +45,13 @@ module.exports = (db) => {
 
   router.post("/", (req, res) => {
     const userId     = req.session.userId;
-    const resourceID = req.body.resourceID;
+    const resourceId = req.body.resourceId;
     if (!userId) {
       util.httpError("GET /like failed:", "No session", res, 403);
-    } else if (!resourceID) {
+    } else if (!resourceId) {
       util.httpError("GET /like failed:", "Resource ID not specified", res, 400);
     } else {
-      db.query("INSERT INTO likes (user_id, resource_id) VALUES ($1, $2)", [ userId, resourceID ])
+      db.query("INSERT INTO likes (user_id, resource_id) VALUES ($1, $2)", [ userId, resourceId ])
         .then((_queryRes) => {
           res.status(200).end();
         }).catch((err) => {
@@ -69,13 +69,13 @@ module.exports = (db) => {
 
   router.delete("/", (req, res) => {
     const userId     = req.session.userId;
-    const resourceID = req.body.resourceID;
+    const resourceId = req.body.resourceId;
     if (!userId) {
       util.httpError("GET /like failed:", "No session", res, 403);
-    } else if (!resourceID) {
+    } else if (!resourceId) {
       util.httpError("GET /like failed:", "Resource ID not specified", res, 400);
     } else {
-      db.query("DELETE FROM likes WHERE user_id = $1 AND resource_id = $2", [ userId, resourceID ])
+      db.query("DELETE FROM likes WHERE user_id = $1 AND resource_id = $2", [ userId, resourceId ])
         .then((_queryRes) => {
           res.status(200).end();
         }).catch((err) => {
