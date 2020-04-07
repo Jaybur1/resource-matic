@@ -12,55 +12,75 @@ module.exports = (db) => {
 
   // GET /like
   //    Get likes for a resource.
+  // Arguments:
+  //    resourceId   Integer: Resource ID of the like to delete.
+  // Returns: {
+  //   numLikes: <like_count>
+  // }
 
   router.get("/", (req, res) => {
-    if (req.session.userId) {
-      const resourceID = req.query.resourceID;
-      if (resourceID) {
-        //db.query("SELECT COUNT(likes), emoji_id FROM likes WHERE resource_id = $1 GROUP BY emoji_id", [ req.body.resourceID ])
-        db.query("SELECT COUNT(*) FROM likes WHERE resource_id = $1", [ resourceID ])
-          .then((queryRes) => {
-            res.status(200).json(queryRes.rows[0]);
-          }).catch((err) => {
-            util.httpError("GET /like failed:", err, res, 500);
-          });
-      } else {
-        util.httpError("GET /like failed:", "Resource ID not specified", res, 400);
-      }
-    } else {
+    const userId     = req.session.userId;
+    const resourceID = req.query.resourceID;
+    if (!userId) {
       util.httpError("GET /like failed:", "No session", res, 403);
+    } else if (!resourceID) {
+      util.httpError("GET /like failed:", "Resource ID not specified", res, 400);
+    } else {
+      //db.query("SELECT COUNT(*) AS numLikes, emoji_id FROM likes WHERE resource_id = $1 GROUP BY emoji_id", [ resourceID ])
+      db.query("SELECT COUNT(*) FROM likes WHERE resource_id = $1", [ resourceID ])
+        .then((queryRes) => {
+          res.status(200).json({ numLikes: queryRes.rows[0].count });
+        }).catch((err) => {
+          util.httpError("GET /like SELECT failed:", err, res, 500);
+        });
     }
   });
 
   // POST /like
   //    Add a like to a resource.
+  // Arguments:
+  //    resourceId   Integer: Resource ID of the like to delete.
+  // Returns:
+  //    Nothing.
 
   router.post("/", (req, res) => {
-    if (req.session.userId) {
-      db.query("INSERT INTO likes (user_id, resource_id) VALUES ($1, $2)", [ req.session.userId, req.body.resourceID ])
+    const userId     = req.session.userId;
+    const resourceID = req.body.resourceID;
+    if (!userId) {
+      util.httpError("GET /like failed:", "No session", res, 403);
+    } else if (!resourceID) {
+      util.httpError("GET /like failed:", "Resource ID not specified", res, 400);
+    } else {
+      db.query("INSERT INTO likes (user_id, resource_id) VALUES ($1, $2)", [ userId, resourceID ])
         .then((_queryRes) => {
           res.status(200).end();
         }).catch((err) => {
-          util.httpError("POST /like failed:", err, res, 500);
+          util.httpError("POST /like INSERT failed:", err, res, 500);
         });
-    } else {
-      util.httpError("POST /like failed:", "No session", res, 403);
     }
   });
 
   // DELETE /like
   //    Remove a like from a resource.
+  // Arguments:
+  //    resourceId   Integer: Resource ID of the like to delete.
+  // Returns:
+  //    Nothing.
 
   router.delete("/", (req, res) => {
-    if (req.session.userId) {
-      db.query("DELETE FROM likes WHERE user_id = $1 AND resource_id = $2", [ req.session.userId, req.body.resourceID ])
+    const userId     = req.session.userId;
+    const resourceID = req.body.resourceID;
+    if (!userId) {
+      util.httpError("GET /like failed:", "No session", res, 403);
+    } else if (!resourceID) {
+      util.httpError("GET /like failed:", "Resource ID not specified", res, 400);
+    } else {
+      db.query("DELETE FROM likes WHERE user_id = $1 AND resource_id = $2", [ userId, resourceID ])
         .then((_queryRes) => {
           res.status(200).end();
         }).catch((err) => {
-          util.httpError("DELETE /like failed:", err, res, 500);
+          util.httpError("DELETE /like DELETE failed:", err, res, 500);
         });
-    } else {
-      util.httpError("DELETE /like failed:", "No session", res, 403);
     }
   });
 
