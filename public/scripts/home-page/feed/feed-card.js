@@ -5,7 +5,7 @@ const feedCardCreator = (resource) => {
   <article class="ui fluid card" >
   <div class="content">
     <div class="right floated meta">${$.timeago(resource.created)}</div>
-    <img class="ui avatar image" src="${resource.poster_avatar}"> &nbsp ${resource.poster}
+    <img class="ui avatar image" src="${resource.poster_avatar}"> &nbsp <span class="custom-poster-name">${resource.poster}</span>
   </div>
   <div class=" content custom-resource-area"> 
     <a class="custom-image-link" href="${resource.content}" target="_blank">
