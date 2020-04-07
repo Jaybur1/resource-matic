@@ -85,16 +85,3 @@ export const groupComments = (unGroupedResources) => {
 };
 
 export default retrieveFeedResources;
-
-// $.ajax({method: "GET",
-//     url: "/resources",
-//     data: {currentUser: true, comments: true, likes: true}
-//   })
-//     .then((resp) => {
-//     // On request success call render function
-//       feedRenderer(resp);
-
-//       // Event listener for view more comments
-//       showMoreComments(3);
-//     });
-// };
