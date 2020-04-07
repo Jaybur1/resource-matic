@@ -40,3 +40,9 @@
     margin-left: 18em;
   }
 }
+
+.ui.tabular.menu .item{
+  &:hover {
+    cursor: pointer;
+  }
+}
