@@ -3,14 +3,8 @@
 // user authentication support.
 
 const handleError = (data) => {
-  console.log(data);
-  $("body").toast({
-    class: "error",
-    title: "Error",
-    message: data.err,
-    showProgress: "bottom",
-    showIcon: "fire",
-  });
+  $(".error-message").html(data.err);
+  $(".error-message").slideDown("fast");
 };
 
 const logOut = () => {

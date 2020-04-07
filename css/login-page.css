@@ -12,7 +12,7 @@
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(11, 144, 243, 0.05)), to(rgba(231, 34, 145, 0.05))), url("/assets/images/swirl.png");
   background: linear-gradient(rgba(11, 144, 243, 0.05), rgba(231, 34, 145, 0.05)), url("/assets/images/swirl.png");
   position: absolute;
-  top: 40%;
+  top: 45%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
