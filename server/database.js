@@ -21,11 +21,10 @@ const getUserWithId = (db, id) => {
 };
 
 const addUser = (db, user) => {
-  const userVals = Object.values(user); // name,email,password,avatar
   return db
     .query("INSERT INTO users " +
            "(name, email, password) " +
-           "VALUES ($1, $2, $3) RETURNING *", userVals)
+           "VALUES ($1, $2, $3) RETURNING *", [ user.name, user.email, user.password ])
     .then((res) => res.rows[0])
     .catch((err) => console.error("addUser error:", err));
 };
