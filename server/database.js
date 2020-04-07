@@ -132,7 +132,7 @@ const getResources = (db, options) => {
   let queryString = `SELECT resources.*`;
 
   // Comments are requested
-  options.comments ? queryString += `, comments.body AS comment, comments.created as comment_created_at` : null;
+  options.comments || options.filterByCommented ? queryString += `, comments.body AS comment, comments.created as comment_created_at, comments.id as comment_id` : null;
 
   // Likes are requested
   options.likes ? (queryString += `, count(l1) AS likes`) : null;
@@ -244,12 +244,12 @@ const getResources = (db, options) => {
 
   // Comments are requested
   if (
-    options.comments
+    options.comments || options.filterByCommented
   ) {
     alreadyGrouped
       ? (queryString += `, `)
       : (queryString += ` GROUP BY resources.id, `);
-    queryString += `comments.body, comments.created`;
+    queryString += `comments.body, comments.created, comments.id`;
     alreadyGrouped = true;
   }
 
