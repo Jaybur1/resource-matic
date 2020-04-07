@@ -11,7 +11,8 @@
 
   <body>
     <%- include("partials/_nav") %>
-
+    <div class="custom-login">
+    </div>
     <div class="ui middle aligned center aligned grid custom-login-box">
       <div class="column">
         <h2 class="ui header">
@@ -20,10 +21,10 @@
           </div>
         </h2>
         <form class="login-form ui large form">
-          <div class="ui stacked segment">
+          <div class="ui stacked segment background">
             <div class="field">
               <div class="ui left icon input">
-                <i class="user icon"></i>
+                <i class="envelope outline icon"></i>
                 <input
                   class="login-input login-email"
                   type="text"
@@ -53,10 +54,11 @@
             </button>
           </div>
         </form>
-        <div class="ui message">
+        <div class="ui custom-link">
           New to us? <a href="/users/signup">Sign Up</a>
         </div>
       </div>
     </div>
+    <%- include('partials/_footer.ejs') %> 
   </body>
 </html>
