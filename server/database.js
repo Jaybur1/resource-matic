@@ -353,12 +353,12 @@ const getResources = (db, options) => {
 
 //handle adding a new resource
 const addResource = (resource, db) => {
-  const resourceVals = Object.values(resource); //$1content,$2title,$3category_id, $4description,$5thumbnail_photo,$6user_id
+  const resourceVals = Object.values(resource); //$1user_id,$2content,$3title, $4category_id, $5description,$6thumbnail_photo
   console.log(resourceVals);
   return db
     .query(
       "INSERT INTO resources (user_id, category_id, title,description,content,thumbnail_photo) " +
-        "VALUES ($6,$3, $2, $4, $1, $5) RETURNING *",
+        "VALUES ($1,$4, $3, $5, $2, $6) RETURNING *",
       resourceVals
     )
     .then((res) => res.rows[0])
@@ -385,7 +385,7 @@ const getCategoriesWithName = (name,db) => {
   return db
     .query("SELECT * FROM categories WHERE name = $1",[name])
     .then((res) => res.rows[0])
-    .catch((err) => console.log("getAllCategories error:", err));
+    .catch((err) => console.log("getCategoriesWithname error:", err));
   
 };
 //handle create new category
@@ -393,7 +393,7 @@ const addCategory = (name,db) => {
   return db
     .query("INSERT INTO categories (name) VALUES($1) RETURNING *",[name])
     .then((res) => res.rows[0])
-    .catch((err) => console.log("getAllCategories error:", err));
+    .catch((err) => console.log("addCategory error:", err));
   
 };
 module.exports = {
