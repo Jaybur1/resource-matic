@@ -1,31 +1,49 @@
-const feedCardCreator = () => {
+const feedCardCreator = (resource) => {
+  console.log(resource);
   const  cardHTML = `
   <article class="ui fluid card" >
   <div class="content">
-    <div class="right floated meta">14h</div>
-    <img class="ui avatar image" src="<%= user.avatar %>"> &nbsp Elliot
+    <div class="right floated meta">${resource.created}</div>
+    <img class="ui avatar image" src="${resource.user_avatar}"> &nbsp ${resource.users}
   </div>
-  <div class=" content custom-resource-area">
-    <a class="custom-image-link" href="https://css-tricks.com/" target="_blank">
+  <div class=" content custom-resource-area"> 
+    <a class="custom-image-link" href="${resource.content}" target="_blank">
       <div class="custom-image-hover"></div>
-      <img class="custom-resource-image" src="https://i0.wp.com/css-tricks.com/wp-content/uploads/2019/06/akqRGyta_400x400.jpg?ssl=1">
+      <img class="custom-resource-image" src="${resource.thumbnail_photo}">
     </a>
     <div class="custom-resource-name">
-      <a href="https://css-tricks.com/" target="_blank">CSS Tricks</a>
-      <span class="custom-resource-description">
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur iure est corrupti saepe culpa at, distinctio eligendi nihil sit ut molestiae maxime id 
-      </span>
+      <a href="${resource.content}" target="_blank">${resource.title}</a>
+      <span class="custom-resource-description">${resource.description}</span>
     </div>
   </div>
   <div class="content">
     <span class="right floated">
       <i class="heart outline like icon"></i>
-      17 likes
+      ${resource.likes || null}
     </span>
     <i class="comment icon"></i>
-    3 comments
+   ${resource.likes ? `${resource.likes} comments` : null} 
   </div>
-  <div class="content">
+  
+  <div class="extra content">
+    <div class="ui large transparent left icon input">
+      <i class="comment outline icon"></i>
+      <input type="text" placeholder="Add comment...">
+    </div>
+  </div>
+  </article>
+`;
+
+  return cardHTML;
+};
+
+
+
+
+export default feedCardCreator;
+
+
+{/* <div class="content">
     <div class="ui content comments">
       <div class="custom-view-previous">View previous comments</div>
       <div class="comment">
@@ -71,17 +89,4 @@ const feedCardCreator = () => {
         </div>
       </div>
     </div>
-  </div>
-  <div class="extra content">
-    <div class="ui large transparent left icon input">
-      <i class="comment outline icon"></i>
-      <input type="text" placeholder="Add comment...">
-    </div>
-  </div>
-  </article>
-`;
-
-  return cardHTML;
-};
-
-export default feedCardCreator;
+  </div> */}
