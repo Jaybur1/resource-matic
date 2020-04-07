@@ -209,7 +209,7 @@ const getResources = (db, options) => {
   // Current user is requested
   if (options.currentUser) {
     queryParams.push(`${options.currentUser}`);
-    queryString += ` WHERE users.name = $${queryParams.length} `;
+    queryString += ` WHERE u1.id = $${queryParams.length} `;
     alreadyWhere = true;
   }
 
@@ -343,13 +343,15 @@ const getResources = (db, options) => {
   queryString += ` LIMIT $${queryParams.length};`;
   // ?
 
-  // console.log("____________", queryString);
+  console.log("____________", queryString);
 
   return db
     .query(queryString, queryParams)
     .then((res) => res.rows)
     .catch((err) => console.error("getResources error:", err));
 };
+
+// getResources(null, {currentUser: "Alice", filterByLiked: true, filterByRated: true, filterByCommented: true});
 
 //handle adding a new resource
 const addResource = (resource, db) => {
