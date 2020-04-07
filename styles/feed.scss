@@ -73,3 +73,8 @@
 .custom-feed .custom-poster-name {
   font-weight: 700 !important;
 }
+
+.custom-feed .custom-comment-hidden,
+.custom-feed .custom-previous-hidden {
+  display: none;
+}

@@ -1,9 +1,11 @@
+// Function that creates all comments HTML including initially hidden ones
 export const createCommentsHTML = (comments) => {
+  // Comments section html
   let commentsHTML = `
   <div class="content">
     <div class="ui content comments">
       ${comments.length > 3 ? `<div class="custom-view-previous">View previous comments</div>` : ""}
-      ${createFourCommentsHTML(comments)}
+      ${createThreeCommentsHTML(comments, 3)}
     </div>
   </div>
   `;
@@ -11,27 +13,51 @@ export const createCommentsHTML = (comments) => {
   return commentsHTML;
 };
 
-const createFourCommentsHTML = (comments) => {
+// Function that adds an event listener for clicking show previous comments and displays given number of comments
+export const showMoreComments = (numberOfComments) => {
+  // On click of show previous comments button
+  $(".custom-view-previous").on("click", function(e) {
 
+    // Select all elements in that post that have a hidden comment class
+    const parent = e.target.parentElement;
+    const hiddenElements = parent.querySelectorAll(".custom-comment-hidden");
+
+    // Remove hidden class for last three elements and hide show previous comments button when no more can be displayed
+    hiddenElements.forEach((el, index) => {
+      if (index >= hiddenElements.length - numberOfComments) {
+        el.classList.remove("custom-comment-hidden");
+      }
+
+      // Hide button conditional
+      hiddenElements.length <= numberOfComments ? e.target.classList.add("custom-previous-hidden") : null;
+    });
+  });
+};
+
+// Function the creates html for passed number of comments only
+const createThreeCommentsHTML = (comments, numberOfComments) => {
+
+  // Sort comments by date
   const sortedComments = comments.sort(function(x, y) {
     return new Date(x.timestamp) - new Date(y.timestamp);
   });
 
   let fourCommentsHTML = "";
 
-  // console.log();
-
-  for (let i = 0; i < 3 && i < comments.length; i++) {
-    fourCommentsHTML += singleCommentHTML(sortedComments[i]);
-  }
-
+  // Create html for each comment (have only last given number of comments visible)
+  sortedComments.forEach((comment, index) => {
+    index >= sortedComments.length - numberOfComments
+      ? fourCommentsHTML += singleCommentHTML(comment)
+      : fourCommentsHTML += singleCommentHTML(comment, true);
+  });
 
   return fourCommentsHTML || "";
 };
 
-const singleCommentHTML = (comment) => {
+// Function that creates single comment with hidden or not as input
+const singleCommentHTML = (comment, hidden) => {
   const commentHTML = `
-  <div class="comment">
+  <div class="comment ${hidden ? "custom-comment-hidden" : ""}">
     <div class="avatar">
       <img src="${comment.avatar}">
     </div>
