@@ -65,10 +65,11 @@ const updateUser = (db, user) => {
 //    in the database given a user ID.
 
 const updateUserWithCreds = (db, user) => {
+  const queryParams = [ user.email, user.pwHash, user.name, user.avatar, user.userId ];
   return db
     .query("UPDATE users " +
            "SET email = $1, password = $2, name = $3, avatar = $4 " +
-           "WHERE id = $5 RETURNING *", user)
+           "WHERE id = $5 RETURNING *", queryParams)
     .then((res) => res.rows[0])
     .catch((err) => console.error("updateUser error:", err));
 };

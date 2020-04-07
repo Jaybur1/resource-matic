@@ -55,7 +55,9 @@ module.exports = (db) => {
         ).then(function() {
           util.hashPassword(user.newPassword
           ).then(function(pwHash) {
-            database.updateUserWithCreds(db, [ user.email, pwHash, user.name, user.avatar, req.session.userId ]
+            user.userId = req.session.userId;
+            user.pwHash = pwHash;
+            database.updateUserWithCreds(db, user
             ).then(function(_updateRes) {
               res.status(200).end();
             }).catch(function(err) {
