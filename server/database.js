@@ -64,7 +64,7 @@ const validatePassword = (db, userID, password) => {
       .then((res) => bcrypt.compare(password, res.rows[0].password))
       // Do not use arrow function here or pwMatch will be undefined:
       //    I swear, I've had it with arrow functions......
-      .then(function (pwMatch) {
+      .then(function(pwMatch) {
         return pwMatch
           ? Promise.resolve()
           : Promise.reject("Password mismatch");
@@ -368,7 +368,7 @@ const getResources = (db, options) => {
 //handle adding a new resource
 const addResource = (resource, db) => {
   const resourceVals = Object.values(resource); //$1content,$2title,$3category_id, $4description,$5thumbnail_photo,$6user_id
-  console.log(resourceVals)
+  console.log(resourceVals);
   return db
     .query(
       "INSERT INTO resources (user_id, category_id, title,description,content,thumbnail_photo) " +
@@ -380,9 +380,9 @@ const addResource = (resource, db) => {
 };
 
 //handle delete resource
-const deleteResource = (resourceId,db) => {
-  //chack if this resource holds the last trace of the current category
-}
+// const deleteResource = (db, resourceId) => {
+//   // Check if this resource holds the last trace of the current category
+// };
 
 //handling all categories
 const getCategories = (db) => {
@@ -391,7 +391,7 @@ const getCategories = (db) => {
     .query("SELECT * FROM categories")
     .then((res) => res.rows)
     .catch((err) => console.log("getAllCategories error:", err));
-  
+
 };
 
 //get category by name
@@ -400,7 +400,7 @@ const getCategoriesWithName = (name,db) => {
     .query("SELECT * FROM categories WHERE name = $1",[name])
     .then((res) => res.rows[0])
     .catch((err) => console.log("getAllCategories error:", err));
-  
+
 };
 //handle create new category
 const addCategory = (name,db) => {
@@ -408,8 +408,11 @@ const addCategory = (name,db) => {
     .query("INSERT INTO categories (name) VALUES($1) RETURNING *",[name])
     .then((res) => res.rows[0])
     .catch((err) => console.log("getAllCategories error:", err));
-  
-}
+
+};
+
+
+
 module.exports = {
   getUserWithEmail,
   getUserWithId,
@@ -420,6 +423,7 @@ module.exports = {
   validatePassword,
   getResources,
   addResource,
+  // deleteResource,
   getCategories,
   getCategoriesWithName,
   addCategory
