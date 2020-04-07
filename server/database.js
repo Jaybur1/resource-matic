@@ -328,8 +328,10 @@ const getResources = (db, options) => {
   // ?
 
   // ? Limit section of query
-  queryParams.push(Number(options.limit) || 50);
-  queryString += ` LIMIT $${queryParams.length};`;
+  if (options.limit) {
+    queryParams.push(Number(options.limit));
+    queryString += ` LIMIT $${queryParams.length};`;
+  }
   // ?
 
   // console.log("____________", queryString);

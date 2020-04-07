@@ -14,6 +14,12 @@ const retrieveFeedResources = () => {
 
       // Event listener for view more comments
       showMoreComments(3);
+      
+      $.ajax({method: "GET",
+        url: "/likes",
+      })
+        .then(resp => console.log(resp));
+  
     });
 };
 
@@ -81,6 +87,7 @@ export const groupComments = (unGroupedResources) => {
     }
   });
 
+  console.log(groupedResources);
   return groupedResources;
 };
 
