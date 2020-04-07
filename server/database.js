@@ -174,6 +174,15 @@ const getResources = (db, options) => {
     : null;
 
   let alreadyFiltered = false;
+  
+  // Commented by user
+  if (options.filterByCommented) {
+    queryString += `JOIN comments ON comments.resource_id = resources.id `;
+    alreadyFiltered
+      ? null
+      : (queryString += `JOIN users ON users.id = comments.user_id `);
+    alreadyFiltered = true;
+  }
 
   // Liked by user
   if (options.filterByLiked) {
@@ -181,15 +190,6 @@ const getResources = (db, options) => {
     alreadyFiltered
       ? null
       : (queryString += `JOIN users ON users.id = likes.user_id `);
-    alreadyFiltered = true;
-  }
-
-  // Commented by user
-  if (options.filterByCommented) {
-    queryString += `JOIN comments ON comments.resource_id = resources.id `;
-    alreadyFiltered
-      ? null
-      : (queryString += `JOIN users ON users.id = comments.user_id `);
     alreadyFiltered = true;
   }
 
@@ -352,6 +352,7 @@ const getResources = (db, options) => {
 };
 
 // getResources(null, {currentUser: "Alice", filterByLiked: true, filterByRated: true, filterByCommented: true});
+getResources(null, {currentUser: 1, comments: true, likes: true, ratings: true, sorts:{bylatest: true}});
 
 //handle adding a new resource
 const addResource = (resource, db) => {
