@@ -98,7 +98,6 @@ const newResourceHendler = () => {
         objdata[obj.name] = obj.value;
       });
       objdata.thumbnail_photo = `https://api.faviconkit.com/${objdata.content}/144`;
-
       if (!objdata.categoryName) {
 
         newResourceCall(objdata);
