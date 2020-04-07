@@ -72,7 +72,7 @@ const updateUserWithCreds = (db, user) => {
            "SET email = $1, password = $2, name = $3, avatar = $4 " +
            "WHERE id = $5 RETURNING *", queryParams)
     .then((res) => res.rows[0])
-    .catch((err) => console.error("updateUser error:", err));
+    .catch((err) => console.error("updateUserWithCreds error:", err));
 };
 
 // validatePassword checks that a password matches the hash stored for a user.
