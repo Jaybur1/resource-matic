@@ -23,7 +23,6 @@ const createFourCommentsHTML = (comments) => {
 };
 
 const singleCommentHTML = (comment) => {
-  console.log(comment);
   const commentHTML = `
   <div class="comment">
     <div class="avatar">

@@ -1,7 +1,6 @@
 import { createCommentsHTML } from "./comments.js";
 
 const feedCardCreator = (resource) => {
-  console.log(resource);
   const  cardHTML = `
   <article class="ui fluid card" >
   <div class="content">

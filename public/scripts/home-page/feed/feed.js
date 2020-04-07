@@ -71,7 +71,6 @@ const groupComments = (unGroupedResources) => {
     }
   });
 
-  console.log(groupedResources);
   return groupedResources;
 };
 
