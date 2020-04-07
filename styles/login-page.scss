@@ -1,8 +1,8 @@
-@mixin center($property) {
-  position: relative;
-  top: $property;
-  left: $property;
-  transform: translate(-$property, -$property);
+@mixin center() {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 @mixin background() {
   background: linear-gradient(
@@ -23,8 +23,9 @@
 
 .custom-login-box {
   @include background();
-  @include center(50%);
-  max-width: 450px;
+  @include center();
+  width: 400px;
+  padding:50px;
   transition: 0.3s;
   h2 {
     div {
@@ -44,4 +45,13 @@
 footer {
   position: absolute;
   bottom: 0;
+}
+
+
+@media only screen and (max-width: 450px) {
+  .custom-login-box{
+    left:55%;
+    top:45%;
+    width:90vw;
+  }
 }
