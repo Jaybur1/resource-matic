@@ -12,8 +12,21 @@ export const createCommentsHTML = (comments) => {
 };
 
 export const showMoreComments = () => {
-  $(".custom-view-previous").on("click", function() {
-    console.log($(this).nextAll(".custom-comment-hidden"));
+  $(".custom-view-previous").on("click", function(e) {
+
+    const parent = e.target.parentElement;
+    const hiddenElements = parent.querySelectorAll(".custom-comment-hidden");
+
+    console.log(hiddenElements);
+    hiddenElements.forEach((el, index) => {
+
+
+      if (index > hiddenElements.length - 4) {
+        el.classList.remove("custom-comment-hidden");
+      }
+
+      hiddenElements.length < 4 ? e.target.classList.add("custom-previous-hidden") : null;
+    });
   });
 };
 
