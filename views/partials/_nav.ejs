@@ -13,46 +13,76 @@
       </div>
     </div>
     <div class="right menu item">
+
+      <!-- Handle create new resource -->
       <div
         class="item custom-add-resource-button custom-no-grey-bg-hover create-new-resource"
       >
         <span>Add Resource <i class="icon add"></i></span>
 
-        <!--     -------------------------------------------------------------------    -->
-
-        <div class="ui modal">
+        <div class="ui modal custom-modal">
+     
           <i class="close icon"></i>
           <form class="ui form new-resource-form">
+            <h3 class="item">Add resource</h3>
             <div class="fields">
               <div class="field">
                 <label>Resource URL</label>
-                <input class="resource-url" type="text" name="content" placeholder="Google, Twitter etc.">
+                <input
+                  class="resource-url"
+                  type="text"
+                  name="content"
+                  placeholder="ex: lighthouselabs.ca"
+                  required="required"
+                />
               </div>
-              <div class="field image content thumbnail-photo"> 
+              <div class="field image content thumbnail-photo"></div>
+              <div class="field">
+                <label>Resource Title</label>
+                <input
+                  class="title"
+                  type="text"
+                  name="title"
+                  placeholder="ex: Google, Twitter etc."
+                  required="required"
+                />
               </div>
             </div>
-            
-            <div class="field">
-              <label>Resource Title</label>
-              <input class="title" type="text" name="title" placeholder="Google, Twitter etc.">
-            </div>
+            <div class="fields">
+              <div class="field">
+                <label>Category</label>
+                <select class="category-menu" name="category_id">
+                </select>
+              </div>
+              <div class="field">
+                <label for="check-box" >New Category</label>
+                <div class="fields">
+                  <input id="check-box" class="field" type="checkbox">
+                  <input type="text" class="field other-category" placeholder="New category" name="categoryName" disabled>
+                </div>                
+              </div>
+              <div class="field">
 
+              </div>
+            </div>
             <div class="field">
               <label>Description</label>
-              <textarea class="resource-description" name="description" rows="2" maxlength="140"></textarea>
+              <textarea
+                class="resource-description"
+                name="description"
+                rows="2"
+                maxlength="140"
+              ></textarea>
             </div>
 
-            <!-- <div class="field">
-              <label>Category</label>
-              <input class="category" type="text" name="category" placeholder="Javascript, Testing, Coffee etc.">
-            </div> -->
             <div class="actions">
               <div class="ui button cancel-form">Cancel</div>
-              <button class="ui button" type="submit">Create</buttona>
+              <button class="ui button" type="submit">Create</button>
             </div>
           </form>
         </div>
-        <!-- ---------------------------------------------------------------------------- -->
+
+        <!-- handle profile manegment -->
       </div>
       <img
         class="custom-avatar ui browse item custom-no-close"
@@ -95,9 +125,9 @@
   </div>
   <div class="custom-mobile-nav inverted">
     <button class="item">
-      <i class="home active icon"></i>
+      <a href="/"><i class="home active icon"></i></a>
     </button>
-    <button class="item">
+    <button class="item create-new-resource">
       <i class="add icon"></i>
     </button>
     <button class="item">

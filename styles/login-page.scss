@@ -1,21 +1,57 @@
-@mixin center($property) {
-  position: relative;
-  top:$property;
-  left:$property;
-  transform: translate(-$property,-$property);
+@mixin center() {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+@mixin background() {
+  background: linear-gradient(
+      rgba($color: #0b90f3, $alpha: 0.05),
+      rgba($color: #e72291, $alpha: 0.05)
+    ),
+    url("/assets/images/swirl.png");
+}
+
+.custom-login {
+  position: fixed;
+  top: 3.7em;
+  height: calc(100vh - 3.7em);
+  width: 100vw;
+  @include background();
+  z-index: -1;
 }
 
 .custom-login-box {
-  @include center(50%);
-  max-width: 450px;
+  @include background();
+  @include center();
+  width: 400px;
+  padding:50px;
   transition: 0.3s;
-  h2{
-    div{
+  h2 {
+    div {
       color: var(--color_4);
     }
   }
 
-  &:hover{
-    box-shadow: 4px 7px 9px -5px rgba(230,172,230,1);
+  &:hover {
+    box-shadow: 4px 7px 9px -5px rgba(230, 172, 230, 1);
+  }
+}
+
+.custom-link {
+  margin-top: 20px;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+}
+
+
+@media only screen and (max-width: 450px) {
+  .custom-login-box{
+    left:55%;
+    top:45%;
+    width:90vw;
   }
 }

@@ -52,6 +52,7 @@ app.use("/home",      require("./routes/home")(db));
 app.use("/users",     require("./routes/users")(db));
 app.use("/profile",   require("./routes/profile")(db));
 app.use("/resources", require("./routes/resources")(db));
+app.use("/categories",require("./routes/categories")(db));
 app.use("/like",      require("./routes/likes")(db));
 app.use("/rating",    require("./routes/ratings")(db));
 app.use("/comment",   require("./routes/comments")(db));
