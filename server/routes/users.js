@@ -26,7 +26,6 @@ module.exports = (db) => {
 
   // GET /user/login
   //    Renders the login page.
-
   router.get("/login", (_req, res) => {
     util.renderView(res, "login");
   });
