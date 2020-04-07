@@ -13,19 +13,19 @@ const createCards = (createdResources,insertInto) => {
           <a
           href="http://${resource.content}"
             target="_blank"
-            class="ui large inverted button">
+            class="ui small inverted button">
             Check Resource
             </a>
             </div>
           </div>
           </div>
         <img
-          class="custom-padding"
+          class=""
           src="${resource.thumbnail_photo}"
         />
         </div>
       <div class="content custom-bk-grey">
-        <a href="http://${resource.content}" target="_blank" class="ui header small center aligned custom-hover-text-blue"
+        <a href="http://${resource.content}" target="_blank" class="ui sub header tiny center aligned custom-hover-text-blue"
           >${resource.title}</a>
       </div>
     </div>
@@ -59,7 +59,7 @@ const toggleTabs = () => {
 
 const renderTabs = () => {
   const html = `
-<div class="ui conteiner">
+<div class="ui conteine">
 <div class="ui top attached tabular menu">
   <div class="item tab active" data-tab="one"></a><i class="user tie icon"></i>Created</div>
   <div class="item tab" data-tab="two"><i class="heart icon"></i>Liked</div>
@@ -67,7 +67,7 @@ const renderTabs = () => {
   <div class="item tab" data-tab="four"><i class="star icon"></i>Rated</div>
 </div>
 <div class="ui bottom attached tab segment active" data-tab="one">
-  <div class="user-resources">No Resources yet ... <a class="ui create-new-resource">add</a> some to fill this section</div>
+  <div class="user-resources ui special four doubling cards custom-resources">No Resources yet ... <a class="ui create-new-resource">add</a> some to fill this section</div>
 </div>
 <div class="ui bottom attached tab segment" data-tab="two">
   <div class="liked-resurces">No Resources yet ... like some to fill this section</div>
@@ -87,7 +87,10 @@ getUserResources().then(data => {
   if(resourceArr.length === 0){
     $('.user-resources').html('No Resources yet ... <a class="ui create-new-resource">add</a> some to fill this section</div>')
   }
-  $('.user-resources').html(`<div class="ui special cards container ui equal width grid">${createCards(resourceArr)}</div>`)
+  $('.user-resources').html(`${createCards(resourceArr)}`)
+  $('.special.cards .image').dimmer({
+    on: 'hover'
+  });
 });
   return html;
 };
@@ -95,6 +98,7 @@ getUserResources().then(data => {
 const retrieveMyResources = () => {
   $(".my-resources-link").on("click", function () {
     $("#home-page").html(renderTabs);
+
     $(".tabular.menu .item").tab();
     toggleResourceMenu(this);
   });
