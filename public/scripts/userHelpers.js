@@ -2,6 +2,8 @@
 //
 // user authentication support.
 
+import { capitalize } from "./new-resource.js";
+
 const handleError = (data) => {
   $(".error-message").html(data.err);
   $(".error-message").slideDown("fast");
@@ -66,7 +68,7 @@ const userAuth = () => {
   $(".signup-form").on("submit", (e) => {
     e.preventDefault();
     signUp({
-      name: $(".signup-name").val(),
+      name: capitalize($(".signup-name").val()),
       email: $(".signup-email").val().toLowerCase(),
       password: $(".signup-password").val(),
     });
