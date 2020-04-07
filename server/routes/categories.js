@@ -12,9 +12,7 @@ module.exports = (db) => {
   // GET /categories
 
   router.get("/", (_req, res) => {
-    database.getCategories(db).then((data) => {
-      res.send(data);
-    });
+    database.getCategories(db).then((data) => res.send(data));
   });
 
   router.post("/", (_req, res) => {

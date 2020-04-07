@@ -381,7 +381,7 @@ const getCategories = (db) => {
   return db
     .query("SELECT * FROM categories")
     .then((res) => res.rows)
-    .catch((err) => console.log("getAllCategories error:", err));
+    .catch((err) => console.log("getCategories error:", err));
 };
 
 //get category by name
