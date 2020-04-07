@@ -18,7 +18,7 @@ const resourcesRoutes = (db) => {
 
   // Handle create new resource
   router.post("/", (req, res) => {
-    database.addResource({ userId: req.session.userId, ...req.body }, db)
+    database.addResource(db, { userId: req.session.userId, ...req.body })
       .then(resource => res.send(resource));
   });
 

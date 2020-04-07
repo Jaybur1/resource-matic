@@ -356,13 +356,16 @@ const getResources = (db, options) => {
 };
 
 //handle adding a new resource
-const addResource = (resource, db) => {
-  const resourceVals = Object.values(resource); //$1content,$2title,$3category_id, $4description,$5thumbnail_photo,$6user_id
-  console.log(resourceVals);
+const addResource = (db, resource) => {
+  const queryParams = [
+    resource.userId, resource.category_id,
+    resource.title, resource.description, resource.content,
+    resource.thumbnail_photo
+  ];
   return db
     .query("INSERT INTO resources " +
            "(user_id, category_id, title, description, content, thumbnail_photo) " +
-           "VALUES ($6, $3, $2, $4, $1, $5) RETURNING *", resourceVals)
+           "VALUES ($1, $2, $3, $4, $5, $6) RETURNING *", queryParams)
     .then((res) => res.rows[0])
     .catch((err) => console.error("addResource error:", err));
 };
