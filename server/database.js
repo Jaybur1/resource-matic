@@ -385,11 +385,11 @@ const getCategories = (db) => {
 };
 
 //get category by name
-const getCategoriesWithName = (name,db) => {
+const getCategoriesWithName = (db, name) => {
   return db
     .query("SELECT * FROM categories WHERE name = $1", [ name ])
     .then((res) => res.rows[0])
-    .catch((err) => console.log("getAllCategories error:", err));
+    .catch((err) => console.log("getCategoriesWithName error:", err));
 };
 
 //handle create new category
