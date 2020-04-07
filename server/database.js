@@ -130,7 +130,7 @@ const getResources = (db, options) => {
   options.avgRatings ? queryString += `, avg(ratings.rating) AS avg_ratings` : null;
 
   // Users or current user are requested
-  options.users || options.currentUser ? queryString += `, users.name AS users, users.avatar AS user_avatar` : null;
+  options.users || options.currentUser ? queryString += `, u1.name AS poster, u1.avatar AS poster_avatar, u2.name AS commenter, u2.avatar AS commenter_avatar` : null;
 
   // Categories are requested
   options.categories ? queryString += `, categories.name AS categories` : null;
@@ -151,7 +151,7 @@ const getResources = (db, options) => {
   options.avgRatings || options.ratings ? queryString += `LEFT JOIN ratings ON ratings.resource_id = resources.id ` : null;
 
   // Users or current user are requested
-  options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated ? queryString += `JOIN users ON resources.user_id = users.id ` : null;
+  options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated ? queryString += `JOIN users u1 ON resources.user_id = u1.id LEFT JOIN users u2 ON comments.user_id = u2.id ` : null;
 
   // Categories are requested
   options.categories ? queryString += `JOIN categories ON resources.category_id = categories.id ` : null;
@@ -234,7 +234,7 @@ const getResources = (db, options) => {
   // Users or current user are requested
   if (options.users || options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
     alreadyGrouped ? queryString += `, ` : queryString += ` GROUP BY resources.id, `;
-    queryString += `users.name, users.avatar `;
+    queryString += `u1.name, u1.avatar, u2.name, u2.avatar `;
     alreadyGrouped = true;
   }
   // ?

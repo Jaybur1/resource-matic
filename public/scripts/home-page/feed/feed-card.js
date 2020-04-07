@@ -3,7 +3,7 @@ const feedCardCreator = (resource) => {
   const  cardHTML = `
   <article class="ui fluid card" >
   <div class="content">
-    <div class="right floated meta">${resource.created}</div>
+    <div class="right floated meta">${$.timeago(resource.created)}</div>
     <img class="ui avatar image" src="${resource.user_avatar}"> &nbsp ${resource.users}
   </div>
   <div class=" content custom-resource-area"> 
