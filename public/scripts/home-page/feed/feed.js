@@ -1,5 +1,6 @@
 import feedCardCreator from "./feed-card.js";
 import { showMoreComments } from "./comments.js";
+import { likeOnClick } from "./like.js";
 
 // Function that retrieves feed resources and calls create feed function and listeners
 const retrieveFeedResources = () => {
@@ -22,6 +23,8 @@ const feedRenderer = async(resources) => {
   $("#home-page").append(await feedCreator(resources));
   // Event listener for view more comments
   showMoreComments(3);
+  // Event listener for like click
+  likeOnClick();
 };
 
 // Function that creates feed html

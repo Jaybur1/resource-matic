@@ -79,3 +79,13 @@
 .custom-feed .custom-resource-id {
   display: none;
 }
+
+.custom-feed .custom-like {
+  color: #ff2733;
+  opacity: 1 !important;
+}
+
+.custom-feed .custom-like-count {
+  padding-left: 5px;
+  width: 12px;
+}

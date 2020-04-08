@@ -1,21 +1,11 @@
 import { createCommentsHTML } from "./comments.js";
-
-// Function that sends an AJAX request to find if user has like current resource
-const checkIfLiked = (id) => {
-  // AJAX request
-  return $.ajax({method: "GET",
-    url: "/like",
-    data: {resourceId: id}
-  })
-    .then(resp => resp.likedByCurrentUser);
-};
+import { checkIfLiked } from "./like.js";
 
 // Function that creates single cards for feed
 const feedCardCreator = async(resource) => {
   // Card html
   const  cardHTML = `
     <article class="ui fluid card" >
-    <span class="custom-resource-id">${resource.id}</span>
     <div class="content">
       <div class="right floated meta">${$.timeago(resource.created)}</div>
       <img class="ui avatar image" src="${resource.poster_avatar}"> &nbsp <span class="custom-poster-name">${resource.poster}</span>
@@ -31,9 +21,12 @@ const feedCardCreator = async(resource) => {
       </div>
     </div>
     <div class="content">
-      <span class="right floated">
-        <i class="heart ${await checkIfLiked(resource.id) ? "" : "outline"} like icon"></i>
+      <span class="custom-resource-id">${resource.id}</span>
+      <span class="right floated custom-like-count">
         ${resource.likes || null}
+      </span>
+      <span class="right floated">
+        <i class="heart ${await checkIfLiked(resource.id) ? "" : "outline"} custom-like like icon"></i>
       </span>
       <i class="comment icon"></i>
      ${resource.comments ? `${resource.comments.length} ${resource.comments.length === 1 ? `comment` : `comments` }` : null} 
