@@ -79,3 +79,12 @@
   padding-top: 0 !important;
   margin-left: 0.5em !important;
 }
+
+.custom-modal-grey {
+  background-color: rgba(45, 45, 45, 1) !important;
+  // background-color: rgba($color: #0b90f3, $alpha: 0.3) !important;
+}
+
+.tab.segment.active {
+  transition: background-color 0.4s;
+}

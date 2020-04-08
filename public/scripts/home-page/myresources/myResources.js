@@ -25,8 +25,20 @@ const handleClickedResource = () => {
     $(`.resourceId-${id}`).addClass('custom-card-show');
     // Hide selected small card
     $(`.small-card${id}`).addClass('custom-small-card-hidden');
-    //  !
 
+    // Change appearance of tab
+    $(".tab.segment.active").addClass("custom-modal-grey");
+    //  !
+  });
+
+  $(".tab.segment.active").on("click", function(e) {
+
+    if (e.target.classList.contains("user-resources") || e.target === e.currentTarget) {
+      // Show all small cards
+      $(`.custom-small-card-hidden`).removeClass('custom-small-card-hidden');
+      // Hide all big cards
+      $(`.custom-card-show`).addClass('custom-card-hidden');
+    }
   });
 };
 
