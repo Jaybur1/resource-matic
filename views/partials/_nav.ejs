@@ -8,20 +8,18 @@
     <% if (user) { %>
     <div class="item custom-search-bar">
       <div class="ui large icon input">
-        <input type="text" placeholder="Search resources..." />
-        <i class="search icon"></i>
+        <input type="text" placeholder="Search resources" />
+        <i class="search icon link"></i>
       </div>
     </div>
     <div class="right menu item">
 
       <!-- Handle create new resource -->
-      <div
-        class="item custom-add-resource-button custom-no-grey-bg-hover create-new-resource"
-      >
+      <div class="item custom-add-resource-button custom-no-grey-bg-hover create-new-resource">
         <span>Add Resource <i class="icon add"></i></span>
 
         <div class="ui modal custom-modal">
-     
+
           <i class="close icon"></i>
           <form class="ui form new-resource-form">
             <h3 class="item">Add resource</h3>
@@ -55,11 +53,11 @@
                 </select>
               </div>
               <div class="field">
-                <label for="check-box" >New Category</label>
+                <label for="check-box">New Category</label>
                 <div class="fields">
                   <input id="check-box" class="field" type="checkbox">
                   <input type="text" class="field other-category" placeholder="New category" name="categoryName" disabled>
-                </div>                
+                </div>
               </div>
               <div class="field">
 

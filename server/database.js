@@ -340,7 +340,10 @@ const getResources = (db, options) => {
 
   return db
     .query(queryString, queryParams)
-    .then((res) => res.rows)
+    .then((res) => {
+      delete res.rows.user_id;
+      return res.rows;
+    })
     .catch((err) => console.error("getResources error:", err));
 };
 
@@ -356,6 +359,24 @@ const addResource = (resource, db) => {
     )
     .then((res) => res.rows[0])
     .catch((err) => console.error("addResource error:", err));
+};
+
+// searchResources searches all resources for the specified text in various places.
+
+const searchResources = (db, searchText) => {
+  return db
+    .query("SELECT resources.*, AVG(rating) AS avg_ratings FROM resources " +
+           "LEFT JOIN ratings ON ratings.resource_id = resources.id " +
+           //"JOIN comments ON comments.resource_id = resources.id " +
+           "WHERE resources.title LIKE $1 OR " +
+                 "resources.description LIKE $1 OR " +
+                 "resources.content LIKE $1 " +
+           "GROUP BY resources.id", [ `%${searchText}%` ])
+    .then((res) => {
+      delete res.rows.user_id;
+      return res.rows;
+    })
+    .catch((err) => console.log("searchResources error:", err));
 };
 
 // deleteResource deletes a resource
@@ -412,6 +433,7 @@ module.exports = {
   validatePassword,
   getResources,
   addResource,
+  searchResources,
   getCategories,
   getCategoriesWithName,
   addCategory
