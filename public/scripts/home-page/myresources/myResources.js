@@ -11,7 +11,7 @@ import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
 
 const handleClickedResource = () => {
-  $(".open-resource-btn").on("click", function () {
+  $(".open-resource-btn").on("click", function() {
     const id = $(this).attr("id");
 
     $(`.resourceId-${id}`).removeClass('custom-card-hidden');
@@ -27,7 +27,7 @@ const handleClickedResource = () => {
 //   for (let resource of createdResources) {
 //     feedCardCreator(resource)
 //       .then((data) => {
-//         createdResourcesHTML.push(` 
+//         createdResourcesHTML.push(`
 //       <div class="ui card four wide column show">
 //       <div class="blurring dimmable image custom-bk-white">
 //         <div class="ui dimmer">
@@ -67,7 +67,7 @@ export const createCards = async(createdResources) => {
 
     const bigCard = await feedCardCreator(resource);
     createdResourcesHTML.push(` 
-      <div class="ui card four wide column custom-width-fit small-card${resource.id}">
+      <div class="ui card custom-width-fit small-card${resource.id}">
       <div class="blurring dimmable image custom-bk-white">
         <div class="ui dimmer">
           <div class="content">
@@ -100,7 +100,7 @@ export const createCards = async(createdResources) => {
   return createdResourcesHTML;
 };
 
-const handleData = async (data, container) => {
+const handleData = async(data, container) => {
   const resourceArr = groupComments(data);
   if (resourceArr.length === 0) {
     $(`.${container}`).html(
@@ -108,19 +108,19 @@ const handleData = async (data, container) => {
     );
   } else {
    
-      $(`.${container}`).html(await createCards(resourceArr));
-      $(".special.cards .image").dimmer({
-        on: "hover",
-      });
-      handleClickedResource();
+    $(`.${container}`).html(await createCards(resourceArr));
+    $(".special.cards .image").dimmer({
+      on: "hover",
+    });
+    handleClickedResource();
     // Event listener for view more comments
-  showMoreComments(3);
-  // Event listener for new comment
-  newComment();
-  // Event listener for like click
-  likeInteractions();
-  // Event listener for like rating
-  ratingInteractions();
+    showMoreComments(3);
+    // Event listener for new comment
+    newComment();
+    // Event listener for like click
+    likeInteractions();
+    // Event listener for like rating
+    ratingInteractions();
   }
 };
 
@@ -134,12 +134,12 @@ const renderTabs = () => {
   <div class="item tab rate-tab" data-tab="four"><i class="star icon"></i>Rated</div>
 </div>
 <div class="ui bottom attached tab segment active" data-tab="one">
-  <div class="user-resources ui special four doubling cards custom-resources custom-padding custom-grid-resources">
+  <div class="user-resources ui special cards custom-resources custom-grid-resources">
   No Resources yet ... <a class="ui create-new-resource">add</a> some to fill this section
   </div>
 </div>
 <div class="ui bottom attached tab segment" data-tab="two">
-  <div class="liked-resources ui special four doubling cards custom-resources custom-padding">No Resources yet ... like some to fill this section</div>
+  <div class="liked-resources ui special four doubling cards custom-resources">No Resources yet ... like some to fill this section</div>
 </div>
 <div class="ui bottom attached tab segment" data-tab="three">
   <div class="commented-resources ui special four doubling cards custom-resources custom-padding">No Resources yet ... comment some to fill this section</div>

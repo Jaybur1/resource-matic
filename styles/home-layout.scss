@@ -52,11 +52,13 @@
   padding: 1em;
 }
 
-
 .custom-grid-resources {
   display: grid !important;
-  grid-template-columns: 1fr 1fr 1fr;
+  // grid-template-columns: repeat(min);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+
   grid-gap: 2em;
+  padding: 2.5em;
 }
 
 .custom-card-hidden {
