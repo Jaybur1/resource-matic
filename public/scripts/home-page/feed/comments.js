@@ -87,8 +87,8 @@ export const newComment = () => {
     if (e.key === "Enter") {
       const message = $(this).val();
       const resourceId = Number($(this).prev().html());
-      const name = $(".custom-user").html();
-      const avatar = $(".custom-user").prev().attr("src");
+      const name = $(".custom-user").text();
+      const avatar = $(".custom-user").find("img").attr("src");
       const commentsContainer = $(this).parent().parent().prev().find(".comments");
 
       // AJAX POST request
