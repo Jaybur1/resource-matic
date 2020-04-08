@@ -10,14 +10,13 @@ import { showMoreComments, newComment } from "../feed/comments.js";
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
 
-const handleClickedResource = () => {
+export const handleClickedResource = () => {
   $(".open-resource-btn").on("click", function () {
     const id = $(this).attr("id");
-
-    $(`.resourceId-${id}`).removeClass('custom-card-hidden');
-    $(`.resourceId-${id}`).addClass('custom-card-show');
-    $(`.small-card${id}`).addClass('custom-card-hiddn');
-
+    console.log(id)
+    $(`.resourceId-${id}`).removeClass("custom-card-hidden");
+    $(`.resourceId-${id}`).addClass("custom-card-show");
+    $(`.small-card${id}`).addClass("custom-card-hiddn");
   });
 };
 
@@ -27,7 +26,7 @@ const handleClickedResource = () => {
 //   for (let resource of createdResources) {
 //     feedCardCreator(resource)
 //       .then((data) => {
-//         createdResourcesHTML.push(` 
+//         createdResourcesHTML.push(`
 //       <div class="ui card four wide column show">
 //       <div class="blurring dimmable image custom-bk-white">
 //         <div class="ui dimmer">
@@ -59,12 +58,11 @@ const handleClickedResource = () => {
 //   }
 // };
 
-export const createCards = async(createdResources) => {
+export const createCards = async (createdResources) => {
   // Create html content for each resource
   const createdResourcesHTML = [];
-  
-  for (let resource of createdResources) {
 
+  for (let resource of createdResources) {
     const bigCard = await feedCardCreator(resource);
     createdResourcesHTML.push(` 
       <div class="ui card four wide column custom-width-fit small-card${resource.id}">
@@ -107,20 +105,19 @@ const handleData = async (data, container) => {
       'No Resources yet ... <a class="ui create-new-resource">add</a>/comment/like/rate some to fill the sections</div>'
     );
   } else {
-   
-      $(`.${container}`).html(await createCards(resourceArr));
-      $(".special.cards .image").dimmer({
-        on: "hover",
-      });
-      handleClickedResource();
+    $(`.${container}`).html(await createCards(resourceArr));
+    $(".special.cards .image").dimmer({
+      on: "hover",
+    });
+    handleClickedResource();
     // Event listener for view more comments
-  showMoreComments(3);
-  // Event listener for new comment
-  newComment();
-  // Event listener for like click
-  likeInteractions();
-  // Event listener for like rating
-  ratingInteractions();
+    showMoreComments(3);
+    // Event listener for new comment
+    newComment();
+    // Event listener for like click
+    likeInteractions();
+    // Event listener for like rating
+    ratingInteractions();
   }
 };
 
