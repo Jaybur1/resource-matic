@@ -19,7 +19,7 @@ export const ratingInteractions = () => {
 
     const currentRating = Number($(this).attr("data-rating"));
     const selectedRating = Number($(this).closest(".ui.rating").rating('get rating'));
-    const resourceId = Number($(this).parent().prev().html());
+    const resourceId = Number($(this).prev().prev().html());
 
     // If not set rating
     if (currentRating === 0 && selectedRating > 0) {
@@ -32,13 +32,13 @@ export const ratingInteractions = () => {
         }
       })
         .then(() => {
-          console.log("post");
+          // console.log("post");
 
           // Set rating attribute
           $(this).attr("data-rating", selectedRating);
 
           // Update average rating
-          updateAvgRating(resourceId);
+          updateAvgRating(resourceId, $(this));
         });
     // If rating selected is equal to current rating delete it
     } else if (currentRating === selectedRating) {
@@ -51,14 +51,14 @@ export const ratingInteractions = () => {
         }
       })
         .then(() => {
-          console.log("delete");
+          // console.log("delete");
 
           // Set rating attribute to zero
           $(this).closest(".ui.rating").rating('set rating', 0);
           $(this).attr("data-rating", 0);
 
           // Update average rating
-          updateAvgRating(resourceId);
+          updateAvgRating(resourceId, $(this));
         });
     // If rating is already set
     } else if (currentRating > 0) {
@@ -71,26 +71,34 @@ export const ratingInteractions = () => {
         }
       })
         .then(() => {
-          console.log("put");
+          // console.log("put");
 
           // Update rating attribute
           $(this).attr("data-rating", selectedRating);
 
           // Update average rating
-          updateAvgRating(resourceId);
+          updateAvgRating(resourceId, $(this));
         });
     }
   });
 };
 
 // Function that updates average rating
-const updateAvgRating = (id) => {
+const updateAvgRating = (id, $post) => {
 // AJAX request
   $.ajax({method: "GET",
     url: "/rating",
     data: {resourceId: id}
   })
     .then(resp => {
-      console.log(resp.averageRating);
+
+      // Text for average to be rendered
+      const updateText = !resp.averageRating ? "Not rated yet" : `Avg.&nbsp; ${Number(resp.averageRating).toFixed(1)}`;
+
+      // Styling for case average is present or not
+      !resp.averageRating ? $post.prev().addClass("not-rated").removeClass("rated") : $post.prev().removeClass("not-rated").addClass("rated");
+      
+      // Update text
+      $post.prev().html(updateText);
     });
 };

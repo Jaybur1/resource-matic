@@ -23,12 +23,17 @@ const feedCardCreator = async(resource) => {
       </div>
       <div class=" custom-rating">
       <span> 
+
       <span class="custom-resource-id">${resource.id}</span>
+  
       <span class="custom-avg-rating ${Number(resource.avg_ratings).toFixed(1) > 0 ? "rated" : "not-rated"}"> 
-      ${Number(resource.avg_ratings).toFixed(1) > 0 ? `Avg.&nbsp ${Number(resource.avg_ratings).toFixed(1)}` : "Not rated yet"}<span/>
+      ${Number(resource.avg_ratings).toFixed(1) > 0 ? `Avg.&nbsp ${Number(resource.avg_ratings).toFixed(1)}` : "Not rated yet"}</span>
+      
       &nbsp&nbsp<div class="ui yellow rating" data-rating="${await checkIfRated(resource.id) || 0}" data-max-rating="5">
       s</div>
-      <span/>
+  
+  
+    </span>
       </div>
     </div>
     <div class="content">
