@@ -92,3 +92,18 @@
 .custom-popular-padding{
   padding-right: 2em !important;
 }
+
+.custom-delete {
+  position:relative !important;
+  top:-60px !important;
+  right:-75px !important;
+  transition: 0.3;
+  &:hover{
+    cursor: pointer;
+    color:red;
+  }
+}
+
+.custom-delete-message {
+  text-align: center;
+}

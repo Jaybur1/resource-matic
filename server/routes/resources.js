@@ -38,6 +38,10 @@ const resourcesRoutes = (db) => {
         cardData: results
       })));
 
+  router.delete('/', (req,res) => {
+    res.send("good")
+  })
+
   return router;
 
 };

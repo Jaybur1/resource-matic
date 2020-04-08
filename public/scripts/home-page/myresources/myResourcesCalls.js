@@ -69,11 +69,12 @@ export const getUserResources = () => {
   });
 };
 
-// // Resources user has created
-// {currentUser: true, comments: true, likes: true, avgRatings: true, sorts:{ bylatest: true }}
-// // Resources user has commented
-// {currentUser: true, filterByCommented: true, likes: true, avgRatings: true}
-// // Resources user has rated
-// {currentUser: true, filterByRated: true, comments: true, likes: true, avgRatings: true}
-// // Resources user has liked
-// {currentUser: true, filterByLiked: true, comments: true, likes: true, avgRatings: true}
+export const getCurrentUser = () => {
+  return $.ajax({
+    method: "get",
+    url: "/users/curr",
+    success: (data, _status, _xhr) => {
+      return data;
+    },
+  });
+}
