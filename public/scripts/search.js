@@ -25,7 +25,6 @@ export const resources = (searchText) => {
       }
     }).then((data, _status, _xhr) => {
       console.log("GET /resources/searchwtf");
-      console.log(data);
       //renderSearchResults($("main section#home-page"), data);
       myResources.createCards(feed.groupComments(data))
         .then((cardsHtml) => {
