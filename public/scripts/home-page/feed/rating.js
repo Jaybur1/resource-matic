@@ -5,9 +5,6 @@ export const checkIfRated = (id) => {
     url: "/rating",
     data: {resourceId: id}
   })
-    .then(resp => {
-      console.log(resp);
-      return resp.currentUserRating
-      ;
-    });
+    .then(resp => resp.currentUserRating
+    );
 };
