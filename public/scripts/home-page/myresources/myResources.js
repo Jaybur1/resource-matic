@@ -5,62 +5,123 @@ import {
   getResourcesUserCommented,
   getResourcesUserRated,
 } from "./myResourcesCalls.js";
+import feedCardCreator from "../feed/feed-card.js";
+import { showMoreComments, newComment } from "../feed/comments.js";
+import { likeInteractions } from "../feed/like.js";
+import { ratingInteractions } from "../feed/rating.js";
 
 const handleClickedResource = () => {
-  $(".open-resource-btn").on("click", function() {
-    console.log(`<= resurce id#${$(this).attr("id")} has been clicked => `);
+  $(".open-resource-btn").on("click", function () {
+    const id = $(this).attr("id");
+
+    $(`.resourceId-${id}`).removeClass('custom-card-hidden');
+    $(`.resourceId-${id}`).addClass('custom-card-show');
+    $(`.small-card${id}`).addClass('custom-card-hiddn');
+
   });
 };
 
-const createCards = (createdResources) => {
+// const createCards = (createdResources) => {
+//   // Create html content for each resource
+//   const createdResourcesHTML = [];
+//   for (let resource of createdResources) {
+//     feedCardCreator(resource)
+//       .then((data) => {
+//         createdResourcesHTML.push(` 
+//       <div class="ui card four wide column show">
+//       <div class="blurring dimmable image custom-bk-white">
+//         <div class="ui dimmer">
+//           <div class="content">
+//             <div class="center">
+//             <a
+//               target="_blank"
+//               id =${resource.id}
+//               class="ui small inverted button open-resource-btn">
+//               Check Resource
+//               </a>
+//               </div>
+//             </div>
+//             </div>
+//           <img
+//             class="custom-image-padding"
+//             src="${resource.thumbnail_photo}"
+//           />
+//           </div>
+//         <div class="content custom-bk-grey">
+//           <a href="${resource.content}" target="_blank" class="ui sub header medium center aligned custom-hover-text-blue"
+//             >${resource.title}</a>
+//         </div>
+//       </div>
+//       <div class="ui modal resourceID-${resource.id}">
+//       </div>
+//     `);
+//       })
+//   }
+// };
+
+export const createCards = async(createdResources) => {
   // Create html content for each resource
-  const createdResourcesHTML = createdResources
-    .map(
-      (resource) => ` 
-    <div class="ui card four wide column">
-    <div class="blurring dimmable image custom-bk-white">
-      <div class="ui dimmer">
-        <div class="content">
-          <div class="center">
-          <a
-            target="_blank"
-            id =${resource.id}
-            class="ui small inverted button open-resource-btn">
-            Check Resource
-            </a>
+  const createdResourcesHTML = [];
+  
+  for (let resource of createdResources) {
+
+    const bigCard = await feedCardCreator(resource);
+    createdResourcesHTML.push(` 
+      <div class="ui card four wide column custom-width-fit small-card${resource.id}">
+      <div class="blurring dimmable image custom-bk-white">
+        <div class="ui dimmer">
+          <div class="content">
+            <div class="center">
+            <a
+              target="_blank"
+              id =${resource.id}
+              class="ui small inverted button open-resource-btn">
+              Check Resource
+              </a>
+              </div>
             </div>
+            </div>
+          <img
+            class="custom-image-padding"
+            src="${resource.thumbnail_photo}"
+          />
           </div>
-          </div>
-        <img
-          class="custom-image-padding"
-          src="${resource.thumbnail_photo}"
-        />
+        <div class="content custom-bk-grey">
+          <a href="${resource.content}" target="_blank" class="ui sub header medium center aligned custom-hover-text-blue"
+            >${resource.title}</a>
         </div>
-      <div class="content custom-bk-grey">
-        <a href="${resource.content}" target="_blank" class="ui sub header medium center aligned custom-hover-text-blue"
-          >${resource.title}</a>
       </div>
-    </div>
-  `
-    )
-    .join(" ");
+      <div class="ui custom-card-hidden resourceId-${resource.id}">
+      ${bigCard}
+      </div>
+    `);
+  }
 
   return createdResourcesHTML;
 };
 
-const handleData = (data, container) => {
+const handleData = async (data, container) => {
   const resourceArr = groupComments(data);
   if (resourceArr.length === 0) {
     $(`.${container}`).html(
       'No Resources yet ... <a class="ui create-new-resource">add</a>/comment/like/rate some to fill the sections</div>'
     );
   } else {
-    $(`.${container}`).html(`${createCards(resourceArr)}`);
-    $(".special.cards .image").dimmer({
-      on: "hover",
-    });
+   
+      $(`.${container}`).html(await createCards(resourceArr));
+      $(".special.cards .image").dimmer({
+        on: "hover",
+      });
+      handleClickedResource();
+    // Event listener for view more comments
+  showMoreComments(3);
+  // Event listener for new comment
+  newComment();
+  // Event listener for like click
+  likeInteractions();
+  // Event listener for like rating
+  ratingInteractions();
   }
-  handleClickedResource();
 };
 
 const renderTabs = () => {
@@ -73,7 +134,9 @@ const renderTabs = () => {
   <div class="item tab rate-tab" data-tab="four"><i class="star icon"></i>Rated</div>
 </div>
 <div class="ui bottom attached tab segment active" data-tab="one">
-  <div class="user-resources ui special four doubling cards custom-resources custom-padding">No Resources yet ... <a class="ui create-new-resource">add</a> some to fill this section</div>
+  <div class="user-resources ui special four doubling cards custom-resources custom-padding custom-grid-resources">
+  No Resources yet ... <a class="ui create-new-resource">add</a> some to fill this section
+  </div>
 </div>
 <div class="ui bottom attached tab segment" data-tab="two">
   <div class="liked-resources ui special four doubling cards custom-resources custom-padding">No Resources yet ... like some to fill this section</div>
@@ -96,17 +159,17 @@ const retrieveMyResources = () => {
     handleData(data, "user-resources");
   });
 
-  getResourcesUserLiked().then((data) => {
-    handleData(data, "liked-resources");
-  });
+  // getResourcesUserLiked().then((data) => {
+  //   handleData(data, "liked-resources");
+  // });
 
-  getResourcesUserCommented().then((data) => {
-    handleData(data, "commented-resources");
-  });
+  // getResourcesUserCommented().then((data) => {
+  //   handleData(data, "commented-resources");
+  // });
 
-  getResourcesUserRated().then((data) => {
-    handleData(data, "rated-resources");
-  });
+  // getResourcesUserRated().then((data) => {
+  //   handleData(data, "rated-resources");
+  // });
 };
 
 export default retrieveMyResources;
