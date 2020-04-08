@@ -15,8 +15,11 @@ const resourcesRoutes = (db) => {
 
     if (req.query.currentUser) {
       const user_id = req.session.userId;
+      console.log(user_id);
       database.getResources(db, {...req.query, currentUser: Number(user_id)})
-        .then((queryRes) => res.json(queryRes));
+        .then((queryRes) => {
+          console.log(queryRes)
+          res.json(queryRes)});
     } else {
       database.getResources(db, req.query)
         .then((queryRes) => res.json(queryRes));

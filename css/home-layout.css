@@ -1,0 +1,46 @@
+.custom-home-page {
+  margin-top: 3.7em;
+  padding-top: 3em;
+  min-height: 100vh;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+.custom-home-page .custom-home-page-background {
+  position: fixed;
+  top: 3.7em;
+  height: calc(100vh - 3.7em);
+  width: 100vw;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(11, 144, 243, 0.05)), to(rgba(231, 34, 145, 0.05))), url("/assets/images/swirl.png");
+  background: linear-gradient(rgba(11, 144, 243, 0.05), rgba(231, 34, 145, 0.05)), url("/assets/images/swirl.png");
+}
+
+.custom-home-page .custom-right-menu {
+  position: fixed;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.custom-home-page .custom-right-menu .item {
+  font-weight: 500 !important;
+}
+
+.custom-home-page .custom-right-menu .custom-user {
+  padding-left: 0.5em;
+  line-height: 2em;
+}
+
+.custom-home-page .ui.vertical.menu .active.item {
+  background: var(--color_5);
+  color: white;
+}
+
+.custom-home-page .custom-main-container {
+  width: 60%;
+  margin-left: 18em;
+}
+
+.ui.tabular.menu .item:hover {
+  cursor: pointer;
+}
+/*# sourceMappingURL=home-layout.css.map */
