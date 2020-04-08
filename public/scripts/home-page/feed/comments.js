@@ -62,7 +62,6 @@ const singleCommentHTML = (comment, hidden) => {
       <img src="${comment.avatar}">
     </div>
     <div class="content">
-    <span class="custom-comment-id">${comment.id}</span>
     <span class="author">${comment.name}</span>
       <div class="metadata">
         <span class="date">${$.timeago(comment.timestamp)}</span>
@@ -76,6 +75,8 @@ const singleCommentHTML = (comment, hidden) => {
         <a class="reply custom-edit-comment">Edit</a>
         <a class="reply custom-delete-comment">Delete</a>
       </div>
+      <span class="custom-comment-id">${comment.id}</span>
+
         `
   ) : ""}
     </div>
@@ -160,13 +161,60 @@ export const updateCommentsWithOwned = async(comments, resourceId) => {
 export const editComment = () => {
   $(".custom-edit-comment").on("click", function() {
 
-    if ($(this).parent().prev().find(".custom-edit-input")) {
-      console.log("submit");
+    const commentId = Number($(this).parent().next().text());
+
+    // console.log($(this).parent().prev());
+
+    if ($(this).parent().prev().hasClass("custom-edit-input")) {
+
+      const inputEl = $(this).parent().prev();
+      const newMessage = inputEl.val().trim();
+
+      submitEditedComment(newMessage, commentId)
+        .then(() => {
+          inputEl.remove();
+
+          $(this).parent().prev().removeClass("custom-message-hidden");
+          $(this).parent().prev().text(newMessage);
+        });
+
     } else {
-      console.log("edit");
+
+      const messageEl = $(this).parent().prev();
+      const currentMessage = messageEl.text().trim();
+
+      messageEl.addClass("custom-message-hidden");
+
+      messageEl.after(`<textarea type="text" class="custom-edit-input">${currentMessage}</textarea>`);
+  
+      $(".custom-edit-input").on("keyup", function(e) {
+
+        const newMessage = $(this).val().trim();
+
+        if (e.keyCode === 13 && !e.shiftKey) {
+          submitEditedComment(newMessage, commentId)
+            .then(() => {
+              $(this).remove();
+              messageEl.removeClass("custom-message-hidden");
+              messageEl.text(newMessage);
+            });
+        }
+      });
+
     }
 
   });
 };
 
-// <textarea type="text" class="custom-edit-input"></textarea> // ? will use for edit */}
+
+const submitEditedComment = (message, commentId) => {
+  // AJAX PUT request
+  return $.ajax({method: "PUT",
+    url: "/comment",
+    data: {
+      commentId,
+      content: message
+    }
+  })
+    .then(resp => resp);
+};

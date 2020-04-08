@@ -79,6 +79,7 @@
 .custom-big-card .custom-comment-hidden,
 .custom-big-card .custom-previous-hidden,
 .custom-big-card .custom-resource-id,
+.custom-big-card .custom-message-hidden,
 .custom-big-card .custom-comment-id {
   display: none;
 }
@@ -119,8 +120,11 @@
 
 .custom-big-card .custom-edit-input {
   width: 100% !important;
-  margin-top: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
   padding: 0.5em;
+  padding-left: 1em;
+  line-height: 1.5em;
   background-color: var(--color_6);
   border-radius: 5px;
   border: none;
