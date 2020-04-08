@@ -86,17 +86,17 @@ As a user I want to [be able to] ...
 GET    /            Show main landing page
                     - redirect to /home if already logged in
 
-GET    /login       Show login page
+GET    user/login       Show login page
                     - redirect to /home if already logged in
-PUT    /login       Log in (create session)
+PUT    user/login       Log in (create session)
                     - redirect to /home if successful
 
-GET    /signup      Show new user registration page
+GET    user/signup      Show new user registration page
                     - redirect to /home if already logged in
-PUT    /signup      Create a new user account
+PUT    user/signup      Create a new user account
                     - redirect to /home if successful
 
-PUT    /logout      Log out (destroy session)
+PUT    user/logout      Log out (destroy session)
                     - redirect to /
 
 GET    /profile     Show user profile page
