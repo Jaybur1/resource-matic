@@ -23,79 +23,26 @@
                 <%= user.name %>
               </div>
             </a>
-            <a class="active item resource-links feed-link"><i class="stream icon"></i>Feed</a>
-            <a class="item resource-links browse-link"><i class="glasses icon"></i> Browse </a>
-            <a class="item resource-links popular-link"><i class="fire icon"></i> Popular </a>
-            <a class="item resource-links my-resources-link"><i class="user tie icon"></i> My Resources </a>
-            <a class="item resource-links favorites-link"><i class="star icon"></i> Favorites </a>
+            <a class="active item resource-links feed-link"
+              ><i class="stream icon"></i>Feed</a
+            >
+            <a class="item resource-links browse-link"
+              ><i class="glasses icon"></i> Browse
+            </a>
+            <a class="item resource-links popular-link"
+              ><i class="fire icon"></i> Popular
+            </a>
+            <a class="item resource-links my-resources-link"
+              ><i class="user tie icon"></i> My Resources
+            </a>
+            <a class="item resource-links favorites-link"
+              ><i class="star icon"></i> Favorites
+            </a>
             <!-- <a class="item resource-links"><i class="project diagram icon"></i> Categories </a> -->
           </div>
         </section>
-        <section class="custom-main-container" id="home-page">
-        </section>
+        <section class="custom-main-container" id="home-page"></section>
       </div>
     </main>
   </body>
 </html>
-
-<!-- <main style="width: 100%; max-width: 60rem; margin: 10rem auto 7rem;"> -->
-
-  <!-- <h1 style="width: 100%; margin-top: 7em; text-align: center;">
-    You're the best <%= user.name %> ever.
-  </h1> -->
-
-  <!-- <section style="padding: 1rem 2rem; background: #EEEEEE;">
-    <pre id="get-like"      >GET     /like    { resourceID: <input type="text" class="resource_id"> }</pre>
-    <pre id="post-like"     >POST    /like    { resourceID: <input type="text" class="resource_id"> }</pre>
-    <pre id="delete-like"   >DELETE  /like    { resourceID: <input type="text" class="resource_id"> }</pre>
-    <br>
-    <pre id="get-rating"    >GET     /rating  { resourceID: <input type="text" class="resource_id"> }</pre>
-    <pre id="post-rating"   >POST    /rating  { resourceID: <input type="text" class="resource_id">, rating: <input type="text" class="rating"> }</pre>
-    <pre id="delete-rating" >DELETE  /rating  { resourceID: <input type="text" class="resource_id"> }</pre>
-    <br>
-    <pre id="get-comment"   >GET     /comment { resourceID: <input type="text" class="resource_id"> }</pre>
-    <pre id="post-comment"  >POST    /comment { resourceID: <input type="text" class="resource_id">, content: <input type="text" class="content" value="Chickens."> }</pre>
-    <pre id="put-comment"   >PUT     /comment { resourceID: <input type="text" class="resource_id">, content: <input type="text" class="content" value="Kitties."> }</pre>
-    <pre id="delete-comment">DELETE  /comment { resourceID: <input type="text" class="resource_id"> }</pre>
-    <br>
-    <hr>
-    <div></div>
-  </section>
-
-  <style type="text/css">
-    main section pre:hover {
-      background: #EEFFEE;
-      cursor: pointer;
-    }
-    main section input {
-      width: 5rem;
-    }
-  </style>
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $("main section pre input").on("click", (_event) => false);
-      $("main section pre").on("click", function(event) {
-        idArray = $(this).attr("id").split("-");
-        const ajaxOptions = {
-          method: idArray[0].toUpperCase(),
-          url:    idArray[1],
-          data:   {
-            resourceID: $(this).find("input.resource_id").val(),
-            rating:     $(this).find("input.rating").val(),
-            content:    $(this).find("input.content").val(),
-          }
-        };
-        $.ajax(ajaxOptions).then((data, status, xhr) => {
-          console.log("success", { status, data, xhr });
-          $("main section div").prepend(`<pre>ajaxOptions: ${JSON.stringifyPretty(ajaxOptions)}</pre>` +
-                                        `<pre>status: ${status}</pre>` +
-                                        `<pre>data: ${JSON.stringifyPretty(data)}</pre>` +
-                                        `<pre>xhr: ${JSON.stringifyPretty(xhr)}</pre><hr>`);
-        }).catch((err) => {
-          console.log("error", err);
-          $("main section div").prepend(`<pre>${JSON.stringifyPretty(err)}</pre><hr>`);
-        });
-      });
-    });
-  </script> -->
