@@ -4,6 +4,10 @@
 
 const bcrypt = require("bcrypt");
 
+const c = require("./constants");
+
+
+
 const getUserWithEmail = (db, email) => {
   return db
     .query("SELECT * FROM users WHERE email = $1", [email])
@@ -19,13 +23,11 @@ const getUserWithId = (db, id) => {
 };
 
 const addUser = (db, user) => {
+  user.avatar = c.DEFAULT_AVATAR;
   const userVals = Object.values(user); // name,email,password,avatar
   return db
-    .query(
-      "INSERT INTO users (name, email, password) " +
-        "VALUES ($1, $2, $3) RETURNING *",
-      userVals
-    )
+    .query("INSERT INTO users (name, email, password, avatar) " +
+           "VALUES ($1, $2, $3, $4) RETURNING *", userVals)
     .then((res) => res.rows[0])
     .catch((err) => console.error("addUser error:", err));
 };
@@ -179,17 +181,17 @@ const getResources = (db, options) => {
   // Rated by user
   options.filterByRated ? queryString += `JOIN ratings r2 ON r2.resource_id = resources.id ` : null;
   // ?
-  
+
   // ? WHERE section of query
   let alreadyWhere = false;
-  
+
   // Current user is requested
   if (options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
     queryParams.push(`${options.currentUser}`);
     queryString += ` WHERE u1.id = $${queryParams.length} `;
     alreadyWhere = true;
   }
-  
+
   // Liked by user
   if (options.filterByLiked) {
     queryParams.push(`${options.currentUser}`);
@@ -197,7 +199,7 @@ const getResources = (db, options) => {
     queryString += ` l2.user_id = $${queryParams.length} `;
     alreadyWhere = true;
   }
-  
+
   // Rated by user
   if (options.filterByRated) {
     queryParams.push(`${options.currentUser}`);
@@ -205,7 +207,7 @@ const getResources = (db, options) => {
     queryString += ` ratings.user_id = $${queryParams.length} `;
     alreadyWhere = true;
   }
-  
+
   // Commented by user
   if (options.filterByCommented) {
     queryParams.push(`${options.currentUser}`);

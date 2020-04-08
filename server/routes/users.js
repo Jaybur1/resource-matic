@@ -71,7 +71,7 @@ module.exports = (db) => {
     res.send({ redirect: "/" });
   });
 
-  // POST /user/register
+  // POST /user
   //    Registers a new user.
 
   router.post("/", (req, res) => {

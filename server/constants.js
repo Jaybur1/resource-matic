@@ -24,6 +24,7 @@ module.exports = Object.freeze({
   // Salt rounds for bcrypt:
   SALT_ROUNDS:  10,
 
+  DEFAULT_AVATAR: "assets/images/user-default.png",
 });
 
 
