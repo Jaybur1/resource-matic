@@ -10,7 +10,7 @@ import { showMoreComments, newComment } from "../feed/comments.js";
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
 
-const handleClickedResource = () => {
+export const handleClickedResource = () => {
   $(".open-resource-btn").on("click", function() {
     const id = $(this).attr("id");
 
