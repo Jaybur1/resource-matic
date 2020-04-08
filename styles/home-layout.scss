@@ -36,13 +36,17 @@
   }
 
   .custom-main-container {
-    width: 60%;
+    width: 76%;
     margin-left: 18em;
   }
 }
 
-.ui.tabular.menu .item{
+.ui.tabular.menu .item {
   &:hover {
     cursor: pointer;
   }
+}
+
+.custom-image-padding {
+  padding: 1em;
 }

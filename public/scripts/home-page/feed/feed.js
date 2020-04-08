@@ -1,5 +1,7 @@
 import feedCardCreator from "./feed-card.js";
-import { showMoreComments } from "./comments.js";
+import { showMoreComments, newComment } from "./comments.js";
+import { likeInteractions } from "./like.js";
+import { ratingInteractions } from "./rating.js";
 
 // Function that retrieves feed resources and calls create feed function and listeners
 const retrieveFeedResources = () => {
@@ -11,26 +13,40 @@ const retrieveFeedResources = () => {
     .then((resp) => {
     // On request success call render function
       feedRenderer(resp);
-
-      // Event listener for view more comments
-      showMoreComments(3);
     });
 };
 
 // Function that renders feed to home page
-const feedRenderer = (resources) => {
+const feedRenderer = async(resources) => {
   // Clear main area of home page
   $("#home-page").empty();
   // Render feed
-  $("#home-page").append(feedCreator(resources));
+  $("#home-page").append(await feedCreator(resources));
+  // Event listener for view more comments
+  showMoreComments(3);
+  // Event listener for new comment
+  newComment();
+  // Event listener for like click
+  likeInteractions();
+  // Event listener for like rating
+  ratingInteractions();
 };
 
 // Function that creates feed html
-const feedCreator = (resources) => {
+const feedCreator = async(resources) => {
+  // Group comments
+  const groupedResources = groupComments(resources);
+  const array = [];
+
+  // Create array of cards html
+  for (let i in groupedResources) {
+    array.push(await feedCardCreator(groupedResources[i]));
+  }
+
   // HTML for feed
   const feedHTML = `
   <div class="custom-feed">
-    ${groupComments(resources).map(resource => feedCardCreator(resource)).join(" ")}
+    ${array.join(" ")}
   </div>`;
 
   return feedHTML;
@@ -66,6 +82,7 @@ export const groupComments = (unGroupedResources) => {
       if (resource.comment) {
         // Adds comment to array
         commentsArray = [ {
+          id: resource.comment_id,
           message: resource.comment,
           timestamp: resource.comment_created_at,
           name: resource.commenter,

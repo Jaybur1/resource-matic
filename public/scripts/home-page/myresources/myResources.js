@@ -7,7 +7,7 @@ import {
 } from "./myResourcesCalls.js";
 
 const handleClickedResource = () => {
-  $(".open-resource-btn").on("click", function () {
+  $(".open-resource-btn").on("click", function() {
     console.log(`<= resurce id#${$(this).attr("id")} has been clicked => `);
   });
 };
@@ -25,19 +25,19 @@ const createCards = (createdResources) => {
           <a
             target="_blank"
             id =${resource.id}
-            class="ui tiny inverted button open-resource-btn">
+            class="ui small inverted button open-resource-btn">
             Check Resource
             </a>
             </div>
           </div>
           </div>
         <img
-          class=""
+          class="custom-image-padding"
           src="${resource.thumbnail_photo}"
         />
         </div>
       <div class="content custom-bk-grey">
-        <a href="http://${resource.content}" target="_blank" class="ui sub header tiny center aligned custom-hover-text-blue"
+        <a href="${resource.content}" target="_blank" class="ui sub header medium center aligned custom-hover-text-blue"
           >${resource.title}</a>
       </div>
     </div>
