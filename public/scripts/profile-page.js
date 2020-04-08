@@ -2,7 +2,6 @@
 //
 // Profile page support.
 
-const ERROR_BORDER = ".1em dashed red";
 const ANIMATION_DURATION = 150;
 
 
@@ -19,7 +18,7 @@ const validateEmailFormat = function(email) {
 };
 
 const toggleErrorBorder = ($element, showErrorBorder) => {
-  $element.css("border", (showErrorBorder ? ERROR_BORDER : ""));
+  $element.toggleClass("custom-error-border", showErrorBorder);
 };
 
 
@@ -57,23 +56,47 @@ $(document).ready(function(_event) {
     testEmail();
   });
 
+  $(".custom-password .eye").on("click", function(_event) {
+    $inputPassword.attr("type", ($inputPassword.attr("type") === "password" ? "text" : "password"));
+  });
+
   $inputEmail.on("input propertychange", function(_event) {
     testEmail();
   });
 
-  $inputNewPassword.on("input propertychange", function(_event) {
+  // testNewPassword checks to see if the new password fields match.
+  //    Shows an error border on the verify field if they don't.
+  const testNewPassword = function() {
     toggleErrorBorder($inputVerifyPassword, $inputNewPassword.val() !== $inputVerifyPassword.val());
+  };
+
+  $inputNewPassword.on("input propertychange", function(_event) {
+    testNewPassword();
+  });
+
+  $(".custom-new-password .eye").on("click", function(_event) {
+    $inputNewPassword.attr("type", ($inputNewPassword.attr("type") === "password" ? "text" : "password"));
+  });
+
+  $inputVerifyPassword.on("input propertychange", function(_event) {
+    testNewPassword();
+  });
+
+  $(".custom-verify-password .eye").on("click", function(_event) {
+    $inputVerifyPassword.attr("type", ($inputVerifyPassword.attr("type") === "password" ? "text" : "password"));
   });
 
   const validateForm = function() {
     return (validateEmailFormat($inputEmail.val()) && $inputNewPassword.val() === $inputVerifyPassword.val());
   };
 
+  // showError shows an error in the error box.
   const showError = function(message, description) {
     $errorMessage.find("span.custom-err-message").html(message);
     $errorMessage.find("span.custom-err-description").html(description);
     $errorMessage.slideDown(ANIMATION_DURATION);
   };
+
   $errorMessage.on("click", function(_event) {
     $(this).slideUp(ANIMATION_DURATION);
   });
@@ -99,7 +122,9 @@ $(document).ready(function(_event) {
         }
       });
     } else {
-      showError("Nope nope nope.", "Fix your shit.");
+      showError(`Nope nope nope.`, `Fix your shit.<br><br>PROTIP: ` +
+                `<span class="custom-text-error-border">Look for stuff like this</span> ` +
+                `and make it go away.`);
     }
     return false;
   });

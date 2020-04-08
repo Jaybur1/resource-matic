@@ -57,4 +57,13 @@ main {
   form button {
     min-width:           10rem;
   }
+
+  .custom-error-border {
+    border:              0.1em dashed red !important;
+  }
+  .custom-text-error-border {
+    border:              0.1em dashed red;
+    margin:              0.1em 0.2em;
+    padding:             0.1em 0.2em;
+  }
 }
