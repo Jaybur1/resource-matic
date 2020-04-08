@@ -1,6 +1,7 @@
 import feedCardCreator from "./feed-card.js";
 import { showMoreComments } from "./comments.js";
-import { likeOnClick } from "./like.js";
+import { likeInteractions } from "./like.js";
+import { ratingInteractions } from "./rating.js";
 
 // Function that retrieves feed resources and calls create feed function and listeners
 const retrieveFeedResources = () => {
@@ -24,18 +25,9 @@ const feedRenderer = async(resources) => {
   // Event listener for view more comments
   showMoreComments(3);
   // Event listener for like click
-  likeOnClick();
-
-  $(".rating").rating();
-  // $('.toggle.example .rating')
-  //   .rating('enable')
-  // ;
-  // $('.toggle.example .rating')
-  //   .rating({
-  //     initialRating: 2,
-  //     maxRating: 4
-  //   })
-  // ;
+  likeInteractions();
+  // Event listener for like rating
+  ratingInteractions();
 };
 
 // Function that creates feed html

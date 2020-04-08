@@ -9,7 +9,7 @@ export const checkIfLiked = (id) => {
 };
 
 // Function that adds event listener for like button and send AJAX request to create or delete like
-export const likeOnClick = () => {
+export const likeInteractions = () => {
   // On click event listener
   $(".custom-like").on("click", function(e) {
     const parentEl = e.target.parentElement.parentElement;
