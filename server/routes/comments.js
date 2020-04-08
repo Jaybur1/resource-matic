@@ -14,9 +14,18 @@ module.exports = (db) => {
   //    Gets a list of all comment IDs for a resource.
   // Arguments:
   //    resourceId      Integer: Resource to retrieve comments for.
-  // Returns: {
-  //   commentIdList: [1, 2, 3, ...]
-  // }
+  // Returns:
+  //    [
+  //      {
+  //        "id": 1,
+  //        "currentuser": true
+  //      },
+  //      {
+  //        "id": 9,
+  //        "currentuser": false
+  //      },
+  //      ...
+  //    ]
 
   router.get("/list", (req, res) => {
     const userId     = req.session.userId;
