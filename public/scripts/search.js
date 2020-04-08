@@ -9,6 +9,7 @@ import * as myResources from "./home-page/myresources/myResources.js";
 
 export const resources = (searchText) => {
 
+  searchText = searchText.trim();
   if (new URL(window.location).pathname !== "/home") {
     window.location = `/home?search=${searchText}`;
   } else {
@@ -20,7 +21,7 @@ export const resources = (searchText) => {
       //url:    "/resources/search",
       url:    "/resources/searchwtf",
       data:   {
-        searchText: searchText.trim()
+        searchText
       }
     }).then((data, _status, _xhr) => {
       console.log("GET /resources/searchwtf");
@@ -29,9 +30,12 @@ export const resources = (searchText) => {
       myResources.createCards(feed.groupComments(data))
         .then((cardsHtml) => {
           $("main section#home-page").html(
+            `<div class="ui large purple header">` +
+              `Search results for "${searchText}"` +
+            `</div>` +
             `<div class="ui bottom attached tab segment active" data-tab="one">` +
               `<div class="user-resources ui special cards custom-resources custom-grid-resources">` +
-              cardsHtml +
+              cardsHtml.join("") +
               `</div>` +
             `</div>`)
             .find(".special.cards .image").dimmer({
