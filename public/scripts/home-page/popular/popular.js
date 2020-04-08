@@ -32,7 +32,7 @@ const retrievePopularResources = () => {
     })
     .then((data) => {
       $("#home-page").html(
-        `<div class="user-resources ui special four doubling cards custom-resources custom-padding custom-grid-resources">${data.join(
+        `<div class="custom-popular-padding container-effect segment user-resources ui special cards custom-resources custom-padding custom-grid-resources">${data.join(
           ""
         )}</div>`
       );

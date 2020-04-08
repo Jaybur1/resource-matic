@@ -10,7 +10,7 @@ import { showMoreComments, newComment } from "../feed/comments.js";
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
 
-const handleClickedResource = () => {
+export const handleClickedResource = () => {
   $(".open-resource-btn").on("click", function() {
     const id = $(this).attr("id");
 
@@ -27,58 +27,22 @@ const handleClickedResource = () => {
     $(`.small-card${id}`).addClass('custom-small-card-hidden');
 
     // Change appearance of tab
-    $(".tab.segment.active").addClass("custom-modal-grey");
+    $(".container-effect").addClass("custom-modal-grey");
     //  !
   });
 
-  $(".tab.segment.active").on("click", function(e) {
+  $(".container-effect").on("click", function(e) {
 
     if (e.target.classList.contains("user-resources") || e.target === e.currentTarget) {
       // Show all small cards
       $(`.custom-small-card-hidden`).removeClass('custom-small-card-hidden');
       // Hide all big cards
       $(`.custom-card-show`).addClass('custom-card-hidden');
+      $(".container-effect").removeClass("custom-modal-grey");
     }
   });
 };
 
-// const createCards = (createdResources) => {
-//   // Create html content for each resource
-//   const createdResourcesHTML = [];
-//   for (let resource of createdResources) {
-//     feedCardCreator(resource)
-//       .then((data) => {
-//         createdResourcesHTML.push(`
-//       <div class="ui card four wide column show">
-//       <div class="blurring dimmable image custom-bk-white">
-//         <div class="ui dimmer">
-//           <div class="content">
-//             <div class="center">
-//             <a
-//               target="_blank"
-//               id =${resource.id}
-//               class="ui small inverted button open-resource-btn">
-//               Check Resource
-//               </a>
-//               </div>
-//             </div>
-//             </div>
-//           <img
-//             class="custom-image-padding"
-//             src="${resource.thumbnail_photo}"
-//           />
-//           </div>
-//         <div class="content custom-bk-grey">
-//           <a href="${resource.content}" target="_blank" class="ui sub header medium center aligned custom-hover-text-blue"
-//             >${resource.title}</a>
-//         </div>
-//       </div>
-//       <div class="ui modal resourceID-${resource.id}">
-//       </div>
-//     `);
-//       })
-//   }
-// };
 
 export const createCards = async (createdResources) => {
   // Create html content for each resource
@@ -91,6 +55,7 @@ export const createCards = async (createdResources) => {
       <div class="blurring dimmable image custom-bk-white">
         <div class="ui dimmer">
           <div class="content">
+          <i class="trash alternate outline icon delete${resource.id}"></i>
             <div class="center">
             <a
               target="_blank"
@@ -153,19 +118,26 @@ const renderTabs = () => {
   <div class="item tab comment-tab" data-tab="three"><i class="comment icon"></i>Commented</div>
   <div class="item tab rate-tab" data-tab="four"><i class="star icon"></i>Rated</div>
 </div>
-<div class="ui bottom attached tab segment active" data-tab="one">
+<div class="container-effect ui bottom attached tab segment active" data-tab="one">
   <div class="user-resources ui special cards custom-resources custom-grid-resources">
-  No Resources yet ... <a class="ui create-new-resource">add</a> some to fill this section
+  <i class="asterisk loading icon"></i>Loading resources...
   </div>
 </div>
-<div class="ui bottom attached tab segment" data-tab="two">
-  <div class="liked-resources ui special four doubling cards custom-resources">No Resources yet ... like some to fill this section</div>
+<div class="container-effect ui bottom attached tab segment" data-tab="two">
+  <div class="liked-resources ui special four doubling cards custom-resources custom-padding"> 
+   <i class="asterisk loading icon"></i>Loading resources...
+   
+   </div>
 </div>
-<div class="ui bottom attached tab segment" data-tab="three">
-  <div class="commented-resources ui special four doubling cards custom-resources custom-padding">No Resources yet ... comment some to fill this section</div>
+<div class="container-effect ui bottom attached tab segment" data-tab="three">
+  <div class="commented-resources ui special four doubling cards custom-resources custom-padding">
+  <i class="asterisk loading icon"></i>Loading resources...
+  </div> 
 </div>
-<div class="ui bottom attached tab segment" data-tab="four">
-  <div class="rated-resources ui special four doubling cards custom-resources custom-padding">No Resources yet ... rate some to fill this section</div>
+<div class="container-effect ui bottom attached tab segment" data-tab="four">
+  <div class="rated-resources ui special four doubling cards custom-resources custom-padding">
+  <i class="asterisk loading icon"></i>Loading resources...
+  </div>
 </div>
 </div>
 `;
