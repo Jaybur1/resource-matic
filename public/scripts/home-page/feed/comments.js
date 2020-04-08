@@ -70,6 +70,10 @@ const singleCommentHTML = (comment, hidden) => {
       <div class="text">
         <p>${comment.message}</p>
       </div>
+      <div class="actions">
+        <a class="reply custom-edit-comment">Edit</a>
+        <a class="reply custom-delete-comment">Delete</a>
+      </div>
     </div>
   </div>
   `;
@@ -82,10 +86,11 @@ export const newComment = () => {
   $(".new-comment").on("keyup", function(e) {
     // Prevent any default
     e.preventDefault();
+    
+    const message = $(this).val();
 
     // If enter is pressed
-    if (e.key === "Enter") {
-      const message = $(this).val();
+    if (e.keyCode === 13 && !e.shiftKey && message.trim().length > 0) {
       const resourceId = Number($(this).prev().html());
       const name = $(".custom-user").text();
       const avatar = $(".custom-user").find("img").attr("src");
@@ -119,3 +124,6 @@ export const newComment = () => {
     }
   });
 };
+
+
+{/* <textarea type="text" class="custom-edit-input"></textarea> */} // ? will use for edit
