@@ -26,9 +26,9 @@ module.exports = (db) => {
     } else if (!resourceId) {
       util.httpError("GET /comment/list failed:", "Resource ID not specified", res, 400);
     } else {
-      db.query("SELECT id FROM comments WHERE resource_id = $1", [ resourceId ])
+      db.query("SELECT id, (user_id = $1) AS currentUser FROM comments WHERE resource_id = $2", [ userId, resourceId ])
         .then((queryRes) => {
-          res.status(200).json({ commentIdList: queryRes.rows.map(x => x.id) });
+          res.status(200).json(queryRes.rows);
         }).catch((err) => {
           util.httpError("GET /comment/list SELECT failed:", err, res, 500);
         });
