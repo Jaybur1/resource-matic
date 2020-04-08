@@ -9,7 +9,7 @@ import * as myResources from "./home-page/myresources/myResources.js";
 
 export const resources = (searchText) => {
   if (new URL(window.location).pathname !== "/home") {
-    window.location = `/home?search=${searchText}`;
+    window.location = `/home?search=${encodeURIComponent(searchText)}`;
   } else {
 
     // TODO: Cancel loading feed
