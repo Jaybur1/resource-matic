@@ -197,8 +197,8 @@ export const editComment = () => {
       messageEl.addClass("custom-message-hidden");
 
       // Render text area with current message
-      messageEl.after(`<textarea type="text" class="custom-edit-input">${currentMessage}</textarea>`);
-  
+      messageEl.after(`<textarea type="text" autoFocus class="custom-edit-input">${currentMessage}</textarea>`);
+
       // Add keypress event listener
       $(".custom-edit-input").on("keyup", function(e) {
 
