@@ -26,16 +26,17 @@ const resourcesRoutes = (db) => {
   });
 
   // Create a new resource
-  router.post("/", (req, res) => {
+  router.post("/", (req, res) =>
     database.addResource({ userId: req.session.userId, ...req.body }, db)
-      .then((resource) => res.send(resource));
-  });
+      .then((resource) => res.send(resource)));
 
   // Search resources
-  router.get("/search", (req, res) => {
+  router.get("/search", (req, res) =>
     database.searchResources(db, req.query.searchText)
-      .then((results) => res.json(results));
-  });
+      .then((results) => res.render("partials/_card-grid", {
+        header: `Search results for ${req.query.searchText}`,
+        cardData: results
+      })));
 
   return router;
 
