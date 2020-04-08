@@ -6,6 +6,7 @@ const feedCardCreator = async(resource) => {
   // Card html
   const  cardHTML = `
     <article class="ui fluid card" >
+    
     <div class="content">
       <div class="right floated meta">${$.timeago(resource.created)}</div>
       <img class="ui avatar image" src="${resource.poster_avatar}"> &nbsp <span class="custom-poster-name">${resource.poster}</span>
@@ -18,6 +19,11 @@ const feedCardCreator = async(resource) => {
       <div class="custom-resource-name">
         <a href="${resource.content}" target="_blank">${resource.title}</a>
         <span class="custom-resource-description">${resource.description}</span>
+      </div>
+      <div class=" custom-rating">
+      <span> <span class="custom-avg-rating ${Number(resource.avg_ratings).toFixed(1) > 0 ? "rated" : "not-rated"}"> ${Number(resource.avg_ratings).toFixed(1) > 0 ? `Avg:&nbsp ${Number(resource.avg_ratings).toFixed(1)}` : "Not rated yet"}<span/>
+      &nbsp&nbsp<div class="ui yellow rating" data-rating="5" data-max-rating="5"></div>
+      <span/>
       </div>
     </div>
     <div class="content">

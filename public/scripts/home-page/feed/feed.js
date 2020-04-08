@@ -25,6 +25,17 @@ const feedRenderer = async(resources) => {
   showMoreComments(3);
   // Event listener for like click
   likeOnClick();
+
+  $(".rating").rating();
+  // $('.toggle.example .rating')
+  //   .rating('enable')
+  // ;
+  // $('.toggle.example .rating')
+  //   .rating({
+  //     initialRating: 2,
+  //     maxRating: 4
+  //   })
+  // ;
 };
 
 // Function that creates feed html
