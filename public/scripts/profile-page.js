@@ -21,6 +21,11 @@ const toggleErrorBorder = ($element, showErrorBorder) => {
   $element.toggleClass("custom-error-border", showErrorBorder);
 };
 
+const scrollToBottom = function() {
+  const $body = $("html, body");
+  $body.stop().animate({ scrollTop: $body.height() }, ANIMATION_DURATION, "swing");
+};
+
 
 
 $(document).ready(function(_event) {
@@ -40,7 +45,7 @@ $(document).ready(function(_event) {
 
   // Set the avatar image on URL change:
   $inputAvatar.on("input propertychange", function(_event) {
-    setBackgroundImage($inputAvatar.val());
+    setBackgroundImage($avatar, $inputAvatar.val());
   });
 
   // testEmail checks to see if an email address is valid.
@@ -54,6 +59,7 @@ $(document).ready(function(_event) {
   // Update the email input border password or email change:
   $inputPassword.on("input propertychange", function(_event) {
     testEmail();
+    testNewPassword();
   });
 
   $(".custom-password .eye").on("click", function(_event) {
@@ -67,7 +73,7 @@ $(document).ready(function(_event) {
   // testNewPassword checks to see if the new password fields match.
   //    Shows an error border on the verify field if they don't.
   const testNewPassword = function() {
-    toggleErrorBorder($inputVerifyPassword, $inputNewPassword.val() !== $inputVerifyPassword.val());
+    toggleErrorBorder($inputVerifyPassword, ($inputPassword.val() !== "") && $inputNewPassword.val() !== $inputVerifyPassword.val());
   };
 
   $inputNewPassword.on("input propertychange", function(_event) {
@@ -87,7 +93,19 @@ $(document).ready(function(_event) {
   });
 
   const validateForm = function() {
-    return (validateEmailFormat($inputEmail.val()) && $inputNewPassword.val() === $inputVerifyPassword.val());
+    return (($inputPassword.val() === "") || validateEmailFormat($inputEmail.val()) && $inputNewPassword.val() === $inputVerifyPassword.val());
+  };
+
+  // showError shows an error in the error box.
+  const handleXhrError = function(xhr) {
+    switch (xhr.status) {
+    case 403:
+      showError("Nice try.", "Stop h4xx0ring.");
+      break;
+    default:
+      showError("Smooth move ex-lax.", `You broke the server.<br><br>Here's some gnarly response info for your debugging pleasure:<pre>${JSON.stringifyPretty(xhr)}</pre>`);
+      break;
+    }
   };
 
   // showError shows an error in the error box.
@@ -95,6 +113,7 @@ $(document).ready(function(_event) {
     $errorMessage.find("span.custom-err-message").html(message);
     $errorMessage.find("span.custom-err-description").html(description);
     $errorMessage.slideDown(ANIMATION_DURATION);
+    scrollToBottom();
   };
 
   $errorMessage.on("click", function(_event) {
@@ -109,20 +128,11 @@ $(document).ready(function(_event) {
         url:    "/profile",
         method: "PUT",
         data:   user
-      }).then(function(_data, _status, _xhr) {
-        window.location = "/home";
-      }).catch(function(xhr, _status, _message) {
-        switch (xhr.status) {
-        case 403:
-          showError("Nice try.", "Stop h4xx0ring.");
-          break;
-        default:
-          showError("Smooth move ex-lax.", `You broke the server.<br><br>Here's some gnarly response info for your debugging pleasure:<pre>${JSON.stringifyPretty(xhr)}</pre>`);
-          break;
-        }
-      });
+      })
+        .then((_data, _status, _xhr) => window.location = "/home")
+        .catch((xhr, _status, _message) => handleXhrError(xhr));
     } else {
-      showError(`Nope nope nope.`, `Fix your shit.<br><br>PROTIP: ` +
+      showError(`Fix your shit.`, `PROTIP: ` +
                 `<span class="custom-text-error-border">Look for stuff like this</span> ` +
                 `and make it go away.`);
     }
@@ -130,16 +140,19 @@ $(document).ready(function(_event) {
   });
 
   $("main button.negative").on("click", function(_event) {
-    const user = $("main form").serializeArray();
-    $.ajax({
-      url:    "/profile",
-      method: "DELETE",
-      data:   user
-    }).then(function(_data, _status, _xhr) {
-      window.location = "/";
-    }).catch(function(xhr, _status, _message) {
-      $("main form").append(`<br>error: ${JSON.stringify(xhr, null, 2)}`);
-    });
+    if ($inputPassword.val()) {
+      const user = $("main form").serializeArray();
+      $.ajax({
+        url:    "/profile",
+        method: "DELETE",
+        data:   user
+      })
+        .then((_data, _status, _xhr) => window.location = "/")
+        .catch((xhr, _status, _message) => handleXhrError(xhr));
+    } else {
+      showError(`Enter your password.`, `Not gonna nuke it without it.`);
+    }
+    return false;
   });
 
 });
