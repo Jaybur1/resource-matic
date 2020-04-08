@@ -10,13 +10,35 @@ import { showMoreComments, newComment } from "../feed/comments.js";
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
 
-export const handleClickedResource = () => {
-  $(".open-resource-btn").on("click", function () {
+const handleClickedResource = () => {
+  $(".open-resource-btn").on("click", function() {
     const id = $(this).attr("id");
-    console.log(id)
-    $(`.resourceId-${id}`).removeClass("custom-card-hidden");
-    $(`.resourceId-${id}`).addClass("custom-card-show");
-    $(`.small-card${id}`).addClass("custom-card-hiddn");
+
+    // ! Order here is very important for functionality
+    // Show all small cards
+    $(`.custom-small-card-hidden`).removeClass('custom-small-card-hidden');
+    // Hide all big cards
+    $(`.custom-card-show`).addClass('custom-card-hidden');
+    $(`.custom-card-show`).removeClass('custom-card-show');
+    // Show selected big card
+    $(`.resourceId-${id}`).removeClass('custom-card-hidden');
+    $(`.resourceId-${id}`).addClass('custom-card-show');
+    // Hide selected small card
+    $(`.small-card${id}`).addClass('custom-small-card-hidden');
+
+    // Change appearance of tab
+    $(".tab.segment.active").addClass("custom-modal-grey");
+    //  !
+  });
+
+  $(".tab.segment.active").on("click", function(e) {
+
+    if (e.target.classList.contains("user-resources") || e.target === e.currentTarget) {
+      // Show all small cards
+      $(`.custom-small-card-hidden`).removeClass('custom-small-card-hidden');
+      // Hide all big cards
+      $(`.custom-card-show`).addClass('custom-card-hidden');
+    }
   });
 };
 
@@ -65,7 +87,7 @@ export const createCards = async (createdResources) => {
   for (let resource of createdResources) {
     const bigCard = await feedCardCreator(resource);
     createdResourcesHTML.push(` 
-      <div class="ui card four wide column custom-width-fit small-card${resource.id}">
+      <div class="ui card custom-width-fit small-card${resource.id}">
       <div class="blurring dimmable image custom-bk-white">
         <div class="ui dimmer">
           <div class="content">
@@ -98,13 +120,14 @@ export const createCards = async (createdResources) => {
   return createdResourcesHTML;
 };
 
-const handleData = async (data, container) => {
+const handleData = async(data, container) => {
   const resourceArr = groupComments(data);
   if (resourceArr.length === 0) {
     $(`.${container}`).html(
       'No Resources yet ... <a class="ui create-new-resource">add</a>/comment/like/rate some to fill the sections</div>'
     );
   } else {
+   
     $(`.${container}`).html(await createCards(resourceArr));
     $(".special.cards .image").dimmer({
       on: "hover",
@@ -131,12 +154,12 @@ const renderTabs = () => {
   <div class="item tab rate-tab" data-tab="four"><i class="star icon"></i>Rated</div>
 </div>
 <div class="ui bottom attached tab segment active" data-tab="one">
-  <div class="user-resources ui special four doubling cards custom-resources custom-padding custom-grid-resources">
+  <div class="user-resources ui special cards custom-resources custom-grid-resources">
   No Resources yet ... <a class="ui create-new-resource">add</a> some to fill this section
   </div>
 </div>
 <div class="ui bottom attached tab segment" data-tab="two">
-  <div class="liked-resources ui special four doubling cards custom-resources custom-padding">No Resources yet ... like some to fill this section</div>
+  <div class="liked-resources ui special four doubling cards custom-resources">No Resources yet ... like some to fill this section</div>
 </div>
 <div class="ui bottom attached tab segment" data-tab="three">
   <div class="commented-resources ui special four doubling cards custom-resources custom-padding">No Resources yet ... comment some to fill this section</div>

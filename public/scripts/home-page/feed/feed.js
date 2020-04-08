@@ -1,5 +1,5 @@
 import feedCardCreator from "./feed-card.js";
-import { showMoreComments, newComment } from "./comments.js";
+import { showMoreComments, newComment, updateCommentsWithOwned, editComment } from "./comments.js";
 import { likeInteractions } from "./like.js";
 import { ratingInteractions } from "./rating.js";
 
@@ -26,6 +26,8 @@ const feedRenderer = async(resources) => {
   showMoreComments(3);
   // Event listener for new comment
   newComment();
+  // Event listener for edit comment
+  editComment();
   // Event listener for like click
   likeInteractions();
   // Event listener for like rating
@@ -36,6 +38,11 @@ const feedRenderer = async(resources) => {
 const feedCreator = async(resources) => {
   // Group comments
   const groupedResources = groupComments(resources);
+
+  for (let i in groupedResources) {
+    groupedResources[i].comments = await updateCommentsWithOwned(groupedResources[i].comments, groupedResources[i].id);
+  }
+
   const array = [];
 
   // Create array of cards html
@@ -65,10 +72,12 @@ export const groupComments = (unGroupedResources) => {
       if (currentResource.id === resource.id) {
         // Adds new comment to same resource
         currentResource.comments.push({
+          id: resource.comment_id,
           message: resource.comment,
           timestamp: resource.comment_created_at,
           name: resource.commenter,
-          avatar: resource.commenter_avatar
+          avatar: resource.commenter_avatar,
+          owned: false
         });
         detected = true;
       }
@@ -86,7 +95,8 @@ export const groupComments = (unGroupedResources) => {
           message: resource.comment,
           timestamp: resource.comment_created_at,
           name: resource.commenter,
-          avatar: resource.commenter_avatar
+          avatar: resource.commenter_avatar,
+          owned: false
         }];
       }
 
