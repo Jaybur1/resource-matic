@@ -6,7 +6,7 @@ import { checkIfRated } from "./rating.js";
 const feedCardCreator = async(resource) => {
   // Card html
   const  cardHTML = `
-    <article class="ui fluid card" >
+    <article class="ui fluid card custom-big-card" >
     
     <div class="content">
       <div class="right floated meta">${$.timeago(resource.created)}</div>
@@ -47,7 +47,7 @@ const feedCardCreator = async(resource) => {
       <div class="ui large transparent left icon input custom-new-comment-container">
         <i class="comment outline icon"></i>
         <span class="custom-resource-id">${resource.id}</span>
-        <input class="new-comment" type="text" placeholder="Add comment...">
+        <textarea class="new-comment" type="text" placeholder="Add comment..."></textarea>
       </div>
     </div>
     </article>
