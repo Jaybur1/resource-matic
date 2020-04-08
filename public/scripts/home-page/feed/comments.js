@@ -70,6 +70,14 @@ const singleCommentHTML = (comment, hidden) => {
       <div class="text">
         <p>${comment.message}</p>
       </div>
+      ${comment.owned ? (
+    `
+        <div class="actions">
+        <a class="reply custom-edit-comment">Edit</a>
+        <a class="reply custom-delete-comment">Delete</a>
+      </div>
+        `
+  ) : ""}
     </div>
   </div>
   `;
@@ -82,10 +90,11 @@ export const newComment = () => {
   $(".new-comment").on("keyup", function(e) {
     // Prevent any default
     e.preventDefault();
+    
+    const message = $(this).val();
 
     // If enter is pressed
-    if (e.key === "Enter") {
-      const message = $(this).val();
+    if (e.keyCode === 13 && !e.shiftKey && message.trim().length > 0) {
       const resourceId = Number($(this).prev().html());
       const name = $(".custom-user").text();
       const avatar = $(".custom-user").find("img").attr("src");
@@ -107,7 +116,8 @@ export const newComment = () => {
             message,
             name,
             avatar,
-            hidden : false
+            hidden : false,
+            owned: true
           });
 
           // Append new comment
@@ -119,3 +129,44 @@ export const newComment = () => {
     }
   });
 };
+
+// Function that retrieves comments for resource indicating if owned by user
+const retrieveCommentsIndicateUser = (resourceId) => {
+  // AJAX GET request
+  return $.ajax({method: "GET",
+    url: "/comment/list",
+    data: {resourceId}
+  })
+    .then(resp => resp);
+};
+
+export const updateCommentsWithOwned = async(comments, resourceId) => {
+  const commentsIndicatorArray = await retrieveCommentsIndicateUser(resourceId);
+  let newCommentsArray = await comments;
+
+  for (let i in newCommentsArray) {
+    for (let x in commentsIndicatorArray) {
+      if (newCommentsArray[i].id === commentsIndicatorArray[x].id) {
+        newCommentsArray[i].owned = commentsIndicatorArray[x].currentuser;
+      }
+    }
+  }
+
+  return newCommentsArray;
+};
+
+
+// Function that adds event listener for edit comment
+export const editComment = () => {
+  $(".custom-edit-comment").on("click", function() {
+
+    if ($(this).parent().prev().find(".custom-edit-input")) {
+      console.log("submit");
+    } else {
+      console.log("edit");
+    }
+
+  });
+};
+
+// <textarea type="text" class="custom-edit-input"></textarea> // ? will use for edit */}
