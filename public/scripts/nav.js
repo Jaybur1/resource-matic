@@ -4,6 +4,10 @@
 
 import * as search from "./search.js";
 
+const KEY_RETURN = 13;
+
+
+
 // TODO: Move to app.js which imports everything else:
 JSON.stringifyPretty = (object) => JSON.stringify(object, null, 2);
 
@@ -14,7 +18,7 @@ const initNavBar = () => {
 
   // Perform search on pressing Enter or clicking search icon
   $inputSearch.on("keypress", function(event) {
-    if (event.keyCode === KeyboardEvent.DOM_VK_RETURN) {
+    if (event.keyCode === KEY_RETURN) {
       search.resources($inputSearch.val());
     }
   });
