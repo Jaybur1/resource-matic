@@ -74,10 +74,14 @@ export const handleClickedResource = () => {
 export const createCards = async (createdResources, ownerId = null) => {
   // Create html content for each resource
   const createdResourcesHTML = [];
+<<<<<<< HEAD
   console.log(ownerId);
+=======
+
+>>>>>>> 429cf32e7962c97265a64c0ba4d0ababb4c241de
   for (let resource of createdResources) {
     const bigCard = await feedCardCreator(resource);
-    createdResourcesHTML.push(` 
+    createdResourcesHTML.push(`
       <div class="ui card custom-width-fit small-card${resource.id}">
       <div class="blurring dimmable image custom-bk-white">
         <div class="ui dimmer">
@@ -126,7 +130,12 @@ const handleData = async (data, container) => {
       'No Resources yet ... <a class="ui create-new-resource">add</a>/comment/like/rate some to fill the sections</div>'
     );
   } else {
+<<<<<<< HEAD
     $(`.${container}`).html(await createCards(resourceArr, current.current));
+=======
+
+    $(`.${container}`).html(await createCards(resourceArr));
+>>>>>>> 429cf32e7962c97265a64c0ba4d0ababb4c241de
     $(".special.cards .image").dimmer({
       on: "hover",
     });

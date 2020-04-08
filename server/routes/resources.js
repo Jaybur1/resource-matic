@@ -33,10 +33,16 @@ const resourcesRoutes = (db) => {
   // Search resources
   router.get("/search", (req, res) =>
     database.searchResources(db, req.query.searchText)
-      .then((results) => res.render("partials/_card-grid", {
-        header: `Search results for ${req.query.searchText}`,
-        cardData: results
-      })));
+      .then((results) => res.json(results)));
+  // .then((results) => res.render("partials/_search-results", {
+  //   searchText: req.query.searchText,
+  //   cardData:   results
+  // })));
+
+  // Search resources with craziness
+  router.get("/searchwtf", (req, res) =>
+    database.searchResourcesWtf(db, req.query.searchText)
+      .then((results) => res.json(results)));
 
   router.delete('/', (req,res) => {
     res.send("good")
