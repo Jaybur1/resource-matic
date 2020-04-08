@@ -5,19 +5,26 @@ import {
   getResourcesUserCommented,
   getResourcesUserRated,
 } from "./myResourcesCalls.js";
+import feedCardCreator from "../feed/feed-card.js";
 
 const handleClickedResource = () => {
-  $(".open-resource-btn").on("click", function() {
+  $(".open-resource-btn").on("click", function () {
     console.log(`<= resurce id#${$(this).attr("id")} has been clicked => `);
   });
 };
 
 const createCards = (createdResources) => {
   // Create html content for each resource
+  
+  
+
   const createdResourcesHTML = createdResources
     .map(
-      (resource) => ` 
-    <div class="ui card four wide column">
+      (resource) => {
+        let bigCard = "";
+        feedCardCreator(createdResources).then(data => bigCard = data)
+        ` 
+    <div class="ui card four wide column show">
     <div class="blurring dimmable image custom-bk-white">
       <div class="ui dimmer">
         <div class="content">
@@ -41,7 +48,9 @@ const createCards = (createdResources) => {
           >${resource.title}</a>
       </div>
     </div>
+    <div class="big-card sixteen wide column">${bigCard}</div>
   `
+      }
     )
     .join(" ");
 
@@ -59,8 +68,8 @@ const handleData = (data, container) => {
     $(".special.cards .image").dimmer({
       on: "hover",
     });
+    handleClickedResource();
   }
-  handleClickedResource();
 };
 
 const renderTabs = () => {
@@ -95,6 +104,7 @@ const retrieveMyResources = () => {
   getUserResources().then((data) => {
     handleData(data, "user-resources");
   });
+
 
   getResourcesUserLiked().then((data) => {
     handleData(data, "liked-resources");
