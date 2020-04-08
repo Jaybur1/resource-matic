@@ -56,19 +56,26 @@
   display: grid !important;
   // grid-template-columns: repeat(min);
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-
-  grid-gap: 2em;
-  padding: 2.5em;
+  width: 100%;
+  grid-gap: 1.5em;
+  padding: 1em;
 }
 
-.custom-card-hidden {
+.custom-card-hidden,
+.custom-small-card-hidden {
   display: none !important;
 }
 
-.custom-card-shown {
-  grid-column: span 3 !important;
+.custom-card-show {
+  grid-column: span 4 !important;
 }
 
 .custom-width-fit {
   width: 100% !important;
+}
+
+.custom-card-show .custom-big-card {
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  margin-left: 0.5em !important;
 }

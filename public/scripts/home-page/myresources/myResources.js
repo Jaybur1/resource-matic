@@ -14,9 +14,18 @@ const handleClickedResource = () => {
   $(".open-resource-btn").on("click", function() {
     const id = $(this).attr("id");
 
+    // ! Order here is very important for functionality
+    // Show all small cards
+    $(`.custom-small-card-hidden`).removeClass('custom-small-card-hidden');
+    // Hide all big cards
+    $(`.custom-card-show`).addClass('custom-card-hidden');
+    $(`.custom-card-show`).removeClass('custom-card-show');
+    // Show selected big card
     $(`.resourceId-${id}`).removeClass('custom-card-hidden');
     $(`.resourceId-${id}`).addClass('custom-card-show');
-    $(`.small-card${id}`).addClass('custom-card-hiddn');
+    // Hide selected small card
+    $(`.small-card${id}`).addClass('custom-small-card-hidden');
+    //  !
 
   });
 };
