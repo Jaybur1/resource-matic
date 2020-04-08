@@ -33,9 +33,9 @@ const resourcesRoutes = (db) => {
   // Search resources
   router.get("/search", (req, res) =>
     database.searchResources(db, req.query.searchText)
-      .then((results) => res.render("partials/_card-grid", {
-        header: `Search results for ${req.query.searchText}`,
-        cardData: results
+      .then((results) => res.render("partials/_search-results", {
+        searchText: req.query.searchText,
+        cardData:   results
       })));
 
   return router;

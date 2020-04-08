@@ -12,11 +12,11 @@ const handleClickedResource = () => {
   });
 };
 
-const createCards = (createdResources) => {
+export const createCards = (createdResources) => {
   // Create html content for each resource
   const createdResourcesHTML = createdResources
     .map(
-      (resource) => ` 
+      (resource) => `
     <div class="ui card four wide column">
     <div class="blurring dimmable image custom-bk-white">
       <div class="ui dimmer">
