@@ -159,50 +159,60 @@ export const updateCommentsWithOwned = async(comments, resourceId) => {
 
 // Function that adds event listener for edit comment
 export const editComment = () => {
+  // Event listener for edit button
   $(".custom-edit-comment").on("click", function() {
 
+    // Current comment id
     const commentId = Number($(this).parent().next().text());
 
-    // console.log($(this).parent().prev());
-
+    // Text area is already open
     if ($(this).parent().prev().hasClass("custom-edit-input")) {
 
       const inputEl = $(this).parent().prev();
       const newMessage = inputEl.val().trim();
 
+      // Submit new comment
       submitEditedComment(newMessage, commentId)
         .then(() => {
+          // Remove text area
           inputEl.remove();
 
+          // Show comment element
           $(this).parent().prev().removeClass("custom-message-hidden");
+          // Update comment text with new comment
           $(this).parent().prev().text(newMessage);
         });
-
+    // Text area is closed
     } else {
-
       const messageEl = $(this).parent().prev();
       const currentMessage = messageEl.text().trim();
 
+      // Hide comment element
       messageEl.addClass("custom-message-hidden");
 
+      // Render text area with current message
       messageEl.after(`<textarea type="text" class="custom-edit-input">${currentMessage}</textarea>`);
   
+      // Add keypress event listener
       $(".custom-edit-input").on("keyup", function(e) {
 
         const newMessage = $(this).val().trim();
 
+        // If shift is not pressed with enter
         if (e.keyCode === 13 && !e.shiftKey) {
+          // Submit new comment
           submitEditedComment(newMessage, commentId)
             .then(() => {
+              // Remove text area
               $(this).remove();
+              // Show comment element
               messageEl.removeClass("custom-message-hidden");
+              // Update comment text with new comment
               messageEl.text(newMessage);
             });
         }
       });
-
     }
-
   });
 };
 
