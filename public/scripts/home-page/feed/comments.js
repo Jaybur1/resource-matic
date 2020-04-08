@@ -155,4 +155,18 @@ export const updateCommentsWithOwned = async(comments, resourceId) => {
   return newCommentsArray;
 };
 
+
+// Function that adds event listener for edit comment
+export const editComment = () => {
+  $(".custom-edit-comment").on("click", function() {
+
+    if ($(this).parent().prev().find(".custom-edit-input")) {
+      console.log("submit");
+    } else {
+      console.log("edit");
+    }
+
+  });
+};
+
 // <textarea type="text" class="custom-edit-input"></textarea> // ? will use for edit */}
