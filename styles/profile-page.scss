@@ -5,6 +5,7 @@
 main {
   margin:              7rem auto 10rem;
   max-width:           50rem;
+  cursor:              default;
 
   .column .segment {
     padding-top:         1.75rem !important;
@@ -23,7 +24,28 @@ main {
     margin:              1rem 0;
     border-radius:       5rem;
     background-position: center;
-    background-size:     120%;
+    background-size:     cover;
+    background-color:    orangered;
+    // background:          radial-gradient(circle, rgba(255,0,0,1) 0%, rgba(255,121,0,1) 24%, rgba(255,255,255,1) 80%);
+    transition:          width         0.25s ease 0s,
+                         height        0.25s ease 0s,
+                         border-radius 0.25s ease 0s;
+  }
+
+  #avatar:hover {
+    width:               20rem;
+    height:              20rem;
+    border-radius:       0.5rem;
+    transition:          width         0.25s ease 0s,
+                         height        0.25s ease 0s,
+                         border-radius 0.25s ease 0s;
+  }
+
+  div.header {
+    margin-bottom:       1em !important;
+    padding:             0.5em !important;
+    background:          ghostwhite;
+    border-radius:       0.5em;
   }
 
   .custom-button-container {

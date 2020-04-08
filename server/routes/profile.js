@@ -73,10 +73,12 @@ module.exports = (db) => {
     }
   });
 
+  // DELETE profile
+  //    Delete the current user's account.
+
   router.delete("/", (req, res) => {
     if (req.session.userId) {
       const user = req.body;
-      console.log("DELETE /profile", user);
       database.validatePassword(db, req.session.userId, user.password)
         .then(database.deleteUser(db, req.session.userId))
         .then(function() {

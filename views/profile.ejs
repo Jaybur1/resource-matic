@@ -12,12 +12,19 @@
   <body>
     <%- include("partials/_nav") %>
     <main>
-      <form class="ui container form">
+      <form class="ui container large form">
         <div class="ui one column grid">
           <div class="ui column raised huge segment">
             <span class="ui blue ribbon huge label">Profile</span>
             <div class="custom-avatar-container">
-              <div id="avatar" src="<%= user.avatar %>"></div>
+              <a href="https://duckduckgo.com/?q=FUNNY+CAT+PICTURES+ON+THE+INTERWEBS!!!!!!!!!!!!!&t=ffab&ia=images&iax=images" target="_blank"><div id="avatar" src="<%= user.avatar %>"></div></a>
+            </div>
+            <div class="field">
+              <label>Avatar URL</label>
+              <div class="ui left icon input">
+                <i class="image icon"></i>
+                <input type="text" name="avatar" placeholder="Enter a URL to a work-safe image" />
+              </div>
             </div>
             <div class="field">
               <label>Display name</label>
@@ -26,7 +33,7 @@
                 <input type="text" name="name" placeholder="Display name" value="<%= user.name %>" />
               </div>
             </div>
-            <button class="ui large pink button huge">Save</button>
+            <button class="ui massive pink button">Save</button>
           </div>
         </div>
         <br>
@@ -35,15 +42,13 @@
         <div class="ui one column grid">
           <div class="ui column raised huge segment">
             <span class="ui blue ribbon huge label">Account</span><br><BR>
-            <div class="ui huge raised segment">
-              <span class="ui purple text">
-                To update your login info, enter your current password
-              </span>
+            <div class="ui purple header text">
+              To update your login info, enter your current password
             </div>
             <div class="field">
               <label>Password</label>
               <div class="ui left icon input">
-                <i class="lock icon"></i>
+                <i class="user lock icon"></i>
                 <input type="password" name="password" placeholder="Password" />
               </div>
             </div>
@@ -54,29 +59,32 @@
                 <input type="text" name="email" placeholder="Email address" value="<%= user.email %>" />
               </div>
             </div>
-            <div class="ui huge raised segment">
-              <span class="ui purple text">
-                To change your password, enter a new one here.<br>
-                Leave it blank to keep your current password.
-              </span>
+            <div class="ui purple header text">
+              To change your password, enter a new one here.<br>
+              Leave it blank to keep your current password.
             </div>
             <div class="field">
               <label>New password</label>
               <div class="ui left icon input">
                 <i class="lock icon"></i>
-                <input type="password" name="newPassword" placeholder="Password" />
+                <input class="new-password" type="password" name="newPassword" placeholder="Password" />
               </div>
             </div>
             <div class="field">
               <label>Verify password</label>
               <div class="ui left icon input">
                 <i class="lock icon"></i>
-                <input type="password" name="verifyPassword" placeholder="Verify your password" />
+                <input class="new-password" type="password" name="verifyPassword" placeholder="Verify your password" />
               </div>
             </div>
+            <div class="ui error message">
+              <span class="ui text big custom-err-message"></span><br>
+              <br>
+              <span class="ui text custom-err-description"></span>
+            </div>
             <div class="custom-button-container">
-              <button class="ui large pink button huge">Save</button>
-              <div class=""><button class="ui negative button huge">Delete Account</button></div>
+              <button class="ui massive pink button huge">Save</button>
+              <div class=""><button class="ui negative button massive">Delete Account</button></div>
             </div>
           </div>
         </div>
