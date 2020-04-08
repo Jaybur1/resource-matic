@@ -8,35 +8,38 @@ import * as myResources from "./home-page/myresources/myResources.js";
 // search.results performs an AJAX request for search data.
 
 export const resources = (searchText) => {
-  $.ajax({
-    method: "GET",
-    //url:    "/resources/search",
-    url:    "/resources/searchwtf",
-    data:   {
-      searchText: searchText.trim()
-    }
-  }).then((data, _status, _xhr) => {
-    console.log("GET /resources/searchwtf");
-    console.log(data);
-    //renderSearchResults($("main section#home-page"), data);
-    myResources.createCards(feed.groupComments(data))
-      .then((cardsHtml) => {
-        $("main section#home-page").html(
-          `<div class="ui large purple header">` +
-            `Search results for "${searchText}"` +
-          `</div>` +
-          `<div class="ui bottom attached tab segment active" data-tab="one">` +
-            `<div class="user-resources ui special cards custom-resources custom-grid-resources">` +
+  if (new URL(window.location).pathname !== "/home") {
+    window.location = `/home?search=${searchText}`;
+  } else {
+
+    // TODO: Cancel loading feed
+
+    $.ajax({
+      method: "GET",
+      //url:    "/resources/search",
+      url:    "/resources/searchwtf",
+      data:   {
+        searchText: searchText.trim()
+      }
+    }).then((data, _status, _xhr) => {
+      console.log("GET /resources/searchwtf");
+      console.log(data);
+      //renderSearchResults($("main section#home-page"), data);
+      myResources.createCards(feed.groupComments(data))
+        .then((cardsHtml) => {
+          $("main section#home-page").html(
+            `<div class="ui bottom attached tab segment active" data-tab="one">` +
+              `<div class="user-resources ui special cards custom-resources custom-grid-resources">` +
               cardsHtml +
-            `</div>` +
-          `</div>`
-        )
-          .find(".special.cards .image").dimmer({
-            on: "hover",
-          });
-        myResources.handleClickedResource();
-      });
-  }).catch((xhr, _status, _message) => console.log(xhr)); // handleXhrError(xhr));
+              `</div>` +
+            `</div>`)
+            .find(".special.cards .image").dimmer({
+              on: "hover",
+            });
+          myResources.handleClickedResource();
+        });
+    }).catch((xhr, _status, _message) => console.log(xhr)); // handleXhrError(xhr));
+  }
 };
 
 
