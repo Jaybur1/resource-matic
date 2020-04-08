@@ -51,3 +51,22 @@
 .custom-image-padding {
   padding: 1em;
 }
+
+
+.custom-grid-resources {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2em;
+}
+
+.custom-card-hidden {
+  display: none !important;
+}
+
+.custom-card-shown {
+  grid-column: span 3 !important;
+}
+
+.custom-width-fit {
+  width: 100% !important;
+}
