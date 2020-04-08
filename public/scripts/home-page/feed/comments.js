@@ -62,7 +62,8 @@ const singleCommentHTML = (comment, hidden) => {
       <img src="${comment.avatar}">
     </div>
     <div class="content">
-      <span class="author">${comment.name}</span>
+    <span class="custom-comment-id">${comment.id}</span>
+    <span class="author">${comment.name}</span>
       <div class="metadata">
         <span class="date">${$.timeago(comment.timestamp)}</span>
       </div>
@@ -74,4 +75,47 @@ const singleCommentHTML = (comment, hidden) => {
   `;
 
   return commentHTML;
+};
+
+// Function that adds event listener to new comment submit
+export const newComment = () => {
+  $(".new-comment").on("keyup", function(e) {
+    // Prevent any default
+    e.preventDefault();
+
+    // If enter is pressed
+    if (e.key === "Enter") {
+      const message = $(this).val();
+      const resourceId = Number($(this).prev().html());
+      const name = $(".custom-user").html();
+      const avatar = $(".custom-user").prev().attr("src");
+      const commentsContainer = $(this).parent().parent().prev().find(".comments");
+
+      // AJAX POST request
+      $.ajax({method: "POST",
+        url: "/comment",
+        data: {
+          resourceId,
+          content: message
+        }
+      })
+        .then((resp) => {
+          // New comment HTML
+          const newCommentHTML = singleCommentHTML({
+            id: resp.newCommentId,
+            timestamp: new Date(),
+            message,
+            name,
+            avatar,
+            hidden : false
+          });
+
+          // Append new comment
+          commentsContainer.append(newCommentHTML);
+
+          // Clear input field but doesn't blur
+          $(this).val("");
+        });
+    }
+  });
 };

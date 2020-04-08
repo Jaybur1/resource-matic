@@ -1,5 +1,5 @@
 import feedCardCreator from "./feed-card.js";
-import { showMoreComments } from "./comments.js";
+import { showMoreComments, newComment } from "./comments.js";
 import { likeInteractions } from "./like.js";
 import { ratingInteractions } from "./rating.js";
 
@@ -24,6 +24,8 @@ const feedRenderer = async(resources) => {
   $("#home-page").append(await feedCreator(resources));
   // Event listener for view more comments
   showMoreComments(3);
+  // Event listener for new comment
+  newComment();
   // Event listener for like click
   likeInteractions();
   // Event listener for like rating
@@ -80,6 +82,7 @@ export const groupComments = (unGroupedResources) => {
       if (resource.comment) {
         // Adds comment to array
         commentsArray = [ {
+          id: resource.comment_id,
           message: resource.comment,
           timestamp: resource.comment_created_at,
           name: resource.commenter,

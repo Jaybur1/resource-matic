@@ -82,13 +82,13 @@
 
 .custom-feed .custom-comment-hidden,
 .custom-feed .custom-previous-hidden,
-.custom-feed .custom-resource-id {
+.custom-feed .custom-resource-id,
+.custom-feed .custom-comment-id {
   display: none;
 }
 
 .custom-feed .custom-like {
   color: #ff2733;
-  // opacity: 1 !important;
 }
 
 .custom-feed .custom-like-count {
@@ -108,4 +108,8 @@
   .custom-avg-rating.rated {
     font-weight: 500;
   }
+}
+
+.custom-feed .custom-new-comment-container {
+  width: 100% !important;
 }
