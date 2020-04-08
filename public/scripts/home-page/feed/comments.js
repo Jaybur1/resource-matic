@@ -126,6 +126,12 @@ export const newComment = () => {
 
           // Clear input field but doesn't blur
           $(this).val("");
+
+          // Turn on edit and delete comment
+          $(".custom-edit-comment").off("click");
+          $(".custom-delete-comment").off("click");
+          editComment();
+          deleteComment();
         });
     }
   });
@@ -162,11 +168,11 @@ export const editComment = () => {
   // Event listener for edit button
   $(".custom-edit-comment").on("click", function() {
 
-    // Current comment id
-    const commentId = Number($(this).parent().next().text());
-
     // Text area is already open
     if ($(this).parent().prev().hasClass("custom-edit-input")) {
+
+      // Current comment id
+      const commentId = Number($(this).parent().next().text());
 
       const inputEl = $(this).parent().prev();
       const newMessage = inputEl.val().trim();
@@ -196,10 +202,14 @@ export const editComment = () => {
       // Add keypress event listener
       $(".custom-edit-input").on("keyup", function(e) {
 
+        // Current comment id
+        const commentId = Number($(this).parent().next().text());
+      
         const newMessage = $(this).val().trim();
 
         // If shift is not pressed with enter
         if (e.keyCode === 13 && !e.shiftKey) {
+
           // Submit new comment
           submitEditedComment(newMessage, commentId)
             .then(() => {
@@ -216,7 +226,7 @@ export const editComment = () => {
   });
 };
 
-
+// Function that submits edit comment
 const submitEditedComment = (message, commentId) => {
   // AJAX PUT request
   return $.ajax({method: "PUT",
@@ -224,6 +234,67 @@ const submitEditedComment = (message, commentId) => {
     data: {
       commentId,
       content: message
+    }
+  })
+    .then(resp => resp);
+};
+
+// Function that deletes comment
+export const deleteComment = () => {
+  // Event listener for edit button
+  $(".custom-delete-comment").on("click", function() {
+
+    // Delete prompt html
+    const deletePromptHTML = `
+    <span class="custom-delete-comment-prompt">Are you sure you want to delete this comment?</span>
+    <a class="reply custom-confirm-delete-comment">Delete</a>
+    <a class="reply custom-cancel-delete-comment">Cancel</a>
+    `;
+
+    // Render prompt
+    $(this).after(deletePromptHTML);
+
+    // Hide delete and edit buttons
+    $(this).prev().addClass("custom-default-hidden");
+    $(this).addClass("custom-default-hidden");
+
+    // Event listener for confirm delete
+    $(".custom-confirm-delete-comment").on("click", function() {
+      
+      // Current comment id
+      const commentId = Number($(this).parent().next().text());
+      
+      // Submit delete request
+      submitDeleteComment(commentId)
+        .then(() => {
+          // Remove comment element
+          $(this).parent().parent().parent().remove();
+        });
+    });
+    
+    // Event listener for cancel delete
+    $(".custom-cancel-delete-comment").on("click", function() {
+      
+      // Remove all prompt elements and show back edit and delete buttons
+      $(this).prev().prev().prev().prev().removeClass("custom-default-hidden");
+      $(this).prev().prev().prev().removeClass("custom-default-hidden");
+      $(this).prev().prev().remove();
+      $(this).prev().remove();
+      $(this).remove();
+      //
+    });
+
+
+  });
+};
+
+// Function that submits delete comment
+const submitDeleteComment = (commentId) => {
+  // AJAX PUT request
+  return $.ajax({method: "DELETE",
+    url: "/comment",
+    data: {
+      commentId,
     }
   })
     .then(resp => resp);

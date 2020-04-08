@@ -80,8 +80,9 @@
 .custom-big-card .custom-previous-hidden,
 .custom-big-card .custom-resource-id,
 .custom-big-card .custom-message-hidden,
+.custom-big-card .custom-default-hidden,
 .custom-big-card .custom-comment-id {
-  display: none;
+  display: none !important;
 }
 
 .custom-big-card .custom-like {
@@ -134,4 +135,24 @@
     outline: none;
     box-shadow: 0 0 2px var(--color_3);
   }
+}
+
+.custom-big-card .custom-confirm-delete-comment {
+  // color: red !important;
+  // color: var(--color_2) !important;
+  font-weight: 500;
+}
+
+.custom-big-card .custom-cancel-delete-comment {
+  // color: var(--color_4) !important;
+  font-weight: 500;
+}
+
+.custom-big-card .custom-delete-comment-prompt {
+  // color: var(--color_4) !important;
+  font-weight: 500;
+  // text-decoration: underline;
+  padding-right: 1em;
+  color: red;
+  // background-color: var(--color_5);
 }

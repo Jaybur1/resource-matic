@@ -6,7 +6,7 @@ import {
   getResourcesUserRated,
 } from "./myResourcesCalls.js";
 import feedCardCreator from "../feed/feed-card.js";
-import { showMoreComments, newComment } from "../feed/comments.js";
+import { showMoreComments, newComment, editComment, deleteComment } from "../feed/comments.js";
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
 
@@ -138,6 +138,10 @@ const handleData = async(data, container) => {
     showMoreComments(3);
     // Event listener for new comment
     newComment();
+    // Event listener for edit comment
+    editComment();
+    // Event listener for edit comment
+    deleteComment();
     // Event listener for like click
     likeInteractions();
     // Event listener for like rating
