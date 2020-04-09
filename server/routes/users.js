@@ -76,10 +76,20 @@ module.exports = (db) => {
         database.getUserWithEmail(db, email).then((existingUser) => {
           if (!existingUser) {
             const newUser = { name, email, password: hashedPassword };
-            database.addUser(db, newUser).then((addedUser) => {
-              req.session.userId = addedUser.id;
-              res.send({ redirect: "/home" });
-            });
+            if (newUser.name.length > 255) {
+              res.send({
+                err: "Name is too long",
+              });
+            } else if (newUser.email.length > 255) {
+              res.send({
+                err: "Email is too long",
+              });
+            } else {
+              database.addUser(db, newUser).then((addedUser) => {
+                req.session.userId = addedUser.id;
+                res.send({ redirect: "/home" });
+              });
+            }
           } else {
             res.send({
               err: "An account with this email address already exists",
@@ -92,15 +102,6 @@ module.exports = (db) => {
         });
       }
     });
-  });
-
-  router.get("/curr", (req, res) => {
-    if (req.session.userId) {
-      const current = req.session.userId;
-      res.json({current});
-    } else {
-      res.send("Forbidden Action Error code 403");
-    }
   });
 
   return router;

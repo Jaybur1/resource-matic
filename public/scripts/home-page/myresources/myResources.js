@@ -3,7 +3,6 @@ import {
   getResourcesUserLiked,
   getResourcesUserCommented,
   getResourcesUserRated,
-  getCurrentUser,
   deleteResource,
 } from "./myResourcesCalls.js";
 import feedCardCreator from "../feed/feed-card.js";
@@ -41,12 +40,12 @@ const deleteModal = `
 `;
 
 export const handleClickedResource = () => {
+  //handle prompt on resource delete
   $(".custom-delete").on("click", function () {
     const resourceId = $(this).attr("resource");
-    console.log(resourceId);
     $(deleteModal).modal("show");
     $(".yes-delete").on("click", () => {
-      deleteResource(resourceId).then((data) => console.log(data));
+      deleteResource(resourceId);
       location.reload();
     });
   });
@@ -84,7 +83,8 @@ export const handleClickedResource = () => {
   });
 };
 
-export const createCards = async (createdResources, ownerId = null) => {
+
+export const createCards = async (createdResources) => {
   // Create html content for each resource
   const createdResourcesHTML = [];
 
@@ -131,13 +131,9 @@ export const createCards = async (createdResources, ownerId = null) => {
   return createdResourcesHTML;
 };
 const handleData = async (data, container) => {
-  const current = await getCurrentUser();
-
   const resources = await cardsCreator(data);
   if (resources.length === 0) {
-    $(`.${container}`).html(
-      "<p>No Resources yet ... </p>"
-    );
+    $(`.${container}`).html("<p>No Resources yet ... </p>");
   } else {
     $(`.${container}`).html(resources);
     $(".special.cards .image").dimmer({
@@ -195,41 +191,41 @@ const renderTabs = () => {
 };
 
 const clearTabs = () => {
-  $('.user-resources').html(createPlaceholderCards());
-  $('.liked-resources').html(createPlaceholderCards());
-  $('.commented-resources').html(createPlaceholderCards());
-  $('.rated-resources').html(createPlaceholderCards());
-}
+  $(".user-resources").html(createPlaceholderCards());
+  $(".liked-resources").html(createPlaceholderCards());
+  $(".commented-resources").html(createPlaceholderCards());
+  $(".rated-resources").html(createPlaceholderCards());
+};
 
 const tabToggleHandler = () => {
-  $('.item.tab.like-tab').on('click', function() {
+  $(".item.tab.like-tab").on("click", function () {
     getResourcesUserLiked().then((data) => {
       clearTabs();
-      handleData(data,"liked-resources")
+      handleData(data, "liked-resources");
     });
-  })
+  });
 
-  $('.item.tab.comment-tab').on('click', function() {
+  $(".item.tab.comment-tab").on("click", function () {
     getResourcesUserCommented().then((data) => {
-      clearTabs()
+      clearTabs();
       handleData(data, "commented-resources");
     });
-  })
+  });
 
-  $('.item.tab.rate-tab').on('click', function() {
+  $(".item.tab.rate-tab").on("click", function () {
     getResourcesUserRated().then((data) => {
       clearTabs();
       handleData(data, "rated-resources");
     });
-  })
+  });
 
-  $('.item.tab.user-tab').on('click', function() {
+  $(".item.tab.user-tab").on("click", function () {
     getUserResources().then((data) => {
       clearTabs();
       handleData(data, "user-resources");
     });
-  })
-}
+  });
+};
 
 const retrieveMyResources = () => {
   $("#home-page").html(renderTabs);
