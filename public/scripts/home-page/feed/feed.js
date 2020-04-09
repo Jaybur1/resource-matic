@@ -1,5 +1,5 @@
 import feedCardCreator from "./feed-card.js";
-import { showMoreComments, newComment, updateCommentsWithOwned, editComment } from "./comments.js";
+import { showMoreComments, newComment, updateCommentsWithOwned, editComment, deleteComment } from "./comments.js";
 import { likeInteractions } from "./like.js";
 import { ratingInteractions } from "./rating.js";
 
@@ -28,6 +28,8 @@ const feedRenderer = async(resources) => {
   newComment();
   // Event listener for edit comment
   editComment();
+  // Event listener for edit comment
+  deleteComment();
   // Event listener for like click
   likeInteractions();
   // Event listener for like rating
