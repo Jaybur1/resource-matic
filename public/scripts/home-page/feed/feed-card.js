@@ -27,7 +27,7 @@ const feedCardCreator = async(resource) => {
       <span class="custom-avg-rating ${Number(resource.avg_ratings).toFixed(1) > 0 ? "rated" : "not-rated"}"> 
       ${Number(resource.avg_ratings).toFixed(1) > 0 ? `Avg.&nbsp ${Number(resource.avg_ratings).toFixed(1)}` : "Not rated yet"}</span>
       &nbsp&nbsp<div class="ui yellow rating" data-rating="${await checkIfRated(resource.id) || 0}" data-max-rating="5">
-      s</div>
+      </div>
     </span>
       </div>
     </div>
@@ -39,8 +39,12 @@ const feedCardCreator = async(resource) => {
       <span class="right floated">
         <i class="heart ${await checkIfLiked(resource.id) ? "" : "outline"} custom-like like icon"></i>
       </span>
+      <span>
       <i class="comment icon"></i>
+      <span class="custom-comment-count">
      ${resource.comments ? `${resource.comments.length} ${resource.comments.length === 1 ? `comment` : `comments` }` : null} 
+     </span>
+     </span>
     </div>
     <div class="content">
     <div class="ui content comments">
