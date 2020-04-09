@@ -10,4 +10,8 @@ $(document).ready(() => {
   retrieveFeedResources();
   toggleResourceMenu();
   window.scroll(0, 0);
+
+  $(window).on("resize", function() {
+    console.log($(window).width());
+  });
 });
