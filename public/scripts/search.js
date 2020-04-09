@@ -3,7 +3,11 @@
 // Client-side search support.
 
 import * as feed        from "./home-page/feed/feed.js";
+import * as comments    from "./home-page/feed/comments.js";
 import * as myResources from "./home-page/myresources/myResources.js";
+import { showMoreComments, newComment, editComment, deleteComment } from "./home-page/feed/comments.js";
+import { likeInteractions } from "./home-page/feed/like.js";
+import { ratingInteractions } from "./home-page/feed/rating.js";
 
 // search.results performs an AJAX request for search data.
 
@@ -23,16 +27,20 @@ export const resources = (searchText) => {
       data:   {
         searchText
       }
-    }).then((data, _status, _xhr) => {
+    }).then(async(data, _status, _xhr) => {
       console.log("GET /resources/searchwtf");
       //renderSearchResults($("main section#home-page"), data);
-      myResources.createCards(feed.groupComments(data))
+      const groupedResources = feed.groupComments(data);
+      for (const resource of groupedResources) {
+        resource.comments = await comments.updateCommentsWithOwned(resource.comments, resource.id);
+      }
+      myResources.createCards(groupedResources)
         .then((cardsHtml) => {
           $("main section#home-page").html(
             `<div class="ui large purple header">` +
               `Search results for "${searchText}"` +
             `</div>` +
-            `<div class="ui bottom attached tab segment active" data-tab="one">` +
+            `<div class="ui segment container-effect">` +
               `<div class="user-resources ui special cards custom-resources custom-grid-resources">` +
               cardsHtml.join("") +
               `</div>` +
@@ -41,6 +49,17 @@ export const resources = (searchText) => {
               on: "hover",
             });
           myResources.handleClickedResource();
+          showMoreComments(3);
+          // Event listener for new comment
+          newComment();
+          // Event listener for edit comment
+          editComment();
+          // Event listener for edit comment
+          deleteComment();
+          // Event listener for like click
+          likeInteractions();
+          // Event listener for like rating
+          ratingInteractions();
         });
     }).catch((xhr, _status, _message) => console.log(xhr)); // handleXhrError(xhr));
   }

@@ -9,7 +9,7 @@ const renderPlaceholderCards = () => {
 };
 
 // Function that creates placeholder cards html elements
-const createPlaceholderCards = () => {
+export const createPlaceholderCards = () => {
   let placeholderCardsHTML = "";
 
   // Create html content for placeholders

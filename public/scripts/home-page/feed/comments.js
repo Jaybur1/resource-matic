@@ -2,12 +2,8 @@
 export const createCommentsHTML = (comments) => {
   // Comments section html
   let commentsHTML = `
-  <div class="content">
-    <div class="ui content comments">
       ${comments.length > 3 ? `<div class="custom-view-previous">View previous comments</div>` : ""}
       ${createThreeCommentsHTML(comments, 3)}
-    </div>
-  </div>
   `;
 
   return commentsHTML;
@@ -42,16 +38,16 @@ const createThreeCommentsHTML = (comments, numberOfComments) => {
     return new Date(x.timestamp) - new Date(y.timestamp);
   });
 
-  let fourCommentsHTML = "";
+  let partCommentsHTML = "";
 
   // Create html for each comment (have only last given number of comments visible)
   sortedComments.forEach((comment, index) => {
     index >= sortedComments.length - numberOfComments
-      ? fourCommentsHTML += singleCommentHTML(comment)
-      : fourCommentsHTML += singleCommentHTML(comment, true);
+      ? partCommentsHTML += singleCommentHTML(comment)
+      : partCommentsHTML += singleCommentHTML(comment, true);
   });
 
-  return fourCommentsHTML || "";
+  return partCommentsHTML || "";
 };
 
 // Function that creates single comment with hidden or not as input
@@ -126,6 +122,15 @@ export const newComment = () => {
 
           // Clear input field but doesn't blur
           $(this).val("");
+
+          // Update comment count
+          const commentCountEl = $(this).parent().parent().parent().find(".custom-comment-count");
+          const currentCommentCount = Number(commentCountEl.text().trim().split(" ")[0]);
+
+          commentCountEl.text(`
+          ${currentCommentCount + 1} ${currentCommentCount + 1 === 1 ? "comment" : "comments"}
+          `);
+          //
 
           // Turn on edit and delete comment
           $(".custom-edit-comment").off("click");
@@ -263,6 +268,15 @@ export const deleteComment = () => {
       
       // Current comment id
       const commentId = Number($(this).parent().next().text());
+
+      // Update comment count
+      const commentCountEl = $(this).parent().parent().parent().parent().parent().parent().find(".custom-comment-count");
+      const currentCommentCount = Number(commentCountEl.text().trim().split(" ")[0]);
+      
+      commentCountEl.text(`
+      ${currentCommentCount - 1} ${currentCommentCount - 1 === 1 ? "comment" : "comments"}
+      `);
+      //
       
       // Submit delete request
       submitDeleteComment(commentId)
@@ -274,7 +288,7 @@ export const deleteComment = () => {
     
     // Event listener for cancel delete
     $(".custom-cancel-delete-comment").on("click", function() {
-      
+
       // Remove all prompt elements and show back edit and delete buttons
       $(this).prev().prev().prev().prev().removeClass("custom-default-hidden");
       $(this).prev().prev().prev().removeClass("custom-default-hidden");

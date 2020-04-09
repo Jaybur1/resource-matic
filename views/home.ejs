@@ -16,10 +16,10 @@
       <div class="ui container">
         <section>
           <div class="ui vertical menu custom-right-menu">
-            <a href="/profile" class="item">
+            <a href="/profile" class="item custom-menu-user-info">
               <div class="header custom-user">
                 <img class="ui avatar image" src="<%= user.avatar %>" />
-                <%= user.name %>
+                <span><%= user.name %></span>
               </div>
             </a>
             <a class="active item resource-links feed-link"
@@ -37,7 +37,6 @@
             <a class="item resource-links favorites-link"
               ><i class="star icon"></i> Favorites
             </a>
-            <!-- <a class="item resource-links"><i class="project diagram icon"></i> Categories </a> -->
           </div>
         </section>
         <section class="custom-main-container" id="home-page"></section>

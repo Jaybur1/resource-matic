@@ -420,7 +420,7 @@ const deleteCategory = (id, db) => {
     .query("DELETE FROM categories WHERE id = $1 RETURNING *",[id])
     .then(res => res.rows)
     .catch((err) => console.log("deleteCategory error:", err));
-}
+};
 
 const executeDelete = (id,db) => {
   return db.query('DELETE FROM resources WHERE id = $1',[id])
