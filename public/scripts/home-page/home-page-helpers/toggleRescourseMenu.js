@@ -1,34 +1,42 @@
+import retrieveMyResources from "../myresources/myResources.js";
+import retrieveFeedResources from "../feed/feed.js";
+import retrievePopularResources from "../popular/popular.js";
+import retrieveBrowseResources from "../browse/browse.js";
+
 const toggler = (current) => {
   const list = document.querySelectorAll(".resource-links");
   list.forEach((elem) => {
     $(elem).removeClass("active");
     $(current).addClass("active");
   });
+  
+  // Clear params if any
+  window.history.pushState({}, document.title, "/home");
+
+  // scroll to top of page
+  window.scroll(0, 0);
 };
 
 const toggleResourceMenu = () => {
   $(".my-resources-link").on("click", function() {
     toggler(this);
-    window.location = `/home?page=${encodeURIComponent("my-resources")}`;
+    retrieveMyResources();
   });
   $(".feed-link").on("click", function() {
     toggler(this);
-    window.location = `/home?page=${encodeURIComponent("feed")}`;
+    retrieveFeedResources();
   });
   $(".browse-link").on("click", function() {
     toggler(this);
-    window.location = `/home?page=${encodeURIComponent("browse")}`;
+    retrieveBrowseResources();
   });
   $(".popular-link").on("click", function() {
     toggler(this);
-    window.location = `/home?page=${encodeURIComponent("popular")}`;
+    retrievePopularResources();
+  });
+  $(".favorites-link").on("click", function() {
+    toggler(this);
   });
 };
 
 export default toggleResourceMenu;
-
-// function processAjaxData(response, urlPath){
-//   document.getElementById("content").innerHTML = response.html;
-//   document.title = response.pageTitle;
-//   window.history.pushState({"html":response.html,"pageTitle":response.pageTitle},"", urlPath);
-// }
