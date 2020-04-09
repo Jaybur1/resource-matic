@@ -16,16 +16,14 @@ $(document).ready(() => {
   toggleResourceMenu();
 
   $(window).on("resize", function() {
-    console.log($(window).width());
-
     widthHandle();
   });
 });
 
 const widthHandle = () => {
   if ($(window).width() >= 992) {
-    $(".custom-right-menu").addClass("vertical");
+    $(".custom-right-menu").addClass("vertical").removeClass("fluid five item");
   } else {
-    $(".custom-right-menu").removeClass("vertical");
+    $(".custom-right-menu").removeClass("vertical").addClass("fluid five item");
   }
 };

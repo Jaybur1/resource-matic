@@ -22,7 +22,7 @@
         // padding-left: 0.5em;
         line-height: 2em;
         word-break: break-word;
-        padding-top: 0.5em !important;
+        padding-top: 0 !important;
 
         span {
           display: none;
@@ -185,6 +185,7 @@
 
   .custom-right-menu {
     .custom-user {
+      padding-top: 0.5em !important;
       span {
         padding-left: 0.5em;
         display: inline !important;
