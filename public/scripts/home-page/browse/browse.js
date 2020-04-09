@@ -100,39 +100,36 @@ export const cardsRenderer = async(resources) => {
   // Append placeholder cards
   $(".user-resources").append(createPlaceholderCards());
 
-  // Simulate minimum delay of 1s for placeholders
-  setTimeout(async() => {
-    // Get cards
-    const cardsBack = await cardsCreator(resources);
-    // Clear main area of home page
-    $(".user-resources").empty();
+  // Get cards
+  const cardsBack = await cardsCreator(resources);
+  // Clear main area of home page
+  $(".user-resources").empty();
     
-    // If cards are present render them. Otherwise render no results found
-    if (cardsBack.length > 0) {
-      $(".user-resources").append(await cardsCreator(resources));
-    } else {
-      $(".user-resources").append(`<div class="custom-nothing-matched"><h3>No results found <br> Please select another category</h3></div> `);
-    }
+  // If cards are present render them. Otherwise render no results found
+  if (cardsBack.length > 0) {
+    $(".user-resources").append(await cardsCreator(resources));
+  } else {
+    $(".user-resources").append(`<div class="custom-nothing-matched"><h3>No results found <br> Please select another category</h3></div> `);
+  }
     
-    // Handles clicking resources
-    handleClickedResource();
-    // Event listener for view more comments
-    showMoreComments(3);
-    // Event listener for new comment
-    newComment();
-    // Event listener for edit comment
-    editComment();
-    // Event listener for edit comment
-    deleteComment();
-    // Event listener for like click
-    likeInteractions();
-    // Event listener for like rating
-    ratingInteractions();
+  // Handles clicking resources
+  handleClickedResource();
+  // Event listener for view more comments
+  showMoreComments(3);
+  // Event listener for new comment
+  newComment();
+  // Event listener for edit comment
+  editComment();
+  // Event listener for edit comment
+  deleteComment();
+  // Event listener for like click
+  likeInteractions();
+  // Event listener for like rating
+  ratingInteractions();
 
-    $(".special.cards .image").dimmer({
-      on: "hover",
-    });
-  }, 1000);
+  $(".special.cards .image").dimmer({
+    on: "hover",
+  });
 
 };
 

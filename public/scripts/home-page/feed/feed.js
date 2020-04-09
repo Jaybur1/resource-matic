@@ -28,32 +28,26 @@ const feedRenderer = async(resources) => {
     </div>
   `);
 
-  // Simulate delay for placeholders
-  setTimeout(async() => {
-    // Clear main area of home page
-    $("#home-page").empty();
+  // Results cards
+  const resultCards = await feedCreator(resources);
     
-    // Results cards
-    const resultCards = await feedCreator(resources);
-    
-    // Clear main area of home page
-    $("#home-page").empty();
+  // Clear main area of home page
+  $("#home-page").empty();
 
-    // Render feed
-    $("#home-page").append(resultCards);
-    // Event listener for view more comments
-    showMoreComments(3);
-    // Event listener for new comment
-    newComment();
-    // Event listener for edit comment
-    editComment();
-    // Event listener for edit comment
-    deleteComment();
-    // Event listener for like click
-    likeInteractions();
-    // Event listener for like rating
-    ratingInteractions();
-  }, 1000);
+  // Render feed
+  $("#home-page").append(resultCards);
+  // Event listener for view more comments
+  showMoreComments(3);
+  // Event listener for new comment
+  newComment();
+  // Event listener for edit comment
+  editComment();
+  // Event listener for edit comment
+  deleteComment();
+  // Event listener for like click
+  likeInteractions();
+  // Event listener for like rating
+  ratingInteractions();
 };
 
 // Function that creates feed html

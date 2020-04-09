@@ -91,7 +91,7 @@ export const newComment = () => {
     const message = $(this).val();
 
     // If enter is pressed
-    if (e.keyCode === 13 && !e.shiftKey && message.trim().length > 0) {
+    if (e.which === 13 && !e.shiftKey && message.trim().length > 0) {
       const resourceId = Number($(this).prev().html());
       const name = $(".custom-user").text();
       const avatar = $(".custom-user").find("img").attr("src");
@@ -213,7 +213,7 @@ export const editComment = () => {
         const newMessage = $(this).val().trim();
 
         // If shift is not pressed with enter
-        if (e.keyCode === 13 && !e.shiftKey) {
+        if (e.which === 13 && !e.shiftKey) {
 
           // Submit new comment
           submitEditedComment(newMessage, commentId)
