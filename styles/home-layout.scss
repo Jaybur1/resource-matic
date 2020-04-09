@@ -158,6 +158,16 @@
   border-right: 1px solid rgba(34, 36, 38, 0.15) !important;
 }
 
+.custom-tab-name {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .custom-tab-name {
+    display: block;
+  }
+}
+
 @media only screen and (min-width: 992px) {
   .custom-home-page {
     .ui.container {

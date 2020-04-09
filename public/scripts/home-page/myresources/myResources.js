@@ -32,21 +32,21 @@ const deleteModal = `
   </div>
 </div>
 </div>
-`
+`;
 
 export const handleClickedResource = () => {
-  $(".custom-delete").on("click", function () {
+  $(".custom-delete").on("click", function() {
     const resourceId = $(this).attr('resource');
-    console.log(resourceId)
+    console.log(resourceId);
     $(deleteModal).modal("show");
     $('.yes-delete').on('click',()=>{
-      deleteResource(resourceId).then(data=> console.log(data))
+      deleteResource(resourceId).then(data=> console.log(data));
       location.reload();
-    })
+    });
   });
 
 
-  $(".open-resource-btn").on("click", function () {
+  $(".open-resource-btn").on("click", function() {
     const id = $(this).attr("id");
     // ! Order here is very important for functionality
     // Show all small cards
@@ -65,7 +65,7 @@ export const handleClickedResource = () => {
     //  !
   });
 
-  $(".container-effect").on("click", function (e) {
+  $(".container-effect").on("click", function(e) {
     if (
       e.target.classList.contains("user-resources") ||
       e.target === e.currentTarget
@@ -79,7 +79,7 @@ export const handleClickedResource = () => {
   });
 };
 
-export const createCards = async (createdResources, ownerId = null) => {
+export const createCards = async(createdResources, ownerId = null) => {
   // Create html content for each resource
   const createdResourcesHTML = [];
   
@@ -92,10 +92,10 @@ export const createCards = async (createdResources, ownerId = null) => {
         <div class="ui dimmer">
           <div class="content">
           ${
-            ownerId === resource.user_id
-            ? `<i resource="${resource.id}" class="trash alternate outline icon custom-delete"></i>`
-            : ''
-          }
+  ownerId === resource.user_id
+    ? `<i resource="${resource.id}" class="trash alternate outline icon custom-delete"></i>`
+    : ''
+}
             <div class="center">
             <a
               target="_blank"
@@ -113,8 +113,8 @@ export const createCards = async (createdResources, ownerId = null) => {
           </div>
         <div class="content custom-bk-grey">
           <a href="${
-            resource.content
-          }" target="_blank" class="ui sub header medium center aligned custom-hover-text-blue"
+  resource.content
+}" target="_blank" class="ui sub header medium center aligned custom-hover-text-blue"
             >${resource.title}</a>
         </div>
       </div>
@@ -126,7 +126,7 @@ export const createCards = async (createdResources, ownerId = null) => {
 
   return createdResourcesHTML;
 };
-const handleData = async (data, container) => {
+const handleData = async(data, container) => {
   const current = await getCurrentUser();
 
   const resourceArr = groupComments(data);
@@ -159,10 +159,10 @@ const renderTabs = () => {
   const html = `
 <div class="ui conteine">
 <div class="ui top attached tabular menu">
-  <div class="item tab active user-tab" data-tab="one"></a><i class="user tie icon"></i>Created</div>
-  <div class="item tab like-tab" data-tab="two"><i class="heart icon"></i>Liked</div>
-  <div class="item tab comment-tab" data-tab="three"><i class="comment icon"></i>Commented</div>
-  <div class="item tab rate-tab" data-tab="four"><i class="star icon"></i>Rated</div>
+  <div class="item tab active user-tab" data-tab="one"></a><i class="user tie icon"></i><span class="custom-tab-name">Created</span> </div>
+  <div class="item tab like-tab" data-tab="two"><i class="heart icon"></i><span class="custom-tab-name">Liked</span> </div>
+  <div class="item tab comment-tab" data-tab="three"><i class="comment icon"></i><span class="custom-tab-name">Commented</span> </div>
+  <div class="item tab rate-tab" data-tab="four"><i class="star icon"></i><span class="custom-tab-name">Rated</span> </div>
 </div>
 <div class="container-effect ui bottom attached tab segment active" data-tab="one">
   <div class="user-resources ui special cards custom-resources custom-grid-resources">
