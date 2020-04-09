@@ -8,8 +8,10 @@ import * as myResources from "./home-page/myresources/myResources.js";
 // search.results performs an AJAX request for search data.
 
 export const resources = (searchText) => {
+
+  searchText = searchText.trim();
   if (new URL(window.location).pathname !== "/home") {
-    window.location = `/home?search=${searchText}`;
+    window.location = `/home?search=${encodeURIComponent(searchText)}`;
   } else {
 
     // TODO: Cancel loading feed
@@ -19,18 +21,20 @@ export const resources = (searchText) => {
       //url:    "/resources/search",
       url:    "/resources/searchwtf",
       data:   {
-        searchText: searchText.trim()
+        searchText
       }
     }).then((data, _status, _xhr) => {
       console.log("GET /resources/searchwtf");
-      console.log(data);
       //renderSearchResults($("main section#home-page"), data);
       myResources.createCards(feed.groupComments(data))
         .then((cardsHtml) => {
           $("main section#home-page").html(
+            `<div class="ui large purple header">` +
+              `Search results for "${searchText}"` +
+            `</div>` +
             `<div class="ui bottom attached tab segment active" data-tab="one">` +
               `<div class="user-resources ui special cards custom-resources custom-grid-resources">` +
-              cardsHtml +
+              cardsHtml.join("") +
               `</div>` +
             `</div>`)
             .find(".special.cards .image").dimmer({

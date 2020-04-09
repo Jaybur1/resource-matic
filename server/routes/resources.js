@@ -30,6 +30,16 @@ const resourcesRoutes = (db) => {
     database.addResource({ userId: req.session.userId, ...req.body }, db)
       .then((resource) => res.send(resource)));
 
+
+  //delete a resource 
+  router.delete('/', (req,res) => {
+    const resourceId = req.body.resourceId
+    database.deleteResource(resourceId, db).then(data => {
+      res.json(data)
+    })
+    
+  })
+
   // Search resources
   router.get("/search", (req, res) =>
     database.searchResources(db, req.query.searchText)
@@ -43,6 +53,7 @@ const resourcesRoutes = (db) => {
   router.get("/searchwtf", (req, res) =>
     database.searchResourcesWtf(db, req.query.searchText)
       .then((results) => res.json(results)));
+
 
   return router;
 
