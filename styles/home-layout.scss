@@ -3,7 +3,48 @@
   padding-top: 3em;
   min-height: 100vh;
   align-content: center;
-  position: relative;
+
+  .ui.container {
+    position: relative;
+    margin-top: -1em;
+
+    .custom-right-menu {
+      position: absolute;
+      box-shadow: none !important;
+      width: 100%;
+      top: 0;
+
+      .item {
+        font-weight: 500 !important;
+      }
+
+      .custom-user {
+        // padding-left: 0.5em;
+        line-height: 2em;
+        word-break: break-word;
+        padding-top: 0.5em !important;
+
+        span {
+          display: none;
+        }
+      }
+
+      .active.item {
+        background: var(--color_5) !important;
+        color: white;
+        &:hover {
+          color: white !important;
+        }
+      }
+    }
+
+    .custom-main-container {
+      // width: 76%;
+      // margin-left: 18em;
+      width: 100%;
+      padding-top: 6.7em;
+    }
+  }
 
   .custom-home-page-background {
     position: fixed;
@@ -15,40 +56,6 @@
         rgba($color: #e72291, $alpha: 0.05)
       ),
       url("/assets/images/swirl.png");
-  }
-
-  .custom-right-menu {
-    position: absolute;
-    box-shadow: none !important;
-    // width: 100%;
-    top: 2em;
-
-    .item {
-      font-weight: 500 !important;
-    }
-
-    .custom-user {
-      // padding-left: 0.5em;
-      line-height: 2em;
-      word-break: break-word;
-      padding-top: 0.5em !important;
-
-      span {
-        padding-left: 0.5em;
-      }
-    }
-  }
-
-  .ui.menu .active.item {
-    background: var(--color_5);
-    color: white;
-  }
-
-  .custom-main-container {
-    // width: 76%;
-    // margin-left: 18em;
-    width: 100%;
-    margin-top: 6em;
   }
 }
 
@@ -142,38 +149,57 @@
   z-index: 500 !important;
 }
 
-.custom-menu-user-info {
-  border-bottom: 1px solid rgba(34, 36, 38, 0.15) !important;
-}
-
 .custom-item-name {
   display: none;
 }
 
+.custom-menu-user-info {
+  border-right: 1px solid rgba(34, 36, 38, 0.15) !important;
+}
+
 @media only screen and (min-width: 992px) {
   .custom-home-page {
-    .custom-right-menu {
-      position: fixed;
-      top: 6.7em;
-    }
+    .ui.container {
+      .custom-right-menu {
+        position: fixed;
+        top: 6.7em;
+        width: 15em;
+      }
 
-    .custom-main-container {
-      width: 71%;
-      margin-left: 18em;
-      margin-top: 0;
+      .custom-main-container {
+        width: 71%;
+        margin-left: 18em;
+        padding-top: 1em;
+      }
     }
   }
 
   .custom-item-name {
     display: block;
   }
+
+  .custom-menu-user-info {
+    border-bottom: 1px solid rgba(34, 36, 38, 0.15) !important;
+    border-right: none !important;
+  }
+
+  .custom-right-menu {
+    .custom-user {
+      span {
+        padding-left: 0.5em;
+        display: inline !important;
+      }
+    }
+  }
 }
 
 @media only screen and (min-width: 1200px) {
   .custom-home-page {
-    .custom-main-container {
-      width: 76%;
-      // padding: 0 0.5em;
+    .ui.container {
+      .custom-main-container {
+        width: 76%;
+        // padding: 0 0.5em;
+      }
     }
   }
 }
