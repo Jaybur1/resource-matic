@@ -1,3 +1,7 @@
+// myResourcesCalls.js
+//
+// my resources section ajax calls support.
+
 export const getResourcesUserRated = () => {
   return $.ajax({
     method: "get",

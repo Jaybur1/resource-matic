@@ -1,3 +1,7 @@
+// myResources.js
+//
+// my resources section support.
+
 import {
   getUserResources,
   getResourcesUserLiked,
