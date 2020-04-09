@@ -3,9 +3,12 @@ import { showMoreComments, newComment, updateCommentsWithOwned, editComment, del
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
 import { groupComments } from "../feed/feed.js";
+import { getCategories } from "../../new-resource.js";
 
-const retrieveBrowseResources = () => {
+const retrieveBrowseResources = async() => {
   $("#home-page").empty();
+
+  console.log(await getCategories());
 
   const browsePageHtml = `
   <div class="ui segment custom-browse-top">
@@ -42,7 +45,7 @@ const retrieveBrowseResources = () => {
     </div>
   </div>
   </div>
-  <div class="ui bottom attached tab segment active">
+  <div class="ui segment">
     <div
       class="user-resources ui special cards custom-resources custom-grid-resources"
     ></div>
@@ -56,6 +59,8 @@ const retrieveBrowseResources = () => {
       allowAdditions: true
     })
   ;
+
+  retrieveBrowseCards();
 };
 
 // Function that retrieves feed resources and calls create feed function and listeners
@@ -74,9 +79,9 @@ const retrieveBrowseCards = () => {
 // Function that renders cards to home page
 const cardsRenderer = async(resources) => {
   // Clear main area of home page
-  $("#home-page").empty();
+  $(".user-resources").empty();
   // Render feed
-  $("#home-page").append(await cardsCreator(resources));
+  $(".user-resources").append(await cardsCreator(resources));
   // Handles clicking resources
   handleClickedResource();
   // Event listener for view more comments
@@ -91,6 +96,10 @@ const cardsRenderer = async(resources) => {
   likeInteractions();
   // Event listener for like rating
   ratingInteractions();
+
+  $(".special.cards .image").dimmer({
+    on: "hover",
+  });
 };
 
 // Function that creates cards html
@@ -103,20 +112,8 @@ const cardsCreator = async(resources) => {
   }
     
   const cards = createCards(groupedResources);
-  // const array = [];
 
-  // // Create array of cards html
-  // for (let i in groupedResources) {
-  //   array.push(await feedCardCreator(groupedResources[i]));
-  // }
-
-  // // HTML for feed
-  // const feedHTML = `
-  // <div class="custom-feed">
-  //   ${array.join(" ")}
-  // </div>`;
-
-  return feedHTML;
+  return cards;
 };
 
 export default retrieveBrowseResources;

@@ -6,7 +6,7 @@ export const capitalize = (str) => {
   return str[0].toUpperCase() + str.substr(1).toLowerCase();
 };
 
-const getCategories = (name = undefined) => {
+export const getCategories = (name = undefined) => {
   return $.ajax({
     method: "GET",
     url: "/categories",
