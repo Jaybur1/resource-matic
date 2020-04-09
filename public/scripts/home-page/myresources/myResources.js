@@ -1,16 +1,25 @@
-import { groupComments } from "../feed/feed.js";
+// myResources.js
+//
+// my resources section support.
+
 import {
   getUserResources,
   getResourcesUserLiked,
   getResourcesUserCommented,
   getResourcesUserRated,
-  getCurrentUser,
   deleteResource,
 } from "./myResourcesCalls.js";
 import feedCardCreator from "../feed/feed-card.js";
-import { showMoreComments, newComment, editComment, deleteComment } from "../feed/comments.js";
+import {
+  showMoreComments,
+  newComment,
+  editComment,
+  deleteComment,
+} from "../feed/comments.js";
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
+import { cardsCreator } from "../browse/browse.js";
+import { createPlaceholderCards } from "../../landing-page/placeholder-cards.js";
 
 const deleteModal = `
 <div class="ui basic modal deleteModal">
@@ -35,16 +44,15 @@ const deleteModal = `
 `;
 
 export const handleClickedResource = () => {
+  //handle prompt on resource delete
   $(".custom-delete").on("click", function() {
-    const resourceId = $(this).attr('resource');
-    console.log(resourceId);
+    const resourceId = $(this).attr("resource");
     $(deleteModal).modal("show");
-    $('.yes-delete').on('click',()=>{
-      deleteResource(resourceId).then(data=> console.log(data));
+    $(".yes-delete").on("click", () => {
+      deleteResource(resourceId);
       location.reload();
     });
   });
-
 
   $(".open-resource-btn").on("click", function() {
     const id = $(this).attr("id");
@@ -79,12 +87,12 @@ export const handleClickedResource = () => {
   });
 };
 
-export const createCards = async(createdResources, ownerId = null) => {
+
+export const createCards = async(createdResources) => {
   // Create html content for each resource
   const createdResourcesHTML = [];
-  
+
   for (let resource of createdResources) {
-    
     const bigCard = await feedCardCreator(resource);
     createdResourcesHTML.push(`
       <div class="ui card custom-width-fit small-card${resource.id}">
@@ -92,9 +100,9 @@ export const createCards = async(createdResources, ownerId = null) => {
         <div class="ui dimmer">
           <div class="content">
           ${
-  ownerId === resource.user_id
+  resource.currentUser
     ? `<i resource="${resource.id}" class="trash alternate outline icon custom-delete"></i>`
-    : ''
+    : ""
 }
             <div class="center">
             <a
@@ -127,15 +135,11 @@ export const createCards = async(createdResources, ownerId = null) => {
   return createdResourcesHTML;
 };
 const handleData = async(data, container) => {
-  const current = await getCurrentUser();
-
-  const resourceArr = groupComments(data);
-  if (resourceArr.length === 0) {
-    $(`.${container}`).html(
-      'No Resources yet ... <a class="ui create-new-resource">add</a>/comment/like/rate some to fill the sections</div>'
-    );
+  const resources = await cardsCreator(data);
+  if (resources.length === 0) {
+    $(`.${container}`).html("<p>No Resources yet ... </p>");
   } else {
-    $(`.${container}`).html(await createCards(resourceArr, current.current));
+    $(`.${container}`).html(resources);
     $(".special.cards .image").dimmer({
       on: "hover",
     });
@@ -170,18 +174,18 @@ const renderTabs = () => {
   </div>
 </div>
 <div class="container-effect ui bottom attached tab segment" data-tab="two">
-  <div class="liked-resources ui special four doubling cards custom-resources custom-padding"> 
+  <div class="liked-resources ui special cards custom-resources custom-grid-resources"> 
    <i class="asterisk loading icon"></i>Loading resources...
    
    </div>
 </div>
 <div class="container-effect ui bottom attached tab segment" data-tab="three">
-  <div class="commented-resources ui special four doubling cards custom-resources custom-padding">
+  <div class="commented-resources ui special cards custom-resources custom-grid-resources">
   <i class="asterisk loading icon"></i>Loading resources...
   </div> 
 </div>
 <div class="container-effect ui bottom attached tab segment" data-tab="four">
-  <div class="rated-resources ui special four doubling cards custom-resources custom-padding">
+  <div class="rated-resources ui special cards custom-resources custom-grid-resources">
   <i class="asterisk loading icon"></i>Loading resources...
   </div>
 </div>
@@ -190,24 +194,50 @@ const renderTabs = () => {
   return html;
 };
 
+const clearTabs = () => {
+  $(".user-resources").html(createPlaceholderCards());
+  $(".liked-resources").html(createPlaceholderCards());
+  $(".commented-resources").html(createPlaceholderCards());
+  $(".rated-resources").html(createPlaceholderCards());
+};
+
+const tabToggleHandler = () => {
+  $(".item.tab.like-tab").on("click", function() {
+    getResourcesUserLiked().then((data) => {
+      clearTabs();
+      handleData(data, "liked-resources");
+    });
+  });
+
+  $(".item.tab.comment-tab").on("click", function() {
+    getResourcesUserCommented().then((data) => {
+      clearTabs();
+      handleData(data, "commented-resources");
+    });
+  });
+
+  $(".item.tab.rate-tab").on("click", function() {
+    getResourcesUserRated().then((data) => {
+      clearTabs();
+      handleData(data, "rated-resources");
+    });
+  });
+
+  $(".item.tab.user-tab").on("click", function() {
+    getUserResources().then((data) => {
+      clearTabs();
+      handleData(data, "user-resources");
+    });
+  });
+};
+
 const retrieveMyResources = () => {
   $("#home-page").html(renderTabs);
   $(".tabular.menu .item").tab();
   getUserResources().then((data) => {
     handleData(data, "user-resources");
   });
-
-  // getResourcesUserLiked().then((data) => {
-  //   handleData(data, "liked-resources");
-  // });
-
-  // getResourcesUserCommented().then((data) => {
-  //   handleData(data, "commented-resources");
-  // });
-
-  // getResourcesUserRated().then((data) => {
-  //   handleData(data, "rated-resources");
-  // });
+  tabToggleHandler();
 };
 
 export default retrieveMyResources;

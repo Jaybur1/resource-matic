@@ -1,11 +1,19 @@
+// popular.js
+//
+// popular section support.
 import {
-  createCards,
   handleClickedResource,
 } from "../myresources/myResources.js";
-import { groupComments } from "../feed/feed.js";
-import { showMoreComments, newComment, editComment } from "../feed/comments.js";
+import {
+  showMoreComments,
+  newComment,
+  editComment,
+  deleteComment,
+} from "../feed/comments.js";
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
+import { cardsCreator } from "../browse/browse.js";
+import { createPlaceholderCards } from "../../landing-page/placeholder-cards.js";
 
 const getPopularResources = () => {
   // AJAX GET request
@@ -24,18 +32,24 @@ const getPopularResources = () => {
     return resp;
   });
 };
+
+
 const retrievePopularResources = () => {
+  $("#home-page").html(`<div class="ui segment container-effect">
+      <div class="user-resources ui special cards custom-resources custom-grid-resources">
+        ${createPlaceholderCards()}
+      </div>
+    </div>`);
   getPopularResources()
     .then((data) => {
-      console.log(groupComments(data));
-      return createCards(groupComments(data));
+      return cardsCreator(data);
     })
     .then((data) => {
-      $("#home-page").html(
-        `<div class="custom-popular-padding container-effect segment user-resources ui special cards custom-resources custom-padding custom-grid-resources">${data.join(
-          ""
-        )}</div>`
-      );
+      $("#home-page").html(`<div class="ui segment container-effect">
+      <div class="user-resources ui special cards custom-resources custom-grid-resources">
+        ${data.join(" ")}
+      </div>
+    </div>`);
       $(".special.cards .image").dimmer({
         on: "hover",
       });
@@ -47,7 +61,7 @@ const retrievePopularResources = () => {
       // Event listener for edit comment
       editComment();
       // Event listener for edit comment
-      // deleteComment();
+      deleteComment();
       // Event listener for like click
       likeInteractions();
       // Event listener for like rating
