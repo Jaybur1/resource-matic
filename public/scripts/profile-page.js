@@ -100,10 +100,11 @@ $(document).ready(function(_event) {
   const handleXhrError = function(xhr) {
     switch (xhr.status) {
     case 403:
-      showError("Nice try.", "Stop h4xx0ring.");
+      showError("Incorrect password.", "Try again.");
       break;
     default:
-      showError("Smooth move ex-lax.", `You broke the server.<br><br>Here's some gnarly response info for your debugging pleasure:<pre>${JSON.stringifyPretty(xhr)}</pre>`);
+      // showError("Smooth move ex-lax.", `You broke the server.<br><br>Here's some gnarly response info for your debugging pleasure:<pre>${JSON.stringifyPretty(xhr)}</pre>`);
+      showError("Server was all like", `<div style="text-align: right;"><img style="width: 10rem;"src="assets/images/hmmm.gif"></div>`);
       break;
     }
   };
@@ -132,9 +133,8 @@ $(document).ready(function(_event) {
         .then((_data, _status, _xhr) => window.location = "/home")
         .catch((xhr, _status, _message) => handleXhrError(xhr));
     } else {
-      showError(`Fix your shit.`, `PROTIP: ` +
-                `<span class="custom-text-error-border">Look for stuff like this</span> ` +
-                `and make it go away.`);
+      showError(`Something's wrong<img style="width: 5rem; float: right;"src="assets/images/hmmm.gif">`,
+        `<span class="custom-text-error-border">It might look like this</span>`);
     }
     return false;
   });
@@ -148,9 +148,13 @@ $(document).ready(function(_event) {
         data:   user
       })
         .then((_data, _status, _xhr) => window.location = "/")
-        .catch((xhr, _status, _message) => handleXhrError(xhr));
+        .catch((xhr, _status, _message) => {
+          // Fake it til you make it:
+          xhr.status = 403;
+          handleXhrError(xhr);
+        });
     } else {
-      showError(`Enter your password.`, `Not gonna nuke it without it.`);
+      showError(`Enter your password`, `Just wanna make sure you know what you're doing.`);
     }
     return false;
   });
