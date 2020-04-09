@@ -42,7 +42,11 @@ const feedCardCreator = async(resource) => {
       <i class="comment icon"></i>
      ${resource.comments ? `${resource.comments.length} ${resource.comments.length === 1 ? `comment` : `comments` }` : null} 
     </div>
+    <div class="content">
+    <div class="ui content comments">
     ${resource.comments.length > 0 ? createCommentsHTML(resource.comments) : ""}
+    </div>
+    </div>
     <div class="extra content">
       <div class="ui large transparent left icon input custom-new-comment-container">
         <i class="comment outline icon"></i>
