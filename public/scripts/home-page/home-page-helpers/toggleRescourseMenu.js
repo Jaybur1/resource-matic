@@ -1,6 +1,7 @@
 import retrieveMyResources from "../myresources/myResources.js";
 import retrieveFeedResources from "../feed/feed.js";
 import retrievePopularResources from "../popular/popular.js";
+import retrieveBrowseResources from "../browse/browse.js";
 
 const toggler = (current) => {
   const list = document.querySelectorAll(".resource-links");
@@ -11,22 +12,23 @@ const toggler = (current) => {
 };
 
 const toggleResourceMenu = () => {
-  $(".my-resources-link").on("click", function () {
+  $(".my-resources-link").on("click", function() {
     toggler(this);
     retrieveMyResources();
   });
-  $(".feed-link").on("click", function () {
+  $(".feed-link").on("click", function() {
     toggler(this);
     retrieveFeedResources();
   });
-  $(".browse-link").on("click", function () {
+  $(".browse-link").on("click", function() {
     toggler(this);
+    retrieveBrowseResources();
   });
-  $(".popular-link").on("click", function () {
+  $(".popular-link").on("click", function() {
     toggler(this);
-    retrievePopularResources()
+    retrievePopularResources();
   });
-  $(".favorites-link").on("click", function () {
+  $(".favorites-link").on("click", function() {
     toggler(this);
   });
 };
