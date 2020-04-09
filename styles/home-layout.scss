@@ -1,49 +1,50 @@
 .custom-home-page {
   margin-top: 3.7em;
   padding-top: 3em;
+  padding-bottom: 5em;
   min-height: 100vh;
   align-content: center;
 
-  .custom-home-page-background {
-    position: fixed;
-    top: 3.7em;
-    height: calc(100vh - 3.7em);
-    width: 100vw;
-    background: linear-gradient(
-        rgba($color: #0b90f3, $alpha: 0.05),
-        rgba($color: #e72291, $alpha: 0.05)
-      ),
-      url("/assets/images/swirl.png");
-  }
+  .ui.container {
+    position: relative;
+    margin-top: -1em;
 
-  .custom-right-menu {
-    position: fixed;
-    box-shadow: none !important;
+    .custom-right-menu {
+      position: absolute;
+      box-shadow: none !important;
+      width: 100%;
+      top: 0;
 
-    .item {
-      font-weight: 500 !important;
-    }
+      .item {
+        font-weight: 500 !important;
+      }
 
-    .custom-user {
-      // padding-left: 0.5em;
-      line-height: 2em;
-      word-break: break-word;
-      padding-top: 0.5em !important;
+      .custom-user {
+        // padding-left: 0.5em;
+        line-height: 2em;
+        word-break: break-word;
+        padding-top: 0 !important;
 
-      span {
-        padding-left: 0.5em;
+        span {
+          display: none;
+        }
+      }
+
+      .active.item {
+        background: var(--color_5) !important;
+        color: white;
+        &:hover {
+          color: white !important;
+        }
       }
     }
-  }
 
-  .ui.vertical.menu .active.item {
-    background: var(--color_5);
-    color: white;
-  }
-
-  .custom-main-container {
-    width: 76%;
-    margin-left: 18em;
+    .custom-main-container {
+      // width: 76%;
+      // margin-left: 18em;
+      width: 100%;
+      padding-top: 6.7em;
+    }
   }
 }
 
@@ -59,13 +60,12 @@
 
 .custom-grid-resources {
   display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 187px));
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   width: 100%;
   height: 100%;
   grid-gap: 1.5em;
   padding-top: 0.55em;
   padding-bottom: 0.55em;
-  padding-left: 0.55em;
 }
 
 .custom-card-hidden,
@@ -74,7 +74,8 @@
 }
 
 .custom-card-show {
-  grid-column: span 4 !important;
+  // grid-column: span 3 !important;
+  grid-column: 1 / -1 !important;
 }
 
 .custom-nothing-matched {
@@ -137,6 +138,85 @@
   z-index: 500 !important;
 }
 
+.custom-item-name {
+  display: none;
+}
+
 .custom-menu-user-info {
-  border-bottom: 1px solid rgba(34, 36, 38, 0.15) !important;
+  border-right: 1px solid rgba(34, 36, 38, 0.15) !important;
+}
+
+.custom-tab-name {
+  display: none;
+}
+
+.custom-home-page-background {
+  position: fixed;
+  top: 3.7em;
+  height: calc(100vh - 3.7em);
+  width: 100vw;
+  background: linear-gradient(
+      rgba($color: #0b90f3, $alpha: 0.05),
+      rgba($color: #e72291, $alpha: 0.05)
+    ),
+    url("/assets/images/swirl.png");
+}
+
+@media only screen and (min-width: 768px) {
+  .custom-tab-name {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .custom-home-page {
+    .ui.container {
+      .custom-right-menu {
+        position: fixed;
+        top: 6.7em;
+        width: 15em;
+      }
+
+      .custom-main-container {
+        width: 71%;
+        margin-left: 18em;
+        padding-top: 1em;
+      }
+    }
+  }
+
+  .custom-item-name {
+    display: block;
+  }
+
+  .custom-menu-user-info {
+    border-bottom: 1px solid rgba(34, 36, 38, 0.15) !important;
+    border-right: none !important;
+  }
+
+  .custom-right-menu {
+    .custom-user {
+      padding-top: 0.5em !important;
+      span {
+        padding-left: 0.5em;
+        display: inline !important;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .custom-home-page {
+    .ui.container {
+      .custom-main-container {
+        width: 76%;
+        // padding: 0 0.5em;
+      }
+    }
+  }
+
+  .custom-grid-resources {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 187px));
+    padding-left: 0.55em;
+  }
 }

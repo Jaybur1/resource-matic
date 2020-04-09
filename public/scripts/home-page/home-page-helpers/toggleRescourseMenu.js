@@ -9,6 +9,9 @@ const toggler = (current) => {
     $(elem).removeClass("active");
     $(current).addClass("active");
   });
+  
+  // Clear params if any
+  window.history.pushState({}, document.title, "/home");
 
   // scroll to top of page
   window.scroll(0, 0);

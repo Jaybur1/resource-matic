@@ -3,6 +3,7 @@
   font-family: "Berkshire Swash", cursive !important;
   color: var(--color_4);
   font-size: 1.5em;
+  margin-left: 0 !important;
 }
 
 .custom-nav-height {
@@ -43,7 +44,7 @@ nav .custom-avatar.active {
   box-shadow: 0 0 4px rgba($color: #000000, $alpha: 0.2) !important;
 }
 
-nav .custom-popup{
+nav .custom-popup {
   margin-right: 0.8em !important;
   margin-top: 3.7em !important;
   width: 15em !important;
@@ -153,6 +154,11 @@ nav .custom-mobile-nav {
 @media only screen and (min-width: 768px) {
   .custom-logo {
     font-size: 2em;
+    margin-left: -0.4em !important;
+  }
+
+  nav .custom-avatar {
+    margin-right: -1em;
   }
 }
 
@@ -168,5 +174,9 @@ nav .custom-mobile-nav {
 
   nav .custom-mobile-nav {
     display: none;
+  }
+
+  nav .custom-avatar {
+    margin-right: 0;
   }
 }

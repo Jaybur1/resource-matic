@@ -1,5 +1,5 @@
 .custom-feed {
-  width: 79%;
+  width: 100%;
 }
 
 .custom-big-card-place {
@@ -10,4 +10,10 @@
 .custom-place-height {
   height: 100%;
   width: 100% !important;
+}
+
+@media only screen and (min-width: 1200px) {
+  .custom-feed {
+    width: 79%;
+  }
 }

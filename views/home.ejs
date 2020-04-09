@@ -15,7 +15,7 @@
       <div class="custom-home-page-background"></div>
       <div class="ui container">
         <section>
-          <div class="ui vertical menu custom-right-menu">
+          <div class="ui menu vertical custom-right-menu">
             <a href="/profile" class="item custom-menu-user-info">
               <div class="header custom-user">
                 <img class="ui avatar image" src="<%= user.avatar %>" />
@@ -23,16 +23,20 @@
               </div>
             </a>
             <a class="active item resource-links feed-link"
-              ><i class="stream icon"></i>Feed</a
+              ><i class="stream icon"></i
+              ><span class="custom-item-name">Feed</span></a
             >
             <a class="item resource-links browse-link"
-              ><i class="glasses icon"></i> Browse
+              ><i class="glasses icon"></i
+              ><span class="custom-item-name">Browse</span>
             </a>
             <a class="item resource-links popular-link"
-              ><i class="fire icon"></i> Popular
+              ><i class="fire icon"></i
+              ><span class="custom-item-name">Popular</span>
             </a>
             <a class="item resource-links my-resources-link"
-              ><i class="user tie icon"></i> My Resources
+              ><i class="user tie icon"></i
+              ><span class="custom-item-name">My Resources</span>
             </a>
           </div>
         </section>

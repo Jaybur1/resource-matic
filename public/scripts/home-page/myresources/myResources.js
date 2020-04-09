@@ -45,7 +45,7 @@ const deleteModal = `
 
 export const handleClickedResource = () => {
   //handle prompt on resource delete
-  $(".custom-delete").on("click", function () {
+  $(".custom-delete").on("click", function() {
     const resourceId = $(this).attr("resource");
     $(deleteModal).modal("show");
     $(".yes-delete").on("click", () => {
@@ -54,7 +54,7 @@ export const handleClickedResource = () => {
     });
   });
 
-  $(".open-resource-btn").on("click", function () {
+  $(".open-resource-btn").on("click", function() {
     const id = $(this).attr("id");
     // ! Order here is very important for functionality
     // Show all small cards
@@ -73,7 +73,7 @@ export const handleClickedResource = () => {
     //  !
   });
 
-  $(".container-effect").on("click", function (e) {
+  $(".container-effect").on("click", function(e) {
     if (
       e.target.classList.contains("user-resources") ||
       e.target === e.currentTarget
@@ -88,7 +88,7 @@ export const handleClickedResource = () => {
 };
 
 
-export const createCards = async (createdResources) => {
+export const createCards = async(createdResources) => {
   // Create html content for each resource
   const createdResourcesHTML = [];
 
@@ -100,10 +100,10 @@ export const createCards = async (createdResources) => {
         <div class="ui dimmer">
           <div class="content">
           ${
-            resource.currentUser
-              ? `<i resource="${resource.id}" class="trash alternate outline icon custom-delete"></i>`
-              : ""
-          }
+  resource.currentUser
+    ? `<i resource="${resource.id}" class="trash alternate outline icon custom-delete"></i>`
+    : ""
+}
             <div class="center">
             <a
               target="_blank"
@@ -121,8 +121,8 @@ export const createCards = async (createdResources) => {
           </div>
         <div class="content custom-bk-grey">
           <a href="${
-            resource.content
-          }" target="_blank" class="ui sub header medium center aligned custom-hover-text-blue"
+  resource.content
+}" target="_blank" class="ui sub header medium center aligned custom-hover-text-blue"
             >${resource.title}</a>
         </div>
       </div>
@@ -134,7 +134,7 @@ export const createCards = async (createdResources) => {
 
   return createdResourcesHTML;
 };
-const handleData = async (data, container) => {
+const handleData = async(data, container) => {
   const resources = await cardsCreator(data);
   if (resources.length === 0) {
     $(`.${container}`).html("<p>No Resources yet ... </p>");
@@ -163,10 +163,10 @@ const renderTabs = () => {
   const html = `
 <div class="ui conteine">
 <div class="ui top attached tabular menu">
-  <div class="item tab active user-tab" data-tab="one"></a><i class="user tie icon"></i>Created</div>
-  <div class="item tab like-tab" data-tab="two"><i class="heart icon"></i>Liked</div>
-  <div class="item tab comment-tab" data-tab="three"><i class="comment icon"></i>Commented</div>
-  <div class="item tab rate-tab" data-tab="four"><i class="star icon"></i>Rated</div>
+  <div class="item tab active user-tab" data-tab="one"></a><i class="user tie icon"></i><span class="custom-tab-name">Created</span> </div>
+  <div class="item tab like-tab" data-tab="two"><i class="heart icon"></i><span class="custom-tab-name">Liked</span> </div>
+  <div class="item tab comment-tab" data-tab="three"><i class="comment icon"></i><span class="custom-tab-name">Commented</span> </div>
+  <div class="item tab rate-tab" data-tab="four"><i class="star icon"></i><span class="custom-tab-name">Rated</span> </div>
 </div>
 <div class="container-effect ui bottom attached tab segment active" data-tab="one">
   <div class="user-resources ui special cards custom-resources custom-grid-resources">
@@ -202,28 +202,28 @@ const clearTabs = () => {
 };
 
 const tabToggleHandler = () => {
-  $(".item.tab.like-tab").on("click", function () {
+  $(".item.tab.like-tab").on("click", function() {
     getResourcesUserLiked().then((data) => {
       clearTabs();
       handleData(data, "liked-resources");
     });
   });
 
-  $(".item.tab.comment-tab").on("click", function () {
+  $(".item.tab.comment-tab").on("click", function() {
     getResourcesUserCommented().then((data) => {
       clearTabs();
       handleData(data, "commented-resources");
     });
   });
 
-  $(".item.tab.rate-tab").on("click", function () {
+  $(".item.tab.rate-tab").on("click", function() {
     getResourcesUserRated().then((data) => {
       clearTabs();
       handleData(data, "rated-resources");
     });
   });
 
-  $(".item.tab.user-tab").on("click", function () {
+  $(".item.tab.user-tab").on("click", function() {
     getUserResources().then((data) => {
       clearTabs();
       handleData(data, "user-resources");
