@@ -94,7 +94,7 @@ const retrieveBrowseCards = (categories) => {
 };
 
 // Function that renders cards to home page
-const cardsRenderer = async(resources) => {
+export const cardsRenderer = async(resources) => {
   // Clear main area of home page
   $(".user-resources").empty();
   // Append placeholder cards
@@ -137,7 +137,7 @@ const cardsRenderer = async(resources) => {
 };
 
 // Function that creates cards html
-const cardsCreator = async(resources) => {
+export const cardsCreator = async(resources) => {
   // Group comments
   const groupedResources = groupComments(resources);
   
