@@ -83,7 +83,16 @@ main {
   main {
     .profile-container {
       margin-top: 1.8em;
-      padding: 6em 6em 4em 6em;
+      padding: 6em 9em 4em 9em;
+    }
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  main {
+    .profile-container {
+      margin-top: 1.8em;
+      padding: 6em 15em 4em 15em;
     }
   }
 }
