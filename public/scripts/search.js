@@ -3,6 +3,7 @@
 // Client-side search support.
 
 import * as feed        from "./home-page/feed/feed.js";
+import * as comments    from "./home-page/feed/comments.js";
 import * as myResources from "./home-page/myresources/myResources.js";
 
 // search.results performs an AJAX request for search data.
@@ -26,7 +27,11 @@ export const resources = (searchText) => {
     }).then((data, _status, _xhr) => {
       console.log("GET /resources/searchwtf");
       //renderSearchResults($("main section#home-page"), data);
-      myResources.createCards(feed.groupComments(data))
+      const groupedResources = feed.groupComments(data);
+      for (const resource of groupedResources) {
+        resource.comments = await comments.updateCommentsWithOwned(resource.comments, resource.id);
+      }
+      myResources.createCards(groupedResources)
         .then((cardsHtml) => {
           $("main section#home-page").html(
             `<div class="ui large purple header">` +
