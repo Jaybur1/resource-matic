@@ -1,4 +1,4 @@
-import {createCards, handleClickedResource} from "../myresources/myResources.js";
+import { createCards, handleClickedResource } from "../myresources/myResources.js";
 import { showMoreComments, newComment, updateCommentsWithOwned, editComment, deleteComment } from "../feed/comments.js";
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
@@ -15,7 +15,7 @@ const retrieveBrowseResources = async() => {
 
   // Create category options html for select
   let categoryOptionsHtml = "";
-  
+
   for (let category of categories) {
     categoryOptionsHtml += `
     <div class="item">${capitalize(category.name)}</div>
@@ -54,9 +54,9 @@ const retrieveBrowseResources = async() => {
     .dropdown({
       allowAdditions: true,
       onChange: function(selectedCategories) {
-        
+
         const selectedCategoriesArray = selectedCategories.split(",");
-        
+
         // If no categories selected render all resources
         if (selectedCategoriesArray[0].length === 0) {
           retrieveBrowseCards();
@@ -121,7 +121,7 @@ const cardsRenderer = async(resources) => {
 const cardsCreator = async(resources) => {
   // Group comments
   const groupedResources = groupComments(resources);
-  
+
   // Add if comments belong to current user
   for (let i in groupedResources) {
     groupedResources[i].comments = await updateCommentsWithOwned(groupedResources[i].comments, groupedResources[i].id);

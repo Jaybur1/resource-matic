@@ -31,14 +31,13 @@ const resourcesRoutes = (db) => {
       .then((resource) => res.send(resource)));
 
 
-  //delete a resource 
-  router.delete('/', (req,res) => {
-    const resourceId = req.body.resourceId
+  //delete a resource
+  router.delete("/", (req,res) => {
+    const resourceId = req.body.resourceId;
     database.deleteResource(resourceId, db).then(data => {
-      res.json(data)
-    })
-    
-  })
+      res.json(data);
+    });
+  });
 
   // Search resources
   router.get("/search", (req, res) =>
