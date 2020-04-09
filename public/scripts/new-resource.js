@@ -91,27 +91,27 @@ const newResourceHandler = () => {
 
     handleNewCategory();
     //handle submit new resource
-    $(".new-resource-form").on("submit", function(e) {
-      e.preventDefault();
-      const newResourceInput = $(this).serializeArray();
-      const objdata = {};
-      newResourceInput.forEach((obj) => {
-        objdata[obj.name] = obj.value;
-      });
-      objdata.content = objdata.content.substr(0,4) === 'http' ? objdata.content : `http://${objdata.content}`;
-      objdata.thumbnail_photo = `https://api.faviconkit.com/${objdata.content.substr(7)}/144`;
-      if (!objdata.categoryName) {
-        newResourceCall(objdata);
-        //hide on submition
-        $(".newResource").modal("hide");
-      } else {
-        newCategoryCall({ name: objdata.categoryName }).then(data=> {
-          objdata.categoryName = data.id;
-          newResourceCall(objdata);
-          $(".newResource").modal("hide");
-        });
-      }
+  });
+  $(".new-resource-form").on("submit", function(e) {
+    e.preventDefault();
+    const newResourceInput = $(this).serializeArray();
+    const objdata = {};
+    newResourceInput.forEach((obj) => {
+      objdata[obj.name] = obj.value;
     });
+    objdata.content = objdata.content.substr(0,4) === 'http' ? objdata.content : `http://${objdata.content}`;
+    objdata.thumbnail_photo = `https://api.faviconkit.com/${objdata.content.substr(7)}/144`;
+    if (!objdata.categoryName) {
+      newResourceCall(objdata);
+      //hide on submition
+      $(".newResource").modal("hide");
+    } else {
+      newCategoryCall({ name: objdata.categoryName }).then(data=> {
+        objdata.categoryName = data.id;
+        newResourceCall(objdata);
+        $(".newResource").modal("hide");
+      });
+    }
   });
 };
 
