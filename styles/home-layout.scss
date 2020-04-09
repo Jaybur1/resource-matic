@@ -3,6 +3,7 @@
   padding-top: 3em;
   min-height: 100vh;
   align-content: center;
+  position: relative;
 
   .custom-home-page-background {
     position: fixed;
@@ -17,8 +18,10 @@
   }
 
   .custom-right-menu {
-    position: fixed;
+    position: absolute;
     box-shadow: none !important;
+    // width: 100%;
+    top: 2em;
 
     .item {
       font-weight: 500 !important;
@@ -36,14 +39,16 @@
     }
   }
 
-  .ui.vertical.menu .active.item {
+  .ui.menu .active.item {
     background: var(--color_5);
     color: white;
   }
 
   .custom-main-container {
-    width: 76%;
-    margin-left: 18em;
+    // width: 76%;
+    // margin-left: 18em;
+    width: 100%;
+    margin-top: 6em;
   }
 }
 
@@ -146,6 +151,19 @@
 }
 
 @media only screen and (min-width: 992px) {
+  .custom-home-page {
+    .custom-right-menu {
+      position: fixed;
+      top: 6.7em;
+    }
+
+    .custom-main-container {
+      width: 76%;
+      margin-left: 18em;
+      margin-top: 0;
+    }
+  }
+
   .custom-item-name {
     display: block;
   }
