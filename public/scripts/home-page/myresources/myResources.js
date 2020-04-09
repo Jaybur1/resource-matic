@@ -41,7 +41,7 @@ export const handleClickedResource = () => {
     $(deleteModal).modal("show");
     $('.yes-delete').on('click',()=>{
       deleteResource(resourceId).then(data=> console.log(data))
-      location.reload();
+      // location.reload();
     })
   });
 

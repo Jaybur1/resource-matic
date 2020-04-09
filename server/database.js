@@ -423,8 +423,8 @@ const deleteCategory = (id, db) => {
 }
 
 const executeDelete = (id,db) => {
-  return db.query('DELETE FROM resources WHERE id = $1 RETURNING *',[id])
-  .then((res) =>res.rows )
+  return db.query('DELETE FROM resources WHERE id = $1',[id])
+  .then((data)=>data)
   .catch(err => console.error("delete resource error",err));
 }
 //delete Resource 
@@ -433,15 +433,16 @@ const deleteResource = (resourceId,db) => {
    return db.query("SELECT category_id FROM resources WHERE id = $1", [ resourceId ])
    .then(res => {
      const categoryId = res.rows[0].category_id;
-
-     return db.query("SELECT id FROM categories WHERE id = $1", [categoryId]);
+    return db.query("SELECT count(*)as count ,category_id FROM resources WHERE category_id = $1 group by category_id", [categoryId]);
    }).then(res => {
-     if(res.rows.length === 1 && res.rows[0].id != 1){
+     if(res.rows[0].count == 1 && res.rows[0].category_id != 1){
        //delete resource + last category
-        deleteCategory(res.rows[0].id,db)
+        return deleteCategory(res.rows[0].category_id,db)
+       // return `${res.rows[0].count} <== category count ${res.rows[0].category_id} <== catId ${resourceId} category delete`
      }else{
-       //delete resource
-        executeDelete(resourceId,db);
+      //  //delete resource
+        return  executeDelete(resourceId,db);
+      //  return `${res.rows[0].count} <== category count ${res.rows[0].category_id} <== catId ${resourceId} resource delete`
      }
    })
 }
