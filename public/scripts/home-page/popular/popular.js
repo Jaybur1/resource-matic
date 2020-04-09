@@ -3,7 +3,7 @@ import {
   handleClickedResource,
 } from "../myresources/myResources.js";
 import { groupComments } from "../feed/feed.js";
-import { showMoreComments, newComment } from "../feed/comments.js";
+import { showMoreComments, newComment, editComment } from "../feed/comments.js";
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
 
@@ -44,6 +44,10 @@ const retrievePopularResources = () => {
       showMoreComments(3);
       // Event listener for new comment
       newComment();
+      // Event listener for edit comment
+      editComment();
+      // Event listener for edit comment
+      // deleteComment();
       // Event listener for like click
       likeInteractions();
       // Event listener for like rating

@@ -274,7 +274,7 @@ const getResources = (db, options) => {
     alreadyGrouped
       ? (queryString += `, `)
       : (queryString += ` GROUP BY resources.id, `);
-    queryString += `u1.name, u1.avatar, u2.name, u2.avatar `;
+    queryString += ` u1.name, u1.avatar, u2.name, u2.avatar `;
     alreadyGrouped = true;
   }
   // ?
@@ -341,9 +341,9 @@ const getResources = (db, options) => {
   return db
     .query(queryString, queryParams)
     .then((res) => {
-      for (const row of res.rows) {
-        delete row.user_id;
-      }
+      // for (const row of res.rows) {
+      //   delete row.user_id;
+      // }
       return res.rows;
     })
     .catch((err) => console.error("getResources error:", err));
@@ -420,8 +420,8 @@ const searchResources = (db, searchText) => {
 //   // Check if this resource is the last reference to its category:
 //   db.query("SELECT category_id FROM resources WHERE resource_id = $1", [ resourceId ])
 //     .then((queryRes) => {
-//       db.query("SELECT COUNT(*) FROM resources WHERE category_id = $1", [ categoryId ])
-//       return queryRes.rows[0].category_id;
+      // db.query("SELECT COUNT(*) FROM resources WHERE category_id = $1", [ categoryId ])
+      // return queryRes.rows[0].category_id;
 //     })
 //     .then((categoryId) => {
 //       if (queryRes.rows[0].length) {
@@ -430,6 +430,37 @@ const searchResources = (db, searchText) => {
 //     })
 //     .catch((err) => err);
 // };
+
+
+//delete category
+const deleteCategory = (id, db) => {
+  return db
+    .query("DELETE FROM categories WHERE id = $1 RETURNING *",[id])
+    .then(res => res.rows)
+    .catch((err) => console.log("deleteCategory error:", err));
+}
+
+const executeDeletion = (id,db) => {
+  return db.query('DELETE FROM resources WHERE id = $1 RETURNING *',[id])
+  .then((res) =>res.rows )
+  .catch(err => console.error("delete resource error",err));
+}
+//delete Resource 
+const deleteResource = (resourceId,db) => {
+  // Check if this resource is the last reference to its category:
+   return db.query("SELECT category_id FROM resources WHERE id = $1", [ resourceId ])
+   .then(res => {
+     const categoryId = res.rows[0].category_id;
+
+     return db.query("SELECT id FROM categories WHERE id = $1", [categoryId]);
+   }).then(res => {
+     if(res.rows.length === 1 && res.rows[0].id != 1){
+        deleteCategory(res.rows[0].id,db)
+     }else{
+        executeDeletion(resourceId,db);
+     }
+   })
+}
 
 //handling all categories
 const getCategories = (db) => {
@@ -449,6 +480,7 @@ const getCategoriesWithName = (name,db) => {
     .catch((err) => console.log("getCategoriesWithname error:", err));
 
 };
+
 //handle create new category
 const addCategory = (name,db) => {
   return db
@@ -457,6 +489,8 @@ const addCategory = (name,db) => {
     .catch((err) => console.log("addCategory error:", err));
 
 };
+
+
 module.exports = {
   getUserWithEmail,
   getUserWithId,
@@ -467,6 +501,7 @@ module.exports = {
   validatePassword,
   getResources,
   addResource,
+  deleteResource,
   searchResources,
   searchResourcesWtf,
   getCategories,

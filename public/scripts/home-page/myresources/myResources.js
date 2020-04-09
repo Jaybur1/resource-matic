@@ -5,38 +5,45 @@ import {
   getResourcesUserCommented,
   getResourcesUserRated,
   getCurrentUser,
+  deleteResource,
 } from "./myResourcesCalls.js";
 import feedCardCreator from "../feed/feed-card.js";
-import { showMoreComments, newComment } from "../feed/comments.js";
+import { showMoreComments, newComment, editComment } from "../feed/comments.js";
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
 
-export const handleClickedResource = () => {
-  $('.custom-delete').on('click', function(){
-    console.log($(this).attr('resource'))
-    $(`<div class="ui basic modal">
-    <div class="ui icon header">
-    <i class="trash alternate icon"></i>
-      Delete This Resource
-    </div>
-    <div class="content custom-delete-message">
-      <p>Are you sure you want to do that?</p>
-    </div>
-    <div class="actions">
-      <div class="ui red basic cancel inverted button">
-        <i class="remove icon"></i>
-        No
-      </div>
-      <div class="ui green ok inverted button">
-        <i class="checkmark icon"></i>
-        Yes
-      </div>
-    </div>
-  </div>`)
-  .modal('show')
-;
+const deleteModal = `
+<div class="ui basic modal deleteModal">
+<div class="ui icon header">
+<i class="trash alternate icon"></i>
+  Delete This Resource
+</div>
+<div class="content custom-delete-message">
+  <p>Are you sure you want to do that?</p>
+</div>
+<div class="actions">
+  <div class="ui red basic cancel inverted button">
+    <i class="remove icon"></i>
+    No
+  </div>
+  <div class="ui green ok inverted button yes-delete" onClick ="">
+    <i class="checkmark icon"></i>
+    Yes
+  </div>
+</div>
+</div>
+`
 
-  })
+export const handleClickedResource = () => {
+  $(".custom-delete").on("click", function () {
+    const resourceId = $(this).attr('resource');
+    console.log(resourceId)
+    $(deleteModal).modal("show");
+    $('.yes-delete').on('click',()=>{
+      deleteResource(resourceId).then(data=> console.log(data))
+    })
+  });
+
 
   $(".open-resource-btn").on("click", function () {
     const id = $(this).attr("id");
@@ -74,12 +81,9 @@ export const handleClickedResource = () => {
 export const createCards = async (createdResources, ownerId = null) => {
   // Create html content for each resource
   const createdResourcesHTML = [];
-<<<<<<< HEAD
-  console.log(ownerId);
-=======
-
->>>>>>> 429cf32e7962c97265a64c0ba4d0ababb4c241de
+  
   for (let resource of createdResources) {
+    
     const bigCard = await feedCardCreator(resource);
     createdResourcesHTML.push(`
       <div class="ui card custom-width-fit small-card${resource.id}">
@@ -88,8 +92,8 @@ export const createCards = async (createdResources, ownerId = null) => {
           <div class="content">
           ${
             ownerId === resource.user_id
-              ? `<i resource="${resource.id}" class="trash alternate outline icon custom-delete"></i>`
-              :''
+            ? `<i resource="${resource.id}" class="trash alternate outline icon custom-delete"></i>`
+            : ''
           }
             <div class="center">
             <a
@@ -130,12 +134,7 @@ const handleData = async (data, container) => {
       'No Resources yet ... <a class="ui create-new-resource">add</a>/comment/like/rate some to fill the sections</div>'
     );
   } else {
-<<<<<<< HEAD
     $(`.${container}`).html(await createCards(resourceArr, current.current));
-=======
-
-    $(`.${container}`).html(await createCards(resourceArr));
->>>>>>> 429cf32e7962c97265a64c0ba4d0ababb4c241de
     $(".special.cards .image").dimmer({
       on: "hover",
     });
@@ -144,6 +143,10 @@ const handleData = async (data, container) => {
     showMoreComments(3);
     // Event listener for new comment
     newComment();
+    // Event listener for edit comment
+    editComment();
+    // Event listener for edit comment
+    // deleteComment();
     // Event listener for like click
     likeInteractions();
     // Event listener for like rating

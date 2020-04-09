@@ -57,6 +57,7 @@ export const getUserResources = () => {
     url: "/resources",
     data: {
       currentUser: true,
+      user_id: true,
       comments: true,
       likes: true,
       ratings: true,
@@ -77,4 +78,15 @@ export const getCurrentUser = () => {
       return data;
     },
   });
-}
+};
+
+export const deleteResource = (resourceId) => {
+  return $.ajax({
+    method: "delete",
+    url: "/resources",
+    data: {resourceId},
+    success: (data, _status, _xhr) => {
+      return data
+    },
+  });
+};

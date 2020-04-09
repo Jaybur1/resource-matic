@@ -94,9 +94,9 @@
 }
 
 .custom-delete {
-  position:relative !important;
-  top:-60px !important;
-  right:-75px !important;
+  position:absolute !important;
+  top:1em !important;
+  right:1em!important;
   transition: 0.3;
   &:hover{
     cursor: pointer;
