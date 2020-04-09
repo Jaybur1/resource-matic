@@ -1,0 +1,19 @@
+.custom-browse-top {
+  padding-left: 0.5em;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 1.5em;
+  align-items: center;
+  align-content: center;
+
+  h4 {
+    margin-block-end: 0;
+  }
+
+  .ui.label {
+    background-color: #f978c1 !important;
+    // background-color: var(--color_5) !important;
+    color: white !important;
+    font-weight: 500 !important;
+  }
+}

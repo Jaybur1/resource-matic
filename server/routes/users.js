@@ -5,10 +5,8 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 
-const util     = require("../util");
+const util = require("../util");
 const database = require("../database");
-
-
 
 const login = (email, password, db) => {
   return database.getUserWithEmail(db, email).then((user) => {
@@ -20,10 +18,7 @@ const login = (email, password, db) => {
   });
 };
 
-
-
 module.exports = (db) => {
-
   // GET /user/login
   //    Renders the login page.
 
@@ -86,7 +81,9 @@ module.exports = (db) => {
               res.send({ redirect: "/home" });
             });
           } else {
-            res.send({ err: "An account with this email address already exists" });
+            res.send({
+              err: "An account with this email address already exists",
+            });
           }
         });
       } else {
@@ -95,6 +92,15 @@ module.exports = (db) => {
         });
       }
     });
+  });
+
+  router.get("/curr", (req, res) => {
+    if (req.session.userId) {
+      const current = req.session.userId;
+      res.json({current});
+    } else {
+      res.send("Forbidden Action Error code 403");
+    }
   });
 
   return router;

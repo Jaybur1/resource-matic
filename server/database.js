@@ -248,9 +248,7 @@ const getResources = (db, options) => {
     addGroupBy = false;
   }
   // Users or current user are requested
-  if (options.users ||
-      (options.currentUser &&
-       !options.filterByLiked && !options.filterByCommented && !options.filterByRated)) {
+  if (options.users || options.currentUser) {
     queryString += `${addGroupBy ? ` GROUP BY resources.id, ` : `, `}u1.name, u1.avatar, u2.name, u2.avatar`;
     addGroupBy = false;
   }
@@ -294,9 +292,9 @@ const getResources = (db, options) => {
   return db
     .query(queryString, queryParams)
     .then((res) => {
-      for (const row of res.rows) {
-        delete row.user_id;
-      }
+      // for (const row of res.rows) {
+      //   delete row.user_id;
+      // }
       return res.rows;
     })
     .catch((err) => console.error("getResources error:", err));
@@ -369,23 +367,26 @@ const searchResources = (db, searchText) => {
     .catch((err) => console.log("searchResources error:", err));
 };
 
-// deleteResource deletes a resource
-//    INCOMPLETE
+// deleteResource removes a resources from the database.
 
-// const deleteResource = (db, resourceId) => {
-//   // Check if this resource is the last reference to its category:
-//   db.query("SELECT category_id FROM resources WHERE resource_id = $1", [ resourceId ])
-//     .then((queryRes) => {
-//       db.query("SELECT COUNT(*) FROM resources WHERE category_id = $1", [ categoryId ])
-//       return queryRes.rows[0].category_id;
-//     })
-//     .then((categoryId) => {
-//       if (queryRes.rows[0].length) {
-//         db.query("DELETE FROM categories WHERE category_id = $1", [ categoryId ]))
-//       }
-//     })
-//     .catch((err) => err);
-// };
+const deleteResource = (db, resourceId) => {
+  // Check if this resource is the last reference to its category:
+  return db.query("SELECT category_id FROM resources WHERE id = $1", [ resourceId ])
+    .then((res) => {
+      const categoryId = res.rows[0].category_id;
+      return db.query("SELECT id, (id < 5) AS keep FROM categories WHERE id = $1", [ categoryId ]);
+    }).then((res) => {
+      // Delete the resource, and the category if it's the last reference:
+      if (res.rows.length === 1 && !res.rows[0].keep) {
+        deleteCategory(db, res.rows[0].id);
+      }
+      return db
+        .query("DELETE FROM resources WHERE id = $1", [ resourceId ])
+        .then((res) => res)
+        .catch((err) => console.error("delete resource error", err));
+    });
+};
+
 
 
 ////////////////////////
@@ -419,6 +420,15 @@ const addCategory = (db, name) => {
     .catch((err) => console.log("addCategory error:", err));
 };
 
+// deleteCategory removes a category from the database.
+
+const deleteCategory = (db, categoryId) => {
+  return db
+    .query("DELETE FROM categories WHERE id = $1",[ categoryId ])
+    .then((res) => res)
+    .catch((err) => console.log("deleteCategory error:", err));
+};
+
 
 
 module.exports = {
@@ -431,7 +441,7 @@ module.exports = {
   validatePassword,
   getResources,
   addResource,
-  // deleteResource,
+  deleteResource,
   searchResources,
   searchResourcesWtf,
   getCategories,
