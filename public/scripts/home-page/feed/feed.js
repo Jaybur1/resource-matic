@@ -53,10 +53,7 @@ const feedCreator = async(resources) => {
   }
 
   // HTML for feed
-  const feedHTML = `
-  <div class="custom-feed">
-    ${array.join(" ")}
-  </div>`;
+  const feedHTML = `<div class="custom-feed">${array.join(" ")}</div>`;
 
   return feedHTML;
 };
@@ -88,7 +85,7 @@ export const groupComments = (unGroupedResources) => {
     // Was not found in grouped resources
     if (!detected) {
       let commentsArray = [];
-      
+
       // If there is a comment
       if (resource.comment) {
         // Adds comment to array

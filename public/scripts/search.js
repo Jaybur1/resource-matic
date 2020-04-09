@@ -29,7 +29,7 @@ export const resources = (searchText) => {
       //renderSearchResults($("main section#home-page"), data);
       const groupedResources = feed.groupComments(data);
       for (const resource of groupedResources) {
-        resource.comments = await comments.updateCommentsWithOwned(resource.comments, resource.id);
+        resource.comments = comments.updateCommentsWithOwned(resource.comments, resource.id);
       }
       myResources.createCards(groupedResources)
         .then((cardsHtml) => {

@@ -1,18 +1,44 @@
 import { groupComments } from "../feed/feed.js";
-import {
-  getUserResources,
-  getResourcesUserLiked,
-  getResourcesUserCommented,
-  getResourcesUserRated,
-  getCurrentUser,
-  deleteResource,
-} from "./myResourcesCalls.js";
+import { getUserResources, getCurrentUser, deleteResource, } from "./myResourcesCalls.js";
 import feedCardCreator from "../feed/feed-card.js";
 import { showMoreComments, newComment, editComment, deleteComment } from "../feed/comments.js";
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
 
-const deleteModal = `
+
+
+const $tabs = $(`
+<div class="ui container">
+  <div class="ui top attached tabular menu">
+    <div class="item tab active user-tab" data-tab="one"></a><i class="user tie icon"></i>Created</div>
+    <div class="item tab like-tab" data-tab="two"><i class="heart icon"></i>Liked</div>
+    <div class="item tab comment-tab" data-tab="three"><i class="comment icon"></i>Commented</div>
+    <div class="item tab rate-tab" data-tab="four"><i class="star icon"></i>Rated</div>
+  </div>
+  <div class="container-effect ui bottom attached tab segment active" data-tab="one">
+    <div class="user-resources ui special cards custom-resources custom-grid-resources">
+    <i class="asterisk loading icon"></i>Loading resources...
+    </div>
+  </div>
+  <div class="container-effect ui bottom attached tab segment" data-tab="two">
+    <div class="liked-resources ui special four doubling cards custom-resources custom-padding">
+    <i class="asterisk loading icon"></i>Loading resources...
+
+    </div>
+  </div>
+  <div class="container-effect ui bottom attached tab segment" data-tab="three">
+    <div class="commented-resources ui special four doubling cards custom-resources custom-padding">
+    <i class="asterisk loading icon"></i>Loading resources...
+    </div>
+  </div>
+  <div class="container-effect ui bottom attached tab segment" data-tab="four">
+    <div class="rated-resources ui special four doubling cards custom-resources custom-padding">
+    <i class="asterisk loading icon"></i>Loading resources...
+    </div>
+  </div>
+</div>`);
+
+const $deleteModal = $(`
 <div class="ui basic modal deleteModal">
 <div class="ui icon header">
 <i class="trash alternate icon"></i>
@@ -31,102 +57,94 @@ const deleteModal = `
     Yes
   </div>
 </div>
-</div>
-`
+</div>`);
+
+
 
 export const handleClickedResource = () => {
-  $(".custom-delete").on("click", function () {
+  $(".custom-delete").on("click", function(_e) {
     const resourceId = $(this).attr('resource');
-    console.log(resourceId)
-    $(deleteModal).modal("show");
-    $('.yes-delete').on('click',()=>{
-      deleteResource(resourceId).then(data=> console.log(data))
+    console.log(resourceId);
+    $deleteModal.modal("show");
+    $(".yes-delete").on("click",()=>{
+      deleteResource(resourceId).then(data=> console.log(data));
       location.reload();
-    })
+    });
   });
 
-
-  $(".open-resource-btn").on("click", function () {
-    const id = $(this).attr("id");
+  $(".open-resource-btn").on("click", function(_e) {
     // ! Order here is very important for functionality
     // Show all small cards
-    $(`.custom-small-card-hidden`).removeClass("custom-small-card-hidden");
+    $(".custom-small-card-hidden").removeClass("custom-small-card-hidden");
     // Hide all big cards
-    $(`.custom-card-show`).addClass("custom-card-hidden");
-    $(`.custom-card-show`).removeClass("custom-card-show");
+    $(".custom-card-show").addClass("custom-card-hidden");
+    $(".custom-card-show").removeClass("custom-card-show");
     // Show selected big card
-    $(`.resourceId-${id}`).removeClass("custom-card-hidden");
-    $(`.resourceId-${id}`).addClass("custom-card-show");
+    $(".resourceId-${id}").removeClass("custom-card-hidden");
+    $(".resourceId-${id}").addClass("custom-card-show");
     // Hide selected small card
-    $(`.small-card${id}`).addClass("custom-small-card-hidden");
-
+    $(".small-card${id}").addClass("custom-small-card-hidden");
     // Change appearance of tab
     $(".container-effect").addClass("custom-modal-grey");
-    //  !
   });
 
-  $(".container-effect").on("click", function (e) {
+  $(".container-effect").on("click", function(e) {
     if (
       e.target.classList.contains("user-resources") ||
       e.target === e.currentTarget
     ) {
       // Show all small cards
-      $(`.custom-small-card-hidden`).removeClass("custom-small-card-hidden");
+      $(".custom-small-card-hidden").removeClass("custom-small-card-hidden");
       // Hide all big cards
-      $(`.custom-card-show`).addClass("custom-card-hidden");
+      $(".custom-card-show").addClass("custom-card-hidden");
       $(".container-effect").removeClass("custom-modal-grey");
     }
   });
 };
 
-export const createCards = async (createdResources, ownerId = null) => {
-  // Create html content for each resource
-  const createdResourcesHTML = [];
-  
-  for (let resource of createdResources) {
-    
-    const bigCard = await feedCardCreator(resource);
-    createdResourcesHTML.push(`
-      <div class="ui card custom-width-fit small-card${resource.id}">
-      <div class="blurring dimmable image custom-bk-white">
-        <div class="ui dimmer">
-          <div class="content">
-          ${
-            ownerId === resource.user_id
-            ? `<i resource="${resource.id}" class="trash alternate outline icon custom-delete"></i>`
-            : ''
-          }
-            <div class="center">
-            <a
-              target="_blank"
-              id =${resource.id}
-              class="ui small inverted button open-resource-btn">
-              Check Resource
-              </a>
-              </div>
-            </div>
-            </div>
-          <img
-            class="custom-image-padding"
-            src="${resource.thumbnail_photo}"
-          />
-          </div>
-        <div class="content custom-bk-grey">
-          <a href="${
-            resource.content
-          }" target="_blank" class="ui sub header medium center aligned custom-hover-text-blue"
-            >${resource.title}</a>
+const $gridCardTemplate = $(`
+<div class="ui card custom-width-fit">
+  <div class="blurring dimmable image custom-bk-white">
+    <div class="ui dimmer">
+      <div class="content">
+        <--<i resource="" class="trash alternate outline icon custom-delete"></i>-->
+        <div class="center">
+          <a id="" class="ui small inverted button open-resource-btn" target="_blank">
+            Check Resource</a>
         </div>
       </div>
-      <div class="ui custom-card-hidden resourceId-${resource.id}">
-      ${bigCard}
-      </div>
-    `);
+    </div>
+    <img class="custom-image-padding" src="" />
+  </div>
+  <div class="content custom-bk-grey">
+    <a class="ui sub header medium center aligned custom-hover-text-blue"
+      href=""
+      target="_blank"></a>
+  </div>
+</div>
+<div class="ui custom-card-hidden"></div>
+`);
+
+export const createCards = async(createdResources, ownerId = null) => {
+  // Create html content for each resource
+  const cardArray = [];
+
+  for (const resource of createdResources) {
+    const $smallCard = $gridCardTemplate.clone();
+    const $bigCard = await feedCardCreator(resource);
+    $smallCard.find(".card").addClass(`small-card${resource.id}`);
+    $smallCard.find(".card .content").prepend(ownerId === resource.user_id ? `<i resource="${resource.id}" class="trash alternate outline icon custom-delete"></i>` : '');
+    $smallCard.find(".card .content .button").attr("id", resource.id);
+    $smallCard.find(".card .image img").attr("src", resource.thumbnail_photo);
+    $smallCard.find(".card .header").attr("href", resource.content).html(resource.title);
+    $smallCard.find(".custom-card-hidden").addClass(`resourceId-${resource.id}`).append($bigCard);
+    cardArray.push($smallCard);
   }
 
-  return createdResourcesHTML;
+  return cardArray;
 };
-const handleData = async (data, container) => {
+
+const handleData = async(data, container) => {
   const current = await getCurrentUser();
 
   const resourceArr = groupComments(data);
@@ -155,43 +173,8 @@ const handleData = async (data, container) => {
   }
 };
 
-const renderTabs = () => {
-  const html = `
-<div class="ui conteine">
-<div class="ui top attached tabular menu">
-  <div class="item tab active user-tab" data-tab="one"></a><i class="user tie icon"></i>Created</div>
-  <div class="item tab like-tab" data-tab="two"><i class="heart icon"></i>Liked</div>
-  <div class="item tab comment-tab" data-tab="three"><i class="comment icon"></i>Commented</div>
-  <div class="item tab rate-tab" data-tab="four"><i class="star icon"></i>Rated</div>
-</div>
-<div class="container-effect ui bottom attached tab segment active" data-tab="one">
-  <div class="user-resources ui special cards custom-resources custom-grid-resources">
-  <i class="asterisk loading icon"></i>Loading resources...
-  </div>
-</div>
-<div class="container-effect ui bottom attached tab segment" data-tab="two">
-  <div class="liked-resources ui special four doubling cards custom-resources custom-padding"> 
-   <i class="asterisk loading icon"></i>Loading resources...
-   
-   </div>
-</div>
-<div class="container-effect ui bottom attached tab segment" data-tab="three">
-  <div class="commented-resources ui special four doubling cards custom-resources custom-padding">
-  <i class="asterisk loading icon"></i>Loading resources...
-  </div> 
-</div>
-<div class="container-effect ui bottom attached tab segment" data-tab="four">
-  <div class="rated-resources ui special four doubling cards custom-resources custom-padding">
-  <i class="asterisk loading icon"></i>Loading resources...
-  </div>
-</div>
-</div>
-`;
-  return html;
-};
-
 const retrieveMyResources = () => {
-  $("#home-page").html(renderTabs);
+  $("#home-page").empty().append($tabs);
   $(".tabular.menu .item").tab();
   getUserResources().then((data) => {
     handleData(data, "user-resources");
