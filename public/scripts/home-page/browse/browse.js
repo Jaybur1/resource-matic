@@ -50,15 +50,21 @@ const retrieveBrowseResources = async() => {
     })
   ;
 
-  retrieveBrowseCards();
+  retrieveBrowseCards(["tech", "global"]);
 };
 
 // Function that retrieves feed resources and calls create feed function and listeners
-const retrieveBrowseCards = () => {
+const retrieveBrowseCards = (categories) => {
   // AJAX GET request
   $.ajax({method: "GET",
     url: "/resources",
-    data: {likes: true, comments: true, avgRatings: true, users: true, sorts: {byLatest: true}}
+    data: {
+      comments: true,
+      likes: true,
+      avgRatings: true,
+      categories,
+      users: true
+    }
   })
     .then((resp) => {
     // On request success call render function
