@@ -40,11 +40,10 @@ const resourcesRoutes = (db) => {
 
   // Delete a resource
   router.delete('/', (req,res) => {
-    const resourceId = req.body.resourceId
+    const resourceId = req.body.resourceId;
     database.deleteResource(resourceId, db).then(data => {
       res.json(data);
     });
-
   });
 
   // Search resources

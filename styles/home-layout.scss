@@ -25,9 +25,14 @@
     }
 
     .custom-user {
-      padding-left: 0.5em;
+      // padding-left: 0.5em;
       line-height: 2em;
       word-break: break-word;
+      padding-top: 0.5em !important;
+
+      span {
+        padding-left: 0.5em;
+      }
     }
   }
 
@@ -54,11 +59,13 @@
 
 .custom-grid-resources {
   display: grid !important;
-  // grid-template-columns: repeat(min);
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 187px));
   width: 100%;
+  height: 100%;
   grid-gap: 1.5em;
-  padding: 1em;
+  padding-top: 0.55em;
+  padding-bottom: 0.55em;
+  padding-left: 0.55em;
 }
 
 .custom-card-hidden,
@@ -68,6 +75,22 @@
 
 .custom-card-show {
   grid-column: span 4 !important;
+}
+
+.custom-nothing-matched {
+  grid-column: span 4 !important;
+  grid-row: span 2 !important;
+  height: 500px;
+  // height: 100%;
+  display: grid;
+  align-content: center;
+  align-items: center;
+
+  h3 {
+    text-align: center;
+    font-weight: 500;
+    line-height: 2em;
+  }
 }
 
 .custom-width-fit {
@@ -87,10 +110,12 @@
 
 .container-effect {
   transition: background-color 0.3s;
+  // min-height: 35em;
+  min-height: 550px;
 }
 
 .custom-popular-padding {
-  padding-right: 2em !important;
+  // padding-right: 2em !important;
 }
 
 .custom-delete {
@@ -106,4 +131,12 @@
 
 .custom-delete-message {
   text-align: center;
+}
+
+.ui.active.selection.dropdown {
+  z-index: 500 !important;
+}
+
+.custom-menu-user-info {
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15) !important;
 }
