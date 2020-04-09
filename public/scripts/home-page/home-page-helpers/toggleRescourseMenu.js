@@ -24,7 +24,7 @@ const toggleResourceMenu = () => {
   });
   $(".popular-link").on("click", function () {
     toggler(this);
-    retrievePopularResources()
+    retrievePopularResources();
   });
   $(".favorites-link").on("click", function () {
     toggler(this);

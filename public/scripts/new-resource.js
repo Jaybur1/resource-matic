@@ -6,7 +6,7 @@ export const capitalize = (str) => {
   return str[0].toUpperCase() + str.substr(1).toLowerCase();
 };
 
-const getCategories = (name = undefined) => {
+export const getCategories = (name = undefined) => {
   return $.ajax({
     method: "GET",
     url: "/categories",
@@ -84,9 +84,9 @@ const newResourceHandler = () => {
     //update category list acording to db
     updateCategoryList();
     //toggle create new resource
-    $(".ui.modal").modal("show");
+    $(".newResource").modal("show");
     $(".cancel-form").on("click", () => {
-      $(".ui.modal").modal("hide");
+      $(".newResource").modal("hide");
     });
 
     handleNewCategory();
@@ -102,12 +102,12 @@ const newResourceHandler = () => {
       if (!objdata.categoryName) {
         newResourceCall(objdata);
         //hide on submition
-        $(".ui.modal").modal("hide");
+        $(".newResource").modal("hide");
       } else {
         newCategoryCall({ name: objdata.categoryName }).then(data=> {
           objdata.categoryName = data.id;
           newResourceCall(objdata);
-          $(".ui.modal").modal("hide");
+          $(".newResource").modal("hide");
         });
       }
     });

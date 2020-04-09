@@ -88,3 +88,22 @@
 .tab.segment.active {
   transition: background-color 0.4s;
 }
+
+.custom-popular-padding{
+  padding-right: 2em !important;
+}
+
+.custom-delete {
+  position:absolute !important;
+  top:1em !important;
+  right:1em!important;
+  transition: 0.3;
+  &:hover{
+    cursor: pointer;
+    color:red;
+  }
+}
+
+.custom-delete-message {
+  text-align: center;
+}
