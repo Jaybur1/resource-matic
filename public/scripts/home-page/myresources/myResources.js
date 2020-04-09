@@ -8,11 +8,7 @@ import {
   deleteResource,
 } from "./myResourcesCalls.js";
 import feedCardCreator from "../feed/feed-card.js";
-<<<<<<< HEAD
-import { showMoreComments, newComment, editComment } from "../feed/comments.js";
-=======
 import { showMoreComments, newComment, editComment, deleteComment } from "../feed/comments.js";
->>>>>>> 0e8d3ae7273b71df32c914b45a6941eb688dad95
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
 
