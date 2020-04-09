@@ -9,6 +9,9 @@ const toggler = (current) => {
     $(elem).removeClass("active");
     $(current).addClass("active");
   });
+
+  // scroll to top of page
+  window.scroll(0, 0);
 };
 
 const toggleResourceMenu = () => {

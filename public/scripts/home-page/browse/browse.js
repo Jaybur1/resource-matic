@@ -3,12 +3,22 @@ import { showMoreComments, newComment, updateCommentsWithOwned, editComment, del
 import { likeInteractions } from "../feed/like.js";
 import { ratingInteractions } from "../feed/rating.js";
 import { groupComments } from "../feed/feed.js";
-import { getCategories } from "../../new-resource.js";
+import { getCategories, capitalize } from "../../new-resource.js";
 
 const retrieveBrowseResources = async() => {
   $("#home-page").empty();
 
-  console.log(await getCategories());
+  const categories = await getCategories();
+  console.log("retrieveBrowseResources -> categories", categories);
+
+  let categoryOptionsHtml = "";
+  
+  for (let category of categories) {
+    categoryOptionsHtml += `
+    <div class="item">${capitalize(category.name)}</div>
+    `;
+  }
+
 
   const browsePageHtml = `
   <div class="ui segment custom-browse-top">
@@ -16,36 +26,16 @@ const retrieveBrowseResources = async() => {
       Categories:
     </h4>
   <div class="ui clearable multiple selection dropdown custom-category-dropdown">
-    <input type="hidden" name="language" value="dutch,english,french">
+    <input type="hidden" name="language" value="">
     <i class="dropdown icon"></i>
-    <div class="default text">Select Languages</div>
+    <div class="default text">Select Categories</div>
         <div class="menu">
-          <div class="item">Arabic</div>
-          <div class="item">Chinese</div>
-          <div class="item">Danish</div>
-          <div class="item">Dutch</div>
-          <div class="item">English</div>
-          <div class="item">French</div>
-          <div class="item">German</div>
-          <div class="item">Greek</div>
-          <div class="item">Hungarian</div>
-          <div class="item">Italian</div>
-          <div class="item">Japanese</div>
-          <div class="item">Korean</div>
-          <div class="item">Lithuanian</div>
-          <div class="item">Persian</div>
-          <div class="item">Polish</div>
-          <div class="item">Portuguese</div>
-          <div class="item">Russian</div>
-          <div class="item">Spanish</div>
-          <div class="item">Swedish</div>
-          <div class="item">Turkish</div>
-          <div class="item">Vietnamese</div>
+          ${categoryOptionsHtml}
         </div>
     </div>
   </div>
   </div>
-  <div class="ui segment">
+  <div class="ui segment container-effect">
     <div
       class="user-resources ui special cards custom-resources custom-grid-resources"
     ></div>
