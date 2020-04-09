@@ -2,12 +2,8 @@
 export const createCommentsHTML = (comments) => {
   // Comments section html
   let commentsHTML = `
-  <div class="content">
-    <div class="ui content comments">
       ${comments.length > 3 ? `<div class="custom-view-previous">View previous comments</div>` : ""}
       ${createThreeCommentsHTML(comments, 3)}
-    </div>
-  </div>
   `;
 
   return commentsHTML;
@@ -42,16 +38,16 @@ const createThreeCommentsHTML = (comments, numberOfComments) => {
     return new Date(x.timestamp) - new Date(y.timestamp);
   });
 
-  let fourCommentsHTML = "";
+  let partCommentsHTML = "";
 
   // Create html for each comment (have only last given number of comments visible)
   sortedComments.forEach((comment, index) => {
     index >= sortedComments.length - numberOfComments
-      ? fourCommentsHTML += singleCommentHTML(comment)
-      : fourCommentsHTML += singleCommentHTML(comment, true);
+      ? partCommentsHTML += singleCommentHTML(comment)
+      : partCommentsHTML += singleCommentHTML(comment, true);
   });
 
-  return fourCommentsHTML || "";
+  return partCommentsHTML || "";
 };
 
 // Function that creates single comment with hidden or not as input

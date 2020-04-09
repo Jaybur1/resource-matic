@@ -85,22 +85,22 @@
   // background-color: rgba($color: #0b90f3, $alpha: 0.3) !important;
 }
 
-.tab.segment.active {
-  transition: background-color 0.4s;
+.container-effect {
+  transition: background-color 0.3s;
 }
 
-.custom-popular-padding{
+.custom-popular-padding {
   padding-right: 2em !important;
 }
 
 .custom-delete {
-  position:absolute !important;
-  top:1em !important;
-  right:1em!important;
+  position: absolute !important;
+  top: 1em !important;
+  right: 1em !important;
   transition: 0.3;
-  &:hover{
+  &:hover {
     cursor: pointer;
-    color:red;
+    color: red;
   }
 }
 

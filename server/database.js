@@ -420,31 +420,31 @@ const deleteCategory = (id, db) => {
     .query("DELETE FROM categories WHERE id = $1 RETURNING *",[id])
     .then(res => res.rows)
     .catch((err) => console.log("deleteCategory error:", err));
-}
+};
 
 const executeDelete = (id,db) => {
   return db.query('DELETE FROM resources WHERE id = $1 RETURNING *',[id])
-  .then((res) =>res.rows )
-  .catch(err => console.error("delete resource error",err));
-}
-//delete Resource 
+    .then((res) =>res.rows)
+    .catch(err => console.error("delete resource error",err));
+};
+//delete Resource
 const deleteResource = (resourceId,db) => {
   // Check if this resource is the last reference to its category:
-   return db.query("SELECT category_id FROM resources WHERE id = $1", [ resourceId ])
-   .then(res => {
-     const categoryId = res.rows[0].category_id;
+  return db.query("SELECT category_id FROM resources WHERE id = $1", [ resourceId ])
+    .then(res => {
+      const categoryId = res.rows[0].category_id;
 
-     return db.query("SELECT id FROM categories WHERE id = $1", [categoryId]);
-   }).then(res => {
-     if(res.rows.length === 1 && res.rows[0].id != 1){
-       //delete resource + last category
-        deleteCategory(res.rows[0].id,db)
-     }else{
-       //delete resource
+      return db.query("SELECT id FROM categories WHERE id = $1", [categoryId]);
+    }).then(res => {
+      if (res.rows.length === 1 && res.rows[0].id != 1) {
+        //delete resource + last category
+        deleteCategory(res.rows[0].id,db);
+      } else {
+        //delete resource
         executeDelete(resourceId,db);
-     }
-   })
-}
+      }
+    });
+};
 
 //handling all categories
 const getCategories = (db) => {
