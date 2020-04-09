@@ -1,3 +1,7 @@
+// myResourcesCalls.js
+//
+// my resources section ajax calls support.
+
 export const getResourcesUserRated = () => {
   return $.ajax({
     method: "get",
@@ -70,15 +74,6 @@ export const getUserResources = () => {
   });
 };
 
-export const getCurrentUser = () => {
-  return $.ajax({
-    method: "get",
-    url: "/users/curr",
-    success: (data, _status, _xhr) => {
-      return data;
-    },
-  });
-};
 
 export const deleteResource = (resourceId) => {
   return $.ajax({

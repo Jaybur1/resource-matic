@@ -1,3 +1,6 @@
+// popular.js
+//
+// popular section support.
 import {
   handleClickedResource,
 } from "../myresources/myResources.js";
