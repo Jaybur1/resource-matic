@@ -285,7 +285,10 @@ const getResources = (db, options) => {
 
   /////  LIMIT  /////
 
-  queryString += ` LIMIT ${Number(options.limit) || 10}`;
+  if (options.limit) {
+    // queryString += ` LIMIT ${Number(options.limit) || 10}`;
+    queryString += ` LIMIT ${Number(options.limit)}`;
+  }
 
   // OMG let's execute the thing and see what happens!
   return db
