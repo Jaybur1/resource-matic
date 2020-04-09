@@ -164,56 +164,56 @@ const getResources = (db, options) => {
 
   const queryParams = [];
 
-  const selectUsers = options.users      || options.currentUser;
-  const joinRatings = options.avgRatings || options.ratings;
-  const joinUsers   = options.users      || (options.currentUser        &&
-                                             !options.filterByLiked     &&
-                                             !options.filterByCommented &&
-                                             !options.filterByRated);
+  const selectComments = options.comments || options.filterByCommented;
+  const selectUsers    = options.users      || options.currentUser;
+  const joinRatings    = options.avgRatings || options.ratings;
+  const joinUsers      = options.users      || options.currentUser;
 
   /////  SELECT  /////
 
   let queryString = `SELECT resources.*` +
-                      `${options.comments   ? `, comments.body AS comments`          : ``}` +
-                      `${options.likes      ? `, COUNT(likes) AS likes`              : ``}` +
-                      `${options.avgRatings ? `, avg(ratings.rating) AS avg_ratings` : ``}` +
-                      `${selectUsers        ? `, users.name AS users`                : ``}` +
-                      `${options.categories ? `, categories.name AS categories`      : ``}` +
+                      `${selectComments     ? `, comments.body AS comment, comments.created AS comment_created_at, comments.id AS comment_id`        : ``}` +
+                      `${options.likes      ? `, COUNT(l1) AS likes`                                                                                 : ``}` +
+                      `${options.avgRatings ? `, avg(ratings.rating) AS avg_ratings`                                                                 : ``}` +
+                      `${selectUsers        ? `, u1.name AS poster, u1.avatar AS poster_avatar, u2.name AS commenter, u2.avatar AS commenter_avatar` : ``}` +
+                      `${options.categories ? `, categories.name AS categories`                                                                      : ``}` +
 
   /////  FROM  /////
 
                     ` FROM resources` +
-                      `${options.comments   ? ` LEFT JOIN comments ON comments.resource_id = resources.id`     : ``}` +
-                      `${options.likes      ? ` LEFT JOIN likes ON likes.resource_id = resources.id`           : ``}` +
-                      `${joinRatings        ? ` LEFT JOIN ratings ON ratings.resource_id = resources.id`       : ``}` +
-                      `${joinUsers          ? ` JOIN users ON resources.user_id = users.id`               : ``}` +
-                      `${options.categories ? ` JOIN categories ON resources.category_id = categories.id` : ``}`;
-
-  // users was joined above though...
-  let usersNotJoined = true;
-  if (options.filterByLiked) {
-    queryString += ` JOIN likes ON likes.resource_id = resources.id` +
-                   ` JOIN users ON users.id = likes.user_id`;
-    usersNotJoined = false;
-  }
-  if (options.filterByCommented) {
-    queryString += ` JOIN comments ON comments.resource_id = resources.id` +
-                   ` ${usersNotJoined ? `JOIN users ON users.id = comments.user_id` : ``}`;
-    usersNotJoined = false;
-  }
-  if (options.filterByRated) {
-    queryString += ` JOIN ratings ON ratings.resource_id = resources.id` +
-                   ` ${usersNotJoined ? `JOIN users ON users.id = ratings.user_id` : ``}`;
-    usersNotJoined = false;
-  }
+                      `${selectComments        ? ` LEFT JOIN comments ON comments.resource_id = resources.id`                                 : ``}` +
+                      `${options.likes         ? ` LEFT JOIN likes l1 ON l1.resource_id = resources.id`                                       : ``}` +
+                      `${joinRatings           ? ` LEFT JOIN ratings ON ratings.resource_id = resources.id`                                   : ``}` +
+                      `${joinUsers             ? ` JOIN users u1 ON resources.user_id = u1.id LEFT JOIN users u2 ON comments.user_id = u2.id` : ``}` +
+                      `${options.categories    ? ` JOIN categories ON resources.category_id = categories.id`                                  : ``}` +
+                      `${options.filterByLiked ? ` JOIN likes l2 ON l2.resource_id = resources.id`                                            : ``}` +
+                      `${options.filterByRated ? ` JOIN ratings r2 ON r2.resource_id = resources.id`                                          : ``}`;
 
   /////  WHERE  /////
 
   let addWhere = true;
   // Filter by current user:
-  if (options.currentUser) {
+  if (options.currentUser && !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
     queryParams.push(`${options.currentUser}`.trim());
-    queryString += ` WHERE users.name = $${queryParams.length}`;
+    queryString += ` WHERE u1.id = $${queryParams.length}`;
+    addWhere = false;
+  }
+  // Liked by user:
+  if (options.filterByLiked) {
+    queryParams.push(`${options.currentUser}`);
+    queryString += ` ${(addWhere ? `WHERE` : `OR`)} l2.user_id = $${queryParams.length}`;
+    addWhere = false;
+  }
+  // Rated by user:
+  if (options.filterByRated) {
+    queryParams.push(`${options.currentUser}`);
+    queryString += ` ${(addWhere ? `WHERE` : `OR`)} ratings.user_id = $${queryParams.length}`;
+    addWhere = false;
+  }
+  // Commented by user:
+  if (options.filterByCommented) {
+    queryParams.push(`${options.currentUser}`);
+    queryString += ` ${(addWhere ? `WHERE` : `OR`)} comments.user_id = $${queryParams.length}`;
     addWhere = false;
   }
   // Filter by categories:
@@ -238,7 +238,7 @@ const getResources = (db, options) => {
   // Comments are requested
   if (options.comments &&
       !options.filterByLiked && !options.filterByCommented && !options.filterByRated) {
-    queryString += `${addGroupBy ? ` GROUP BY resources.id, ` : `, `}comments.body`;
+    queryString += `${addGroupBy ? ` GROUP BY resources.id, ` : `, `}comments.body, comments.created, comments.id`;
     addGroupBy = false;
   }
   // Categories are requested
@@ -251,7 +251,7 @@ const getResources = (db, options) => {
   if (options.users ||
       (options.currentUser &&
        !options.filterByLiked && !options.filterByCommented && !options.filterByRated)) {
-    queryString += `${addGroupBy ? ` GROUP BY resources.id, ` : `, `}users.name`;
+    queryString += `${addGroupBy ? ` GROUP BY resources.id, ` : `, `}u1.name, u1.avatar, u2.name, u2.avatar`;
     addGroupBy = false;
   }
 
