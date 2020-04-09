@@ -15,7 +15,8 @@ module.exports = (db) => {
   // Arguments:
   //    resourceId   Integer: Resource ID of the like to delete.
   // Returns: {
-  //   numLikes: <like_count>
+  //   likedByCurrentUser: <boolean>
+  //   numLikes:           <like_count>
   // }
 
   router.get("/", (req, res) => {
@@ -26,12 +27,20 @@ module.exports = (db) => {
     } else if (!resourceId) {
       util.httpError("GET /like failed:", "Resource ID not specified", res, 400);
     } else {
-      //db.query("SELECT COUNT(*) AS numLikes, emoji_id FROM likes WHERE resource_id = $1 GROUP BY emoji_id", [ resourceId ])
-      db.query("SELECT COUNT(*) FROM likes WHERE resource_id = $1", [ resourceId ])
-        .then((queryRes) => {
-          res.status(200).json({ numLikes: queryRes.rows[0].count });
+      db.query("SELECT * FROM likes WHERE user_id = $1 AND resource_id = $2", [ userId, resourceId ])
+        .then((likeQueryRes) => {
+          //db.query("SELECT COUNT(*) AS numLikes, emoji_id FROM likes WHERE resource_id = $1 GROUP BY emoji_id", [ resourceId ])
+          db.query("SELECT COUNT(*) FROM likes WHERE resource_id = $1", [ resourceId ])
+            .then((countQueryRes) => {
+              res.status(200).json({
+                likedByCurrentUser: likeQueryRes.rows.length === 1,
+                numLikes:           countQueryRes.rows[0].count
+              });
+            }).catch((err) => {
+              util.httpError("GET /like SELECT COUNT failed:", err, res, 500);
+            });
         }).catch((err) => {
-          util.httpError("GET /like SELECT failed:", err, res, 500);
+          util.httpError("GET /like SELECT * failed:", err, res, 500);
         });
     }
   });

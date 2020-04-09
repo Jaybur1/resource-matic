@@ -1,0 +1,23 @@
+footer {
+  width: 100vw;
+  height: 10em;
+  background-color: var(--color_4);
+  padding-top: 2em;
+  color: white;
+}
+
+footer .custom-line {
+  height: 1px;
+  width: 100%;
+  background-color: white;
+  margin-bottom: 1em;
+}
+
+footer .custom-text-white {
+  color: white;
+}
+
+footer .custom-copyright {
+  font-weight: 500;
+}
+/*# sourceMappingURL=footer.css.map */

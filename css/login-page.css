@@ -1,0 +1,50 @@
+.custom-login {
+  position: fixed;
+  top: 3.7em;
+  height: calc(100vh - 3.7em);
+  width: 100vw;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(11, 144, 243, 0.05)), to(rgba(231, 34, 145, 0.05))), url("/assets/images/swirl.png");
+  background: linear-gradient(rgba(11, 144, 243, 0.05), rgba(231, 34, 145, 0.05)), url("/assets/images/swirl.png");
+  z-index: -1;
+}
+
+.custom-login-box {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(11, 144, 243, 0.05)), to(rgba(231, 34, 145, 0.05))), url("/assets/images/swirl.png");
+  background: linear-gradient(rgba(11, 144, 243, 0.05), rgba(231, 34, 145, 0.05)), url("/assets/images/swirl.png");
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 400px;
+  padding: 50px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.custom-login-box h2 div {
+  color: var(--color_4);
+}
+
+.custom-login-box:hover {
+  -webkit-box-shadow: 4px 7px 9px -5px #e6ace6;
+          box-shadow: 4px 7px 9px -5px #e6ace6;
+}
+
+.custom-link {
+  margin-top: 20px;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+}
+
+@media only screen and (max-width: 450px) {
+  .custom-login-box {
+    left: 55%;
+    top: 45%;
+    width: 90vw;
+  }
+}
+/*# sourceMappingURL=login-page.css.map */

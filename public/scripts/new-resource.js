@@ -1,9 +1,10 @@
-// new-reasource.js
+// new-resource.js
 //
 // new-resource support.
-const capitalize = (str) => {
+
+export const capitalize = (str) => {
   return str[0].toUpperCase() + str.substr(1).toLowerCase();
-}
+};
 
 const getCategories = (name = undefined) => {
   return $.ajax({
@@ -60,7 +61,7 @@ const newResourceCall = (data) => {
     method: "POST",
     url: "/resources",
     data,
-    success: (data, _status, _xhr) => {
+    success: (_data, _status, _xhr) => {
       $(".new-resource-form")[0].reset();
       window.location = "/home";
     },
@@ -68,7 +69,7 @@ const newResourceCall = (data) => {
 };
 
 const handleThumbnail_photo = () => {
-  $(".resource-url").on("keyup", function () {
+  $(".resource-url").on("keyup", function(_e) {
     const value = $(this).val();
     $(".thumbnail-photo").html(
       `<img class="thumbnail-photo" src="https://api.faviconkit.com/${value}/500">`
@@ -77,9 +78,9 @@ const handleThumbnail_photo = () => {
 };
 
 // Function that loads new resource interactions
-const newResourceHendler = () => {
+const newResourceHandler = () => {
   handleThumbnail_photo();
-  $(".create-new-resource").on("click", function () {
+  $(".create-new-resource").on("click", function(_e) {
     //update category list acording to db
     updateCategoryList();
     //toggle create new resource
@@ -90,7 +91,7 @@ const newResourceHendler = () => {
 
     handleNewCategory();
     //handle submit new resource
-    $(".new-resource-form").on("submit", function (e) {
+    $(".new-resource-form").on("submit", function(e) {
       e.preventDefault();
       const newResourceInput = $(this).serializeArray();
       const objdata = {};
@@ -98,7 +99,6 @@ const newResourceHendler = () => {
         objdata[obj.name] = obj.value;
       });
       objdata.thumbnail_photo = `https://api.faviconkit.com/${objdata.content}/144`;
-
       if (!objdata.categoryName) {
         newResourceCall(objdata);
         //hide on submition
@@ -108,7 +108,7 @@ const newResourceHendler = () => {
           objdata.categoryName = data.id;
           newResourceCall(objdata);
           $(".ui.modal").modal("hide");
-        })
+        });
       }
     });
   });
@@ -116,5 +116,5 @@ const newResourceHendler = () => {
 
 // Run when page is ready
 $(document).ready(() => {
-  newResourceHendler();
+  newResourceHandler();
 });

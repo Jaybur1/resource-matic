@@ -10,17 +10,39 @@ const database = require("../database");
 
 const resourcesRoutes = (db) => {
 
-  // Handle request resources
+  // TODO: Add error handling
+
+  // Request resources
   router.get("/", (req, res) => {
-    database.getResources(db, req.query)
-      .then((queryRes) => res.json(queryRes));
+
+    if (req.query.currentUser) {
+      const userId = req.session.userId;
+      database.getResources(db, {...req.query, currentUser: Number(userId)})
+        .then((queryRes) => res.json(queryRes));
+    } else {
+      database.getResources(db, req.query)
+        .then((queryRes) => res.json(queryRes));
+    }
   });
 
-  // Handle create new resource
-  router.post("/", (req, res) => {
+  // Create a new resource
+  router.post("/", (req, res) =>
     database.addResource(db, { userId: req.session.userId, ...req.body })
-      .then(resource => res.send(resource));
-  });
+      .then((resource) => res.send(resource)));
+
+  // Search resources
+  router.get("/search", (req, res) =>
+    database.searchResources(db, req.query.searchText)
+      .then((results) => res.json(results)));
+  // .then((results) => res.render("partials/_search-results", {
+  //   searchText: req.query.searchText,
+  //   cardData:   results
+  // })));
+
+  // Search resources with craziness
+  router.get("/searchwtf", (req, res) =>
+    database.searchResourcesWtf(db, req.query.searchText)
+      .then((results) => res.json(results)));
 
   return router;
 

@@ -14,9 +14,18 @@ module.exports = (db) => {
   //    Gets a list of all comment IDs for a resource.
   // Arguments:
   //    resourceId      Integer: Resource to retrieve comments for.
-  // Returns: {
-  //   commentIdList: [1, 2, 3, ...]
-  // }
+  // Returns:
+  //    [
+  //      {
+  //        "id": 1,
+  //        "currentuser": true
+  //      },
+  //      {
+  //        "id": 9,
+  //        "currentuser": false
+  //      },
+  //      ...
+  //    ]
 
   router.get("/list", (req, res) => {
     const userId     = req.session.userId;
@@ -26,9 +35,9 @@ module.exports = (db) => {
     } else if (!resourceId) {
       util.httpError("GET /comment/list failed:", "Resource ID not specified", res, 400);
     } else {
-      db.query("SELECT id FROM comments WHERE resource_id = $1", [ resourceId ])
+      db.query("SELECT id, (user_id = $1) AS currentUser FROM comments WHERE resource_id = $2", [ userId, resourceId ])
         .then((queryRes) => {
-          res.status(200).json({ commentIdList: queryRes.rows.map(x => x.id) });
+          res.status(200).json(queryRes.rows);
         }).catch((err) => {
           util.httpError("GET /comment/list SELECT failed:", err, res, 500);
         });
@@ -92,9 +101,10 @@ module.exports = (db) => {
     } else if (!content) {
       util.httpError("POST /comment failed:", "Content not specified", res, 400);
     } else {
-      db.query("INSERT INTO comments (user_id, resource_id, body) VALUES ($1, $2, $3)", [ userId, resourceId, content ])
-        .then((_queryRes) => {
-          res.status(200).end();
+      db.query("INSERT INTO comments (user_id, resource_id, body) " +
+               "VALUES ($1, $2, $3) RETURNING *", [ userId, resourceId, content ])
+        .then((queryRes) => {
+          res.json({ newCommentId: queryRes.rows[0].id });
         }).catch((err) => {
           util.httpError("POST /comment INSERT failed:", err, res, 500);
         });

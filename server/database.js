@@ -5,6 +5,8 @@
 
 const bcrypt = require("bcrypt");
 
+const c = require("./constants");
+
 
 
 ///////////////////
@@ -12,6 +14,8 @@ const bcrypt = require("bcrypt");
 ///////////////////
 
 // getUserWithEmail retrieves user information given an email address.
+
+
 
 const getUserWithEmail = (db, email) => {
   return db
@@ -32,11 +36,12 @@ const getUserWithId = (db, id) => {
 // addUser adds a new user to the database.
 
 const addUser = (db, user) => {
-  const queryParams = [ user.name, user.email, user.password ];
+  user.avatar = c.DEFAULT_AVATAR;
+  const queryParams = [ user.name, user.email, user.password, user.avatar ];
   return db
     .query("INSERT INTO users " +
-           "(name, email, password) " +
-           "VALUES ($1, $2, $3) RETURNING *", queryParams)
+           "(name, email, password, avatar) " +
+           "VALUES ($1, $2, $3, $4) RETURNING *", queryParams)
     .then((res) => res.rows[0])
     .catch((err) => console.error("addUser error:", err));
 };
@@ -285,7 +290,12 @@ const getResources = (db, options) => {
   // OMG let's execute the thing and see what happens!
   return db
     .query(queryString, queryParams)
-    .then((res) => res.rows)
+    .then((res) => {
+      for (const row of res.rows) {
+        delete row.user_id;
+      }
+      return res.rows;
+    })
     .catch((err) => console.error("getResources error:", err));
 
 };
@@ -306,12 +316,73 @@ const addResource = (db, resource) => {
     .catch((err) => console.error("addResource error:", err));
 };
 
-// deleteResource deletes a resource from the database.
+// searchResources searches all resources for the specified text in various places.
+
+// SELECT resources.*, comments.body AS comment, comments.created as comment_created_at, comments.id as comment_id, count(l1) AS likes, avg(ratings.rating) AS avg_ratings, u1.name AS poster, u1.avatar AS poster_avatar, u2.name AS commenter, u2.avatar AS commenter_avatar FROM resources LEFT JOIN comments ON comments.resource_id = resources.id LEFT JOIN likes l1 ON l1.resource_id = resources.id LEFT JOIN ratings ON ratings.resource_id = resources.id JOIN users u1 ON resources.user_id = u1.id LEFT JOIN users u2 ON comments.user_id = u2.id  GROUP BY resources.id, comments.body, comments.created, comments.id, u1.name, u1.avatar, u2.name, u2.avatar  ORDER BY resources.created DESC
+
+const searchResourcesWtf = (db, searchText) => {
+  return db
+    // Main SELECT copied from logged query for main feed (shown above)
+    //    Added WHERE LIKE conditions for searching
+    .query("SELECT resources.*, comments.body AS comment, comments.created as comment_created_at, comments.id as comment_id, count(l1) AS likes, " +
+           "avg(ratings.rating) AS avg_ratings, u1.name AS poster, u1.avatar AS poster_avatar, u2.name AS commenter, u2.avatar AS commenter_avatar " +
+           "FROM resources " +
+           "LEFT JOIN comments ON comments.resource_id = resources.id " +
+           "LEFT JOIN likes l1 ON l1.resource_id = resources.id " +
+           "LEFT JOIN ratings ON ratings.resource_id = resources.id " +
+           "JOIN users u1 ON resources.user_id = u1.id " +
+           "LEFT JOIN users u2 ON comments.user_id = u2.id " +
+           // Added WHERE clause
+           "WHERE resources.title LIKE $1 OR " +
+                 "resources.description LIKE $1 OR " +
+                 "resources.content LIKE $1 " +
+           // ------------------
+           "GROUP BY resources.id, comments.body, comments.created, comments.id, u1.name, u1.avatar, u2.name, u2.avatar " +
+           "ORDER BY resources.created DESC", [ `%${searchText}%` ])
+    .then((res) => {
+      for (const row of res.rows) {
+        delete row.user_id;
+      }
+      return res.rows;
+    })
+    .catch((err) => console.log("searchResources error:", err));
+};
+
+const searchResources = (db, searchText) => {
+  return db
+    .query("SELECT resources.*, AVG(rating) AS avg_ratings FROM resources " +
+           "LEFT JOIN ratings ON ratings.resource_id = resources.id " +
+           //"JOIN comments ON comments.resource_id = resources.id " +
+           "WHERE resources.title LIKE $1 OR " +
+                 "resources.description LIKE $1 OR " +
+                 "resources.content LIKE $1 " +
+           "GROUP BY resources.id", [ `%${searchText}%` ])
+    .then((res) => {
+      for (const row of res.rows) {
+        delete row.user_id;
+      }
+      return res.rows;
+    })
+    .catch((err) => console.log("searchResources error:", err));
+};
+
+// deleteResource deletes a resource
+//    INCOMPLETE
 
 // const deleteResource = (db, resourceId) => {
-//   // Check if this resource holds the last trace of the current category
+//   // Check if this resource is the last reference to its category:
+//   db.query("SELECT category_id FROM resources WHERE resource_id = $1", [ resourceId ])
+//     .then((queryRes) => {
+//       db.query("SELECT COUNT(*) FROM resources WHERE category_id = $1", [ categoryId ])
+//       return queryRes.rows[0].category_id;
+//     })
+//     .then((categoryId) => {
+//       if (queryRes.rows[0].length) {
+//         db.query("DELETE FROM categories WHERE category_id = $1", [ categoryId ]))
+//       }
+//     })
+//     .catch((err) => err);
 // };
-
 
 
 ////////////////////////
@@ -358,6 +429,8 @@ module.exports = {
   getResources,
   addResource,
   // deleteResource,
+  searchResources,
+  searchResourcesWtf,
   getCategories,
   getCategoriesWithName,
   addCategory

@@ -18,20 +18,20 @@ module.exports = (db) => {
   //    Render the user profile page.
 
   router.get("/", (req, res) => {
-    if (req.session.userId) {
+    if (!req.session.userId) {
+      res.redirect("/");
+    } else {
       database.getUserWithId(db, req.session.userId
       ).then((user) => {
-        if (user) {
-          util.renderView(res, "profile", { user });
-        } else {
+        if (!user) {
+          req.session = null;
           res.redirect("/");
+        } else {
+          util.renderView(res, "profile", { user });
         }
       }).catch((_err) => {
-        //console.log("getUserWithId failed:", err);
         res.redirect("/");
       });
-    } else {
-      res.redirect("/");
     }
   });
 
@@ -76,10 +76,12 @@ module.exports = (db) => {
     }
   });
 
+  // DELETE profile
+  //    Delete the current user's account.
+
   router.delete("/", (req, res) => {
     if (req.session.userId) {
       const user = req.body;
-      console.log("DELETE /profile", user);
       database.validatePassword(db, req.session.userId, user.password)
         .then(database.deleteUser(db, req.session.userId))
         .then(function() {

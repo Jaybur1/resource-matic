@@ -15,12 +15,15 @@
       <h1 style="width: 100%; text-align: center;">You're the best <%= user.name %> ever.</h1>
 
       <section style="padding: 1rem 2rem; background: #EEEEEE;">
+        <pre id="ajax-request">Method: <input type="text" id="ajax-method" value="GET">   Path: <input type="text" id="ajax-path">   Data: <input type="text" id="ajax-data"></pre>
+        <br>
         <pre id="get-like"        >GET     /like         { resourceId: <input type="text" class="resource_id"> }</pre>
         <pre id="post-like"       >POST    /like         { resourceId: <input type="text" class="resource_id"> }</pre>
         <pre id="delete-like"     >DELETE  /like         { resourceId: <input type="text" class="resource_id"> }</pre>
         <br>
         <pre id="get-rating"      >GET     /rating       { resourceId: <input type="text" class="resource_id"> }</pre>
         <pre id="post-rating"     >POST    /rating       { resourceId: <input type="text" class="resource_id">, rating: <input type="text" class="rating"> }</pre>
+        <pre id="put-rating"      >PUT     /rating       { resourceId: <input type="text" class="resource_id">, rating: <input type="text" class="rating"> }</pre>
         <pre id="delete-rating"   >DELETE  /rating       { resourceId: <input type="text" class="resource_id"> }</pre>
         <br>
         <pre id="get-comment/list">GET     /comment/list { resourceId: <input type="text" class="resource_id"> }</pre>
@@ -41,26 +44,40 @@
         main section input {
           width: 5rem;
         }
+        main section input#ajax-data {
+          width: 30rem;
+        }
       </style>
 
       <script type="text/javascript">
         $(document).ready(function() {
           $("main section pre input").on("click", (_event) => false);
           $("main section pre").on("click", function(event) {
-            idArray = $(this).attr("id").split("-");
-            const $idList = $(this).find("input.id-list");
-            const idList  = ($idList.length > 0 ? $idList.val().trim() : undefined);
-            const commentIdList = (idList ? idList.split(",").filter(x => x) : undefined);
-            const ajaxOptions = {
-              method: idArray[0].toUpperCase(),
-              url:    idArray[1],
-              data:   {
+            let idArray;
+            elementId = $(this).attr("id");
+            if (elementId === "ajax-request") {
+              idArray = [
+                $(this).find("#ajax-method").val().trim(),
+                $(this).find("#ajax-path").val().trim(),
+                JSON.parse($(this).find("#ajax-data").val()),
+              ];
+            } else {
+              idArray = elementId.split("-");
+              const $idList = $(this).find("input.id-list");
+              const idList  = ($idList.length > 0 ? $idList.val().trim() : undefined);
+              const commentIdList = (idList ? idList.split(",").filter(x => x) : undefined);
+              idArray.push({
                 resourceId:    $(this).find("input.resource_id").val(),
                 rating:        $(this).find("input.rating").val(),
                 commentIdList,
                 commentId:     $(this).find("input.comment_id").val(),
                 content:       $(this).find("input.content").val(),
-              }
+              });
+            }
+            const ajaxOptions = {
+              method: idArray[0].toUpperCase(),
+              url:    idArray[1],
+              data:   idArray[2]
             };
             $.ajax(ajaxOptions).then((data, status, xhr) => {
               console.log("success", { ajaxOptions, status, data, xhr });

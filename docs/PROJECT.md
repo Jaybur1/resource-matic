@@ -82,21 +82,70 @@ As a user I want to [be able to] ...
 
 ### UI routes
 
+| Method | Path     | Description |
+|:-------|:---------|:------------|
+| GET    | /        | Show main landing page - redirect to /home if already logged in |
+| GET    | /login   | Show login page - redirect to /home if already logged in - _users should be able to register, log in, log out and update their profile_ |
+| PUT    | /login   | AJAX: Log in (create session) - redirect to /home if successful |
+| GET    | /signup  | Show new user registration page - redirect to /home if already logged in - _users should be able to register, ~~log in, log out and update their profile~~_ |
+| PUT    | /signup  | AJAX: Create a new user account - redirect to /home if successful |
+| PUT    | /logout  | Log out (destroy session) - redirect to / - _users should be able to ~~register, log in,~~ log out ~~and update their profile~~_ |
+| GET    | /profile | Show user profile page - redirect to / if not logged in - _users should be able to ~~register, log in, log out and~~ update their profile_ |
+| PUT    | /profile | AJAX: Update user profile info - redirect to / if not logged in |
+| GET    | /home    | Show main resources page - redirect to / if not logged in |
+
+### API routes
+
+These are all AJAX requests.
+
+Routes marked Extra for features that are beyond MVP but have already been implemented (2020-04-07).
+
+| Method | Path                     | Description |
+|:-------|:-------------------------|:------------|
+| GET    | /resource/all            | List all - _~~Allow learners to save learning resources like tutorials, blogs and videos in a~~ central place that is publicly available to any user._ |
+| GET    | /resource/all/category   | List all for a category - Implied by: _users should be able to categorize any resource under a topic_ |
+| GET    | /resource/user/all       | List for user     { reverseSort: boolean } - _users should be able to view all their own ~~and all liked~~ resources on one page ("My resources")_ |
+| GET    | /resource/user/liked     | List for by liked { reverseSort: boolean } - _users should be able to view ~~all their own and~~ all liked resources on one page ("My resources")_ |
+| GET    | /resource/search         | Search resources - _users should be able to search for already-saved resources created by any user_ |
+| GET    | /resource/user/favourite | Extra: List by favourites { reverseSort: boolean } - no DB support |
+| GET    | /resource/all/popular    | Extra: List by popularity { reverseSort: boolean } |
+| GET    | /resource/all/recent     | Extra: List by date       { reverseSort: boolean } |
+| GET    | /resource/feed           | Extra: List by feed |
+| POST   | /resource                | Create a resource - _Allow learners to save learning resources like tutorials, blogs and videos ~~in a central place that is publicly available to any user.~~_ |
+| PATCH  | /resource                | Extra: Update a resource |
+| DELETE | /resource                | Extra: Remove a resource |
+| POST   | /like                    | Add a like - _users should be able to like any resource_ |
+| DELETE | /like                    | Remove a like |
+| POST   | /rating                  | Add a rating - _users should be able to rate any resource_ |
+| PATCH  | /rating                  | Update a rating |
+| DELETE | /rating                  | Remove a rating |
+| POST   | /comment                 | Add a comment - _users should be able to comment on any resource_ |
+| PATCH  | /comment                 | Update a comment |
+| DELETE | /comment                 | Remove a comment |
+
+---
+---
+---
+
+## Routes (ORIGINAL)
+
+### UI routes (ORIGINAL)
+
 ```
 GET    /            Show main landing page
                     - redirect to /home if already logged in
 
-GET    /login       Show login page
+GET    user/login       Show login page
                     - redirect to /home if already logged in
-PUT    /login       Log in (create session)
+PUT    user/login       Log in (create session)
                     - redirect to /home if successful
 
-GET    /signup      Show new user registration page
+GET    user/signup      Show new user registration page
                     - redirect to /home if already logged in
-PUT    /signup      Create a new user account
+PUT    user/signup      Create a new user account
                     - redirect to /home if successful
 
-PUT    /logout      Log out (destroy session)
+PUT    user/logout      Log out (destroy session)
                     - redirect to /
 
 GET    /profile     Show user profile page
@@ -108,7 +157,7 @@ GET    /home        Show main resources page
                     - redirect to / if not logged in
 ```
 
-### API routes
+### API routes (ORIGINAL)
 
 ```
 GET    /resource    Retrieve a resource
