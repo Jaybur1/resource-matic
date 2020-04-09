@@ -123,6 +123,15 @@ export const newComment = () => {
           // Clear input field but doesn't blur
           $(this).val("");
 
+          // Update comment count
+          const commentCountEl = $(this).parent().parent().parent().find(".custom-comment-count");
+          const currentCommentCount = Number(commentCountEl.text().trim().split(" ")[0]);
+
+          commentCountEl.text(`
+          ${currentCommentCount + 1} ${currentCommentCount + 1 === 1 ? "comment" : "comments"}
+          `);
+          //
+
           // Turn on edit and delete comment
           $(".custom-edit-comment").off("click");
           $(".custom-delete-comment").off("click");
@@ -259,6 +268,15 @@ export const deleteComment = () => {
       
       // Current comment id
       const commentId = Number($(this).parent().next().text());
+
+      // Update comment count
+      const commentCountEl = $(this).parent().parent().parent().parent().parent().parent().find(".custom-comment-count");
+      const currentCommentCount = Number(commentCountEl.text().trim().split(" ")[0]);
+      
+      commentCountEl.text(`
+      ${currentCommentCount - 1} ${currentCommentCount - 1 === 1 ? "comment" : "comments"}
+      `);
+      //
       
       // Submit delete request
       submitDeleteComment(commentId)
@@ -270,7 +288,7 @@ export const deleteComment = () => {
     
     // Event listener for cancel delete
     $(".custom-cancel-delete-comment").on("click", function() {
-      
+
       // Remove all prompt elements and show back edit and delete buttons
       $(this).prev().prev().prev().prev().removeClass("custom-default-hidden");
       $(this).prev().prev().prev().removeClass("custom-default-hidden");
