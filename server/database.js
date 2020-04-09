@@ -440,7 +440,7 @@ const deleteResource = (resourceId,db) => {
         return deleteCategory(res.rows[0].category_id,db)
        // return `${res.rows[0].count} <== category count ${res.rows[0].category_id} <== catId ${resourceId} category delete`
      }else{
-      //  //delete resource
+        //delete resource
         return  executeDelete(resourceId,db);
       //  return `${res.rows[0].count} <== category count ${res.rows[0].category_id} <== catId ${resourceId} resource delete`
      }
