@@ -82,7 +82,8 @@ const retrieveBrowseCards = (categories) => {
       likes: true,
       avgRatings: true,
       categories,
-      users: true
+      users: true,
+      sorts: {byLatest: true}
     }
   })
     .then((resp) => {

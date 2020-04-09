@@ -32,7 +32,7 @@ export const resources = (searchText) => {
             `<div class="ui large purple header">` +
               `Search results for "${searchText}"` +
             `</div>` +
-            `<div class="ui bottom attached tab segment active" data-tab="one">` +
+            `<div class="ui segment container-effect">` +
               `<div class="user-resources ui special cards custom-resources custom-grid-resources">` +
               cardsHtml.join("") +
               `</div>` +

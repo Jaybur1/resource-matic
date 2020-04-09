@@ -54,11 +54,13 @@
 
 .custom-grid-resources {
   display: grid !important;
-  // grid-template-columns: repeat(min);
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 187px));
   width: 100%;
+  height: 100%;
   grid-gap: 1.5em;
-  padding: 1em;
+  padding-top: 0.55em;
+  padding-bottom: 0.55em;
+  padding-left: 0.55em;
 }
 
 .custom-card-hidden,
@@ -90,7 +92,7 @@
 }
 
 .custom-popular-padding {
-  padding-right: 2em !important;
+  // padding-right: 2em !important;
 }
 
 .custom-delete {
