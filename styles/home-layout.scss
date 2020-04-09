@@ -25,9 +25,14 @@
     }
 
     .custom-user {
-      padding-left: 0.5em;
+      // padding-left: 0.5em;
       line-height: 2em;
       word-break: break-word;
+      padding-top: 0.5em !important;
+
+      span {
+        padding-left: 0.5em;
+      }
     }
   }
 
@@ -130,4 +135,8 @@
 
 .ui.active.selection.dropdown {
   z-index: 500 !important;
+}
+
+.custom-menu-user-info {
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15) !important;
 }
