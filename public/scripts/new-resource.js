@@ -70,7 +70,7 @@ const newResourceCall = (data) => {
 
 const handleThumbnail_photo = () => {
   $(".resource-url").on("keyup", function(_e) {
-    const value = $(this).val();
+    const value = $(this).val().substr(0,4) === 'http' ? $(this).val().substr(7) : $(this).val();
     $(".thumbnail-photo").html(
       `<img class="thumbnail-photo" src="https://api.faviconkit.com/${value}/500">`
     );
@@ -98,7 +98,8 @@ const newResourceHandler = () => {
       newResourceInput.forEach((obj) => {
         objdata[obj.name] = obj.value;
       });
-      objdata.thumbnail_photo = `https://api.faviconkit.com/${objdata.content}/144`;
+      objdata.content = objdata.content.substr(0,4) === 'http' ? objdata.content : `http://${objdata.content}`;
+      objdata.thumbnail_photo = `https://api.faviconkit.com/${objdata.content.substr(7)}/144`;
       if (!objdata.categoryName) {
         newResourceCall(objdata);
         //hide on submition
