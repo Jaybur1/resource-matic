@@ -183,9 +183,9 @@ const getResources = (db, options) => {
   /////  FROM  /////
 
                     ` FROM resources` +
-                      `${options.comments   ? ` JOIN comments ON comments.resource_id = resources.id`     : ``}` +
-                      `${options.likes      ? ` JOIN likes ON likes.resource_id = resources.id`           : ``}` +
-                      `${joinRatings        ? ` JOIN ratings ON ratings.resource_id = resources.id`       : ``}` +
+                      `${options.comments   ? ` LEFT JOIN comments ON comments.resource_id = resources.id`     : ``}` +
+                      `${options.likes      ? ` LEFT JOIN likes ON likes.resource_id = resources.id`           : ``}` +
+                      `${joinRatings        ? ` LEFT JOIN ratings ON ratings.resource_id = resources.id`       : ``}` +
                       `${joinUsers          ? ` JOIN users ON resources.user_id = users.id`               : ``}` +
                       `${options.categories ? ` JOIN categories ON resources.category_id = categories.id` : ``}`;
 
