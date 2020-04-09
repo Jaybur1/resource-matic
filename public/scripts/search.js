@@ -17,27 +17,34 @@ export const resources = (searchText) => {
   if (new URL(window.location).pathname !== "/home") {
     window.location = `/home?search=${encodeURIComponent(searchText)}`;
   } else {
+    search(searchText);
+  }
 
-    // TODO: Cancel loading feed
+};
 
-    $.ajax({
-      method: "GET",
-      //url:    "/resources/search",
-      url:    "/resources/searchwtf",
-      data:   {
-        searchText
-      }
-    }).then(async(data, _status, _xhr) => {
-      console.log("GET /resources/searchwtf");
-      //renderSearchResults($("main section#home-page"), data);
-      const groupedResources = feed.groupComments(data);
-      for (const resource of groupedResources) {
-        resource.comments = await comments.updateCommentsWithOwned(resource.comments, resource.id);
-      }
-      myResources.createCards(groupedResources)
-        .then((cardsHtml) => {
-          $("main section#home-page").html(
-            `<div class="ui large purple header">` +
+export const search = (searchText) => {
+
+  // TODO: Cancel loading feed
+
+  $.ajax({
+    method: "GET",
+    //url:    "/resources/search",
+    url:    "/resources/searchwtf",
+    data:   {
+      searchText
+    }
+  }).then(async(data, _status, _xhr) => {
+    console.log("GET /resources/searchwtf");
+    //renderSearchResults($("main section#home-page"), data);
+    const groupedResources = feed.groupComments(data);
+    for (const resource of groupedResources) {
+      resource.comments = await comments.updateCommentsWithOwned(resource.comments, resource.id);
+    }
+    myResources.createCards(groupedResources)
+      .then((cardsHtml) => {
+        console.log($("main section#home-page"));
+        $("main section#home-page").html(
+          `<div class="ui large purple header">` +
               `Search results for "${searchText}"` +
             `</div>` +
             `<div class="ui segment container-effect">` +
@@ -45,27 +52,24 @@ export const resources = (searchText) => {
               cardsHtml.join("") +
               `</div>` +
             `</div>`)
-            .find(".special.cards .image").dimmer({
-              on: "hover",
-            });
-          myResources.handleClickedResource();
-          showMoreComments(3);
-          // Event listener for new comment
-          newComment();
-          // Event listener for edit comment
-          editComment();
-          // Event listener for edit comment
-          deleteComment();
-          // Event listener for like click
-          likeInteractions();
-          // Event listener for like rating
-          ratingInteractions();
-        });
-    }).catch((xhr, _status, _message) => console.log(xhr)); // handleXhrError(xhr));
-  }
+          .find(".special.cards .image").dimmer({
+            on: "hover",
+          });
+        myResources.handleClickedResource();
+        showMoreComments(3);
+        // Event listener for new comment
+        newComment();
+        // Event listener for edit comment
+        editComment();
+        // Event listener for edit comment
+        deleteComment();
+        // Event listener for like click
+        likeInteractions();
+        // Event listener for like rating
+        ratingInteractions();
+      });
+  }).catch((xhr, _status, _message) => console.log(xhr)); // handleXhrError(xhr));
 };
-
-
 
 const renderSearchResults = ($container, resources) => {
   renderCards($container, resources, ($newCard, resource) => {
