@@ -46,18 +46,6 @@
       padding-top: 6.7em;
     }
   }
-
-  .custom-home-page-background {
-    position: fixed;
-    top: 3.7em;
-    height: calc(100vh - 3.7em);
-    width: 100vw;
-    background: linear-gradient(
-        rgba($color: #0b90f3, $alpha: 0.05),
-        rgba($color: #e72291, $alpha: 0.05)
-      ),
-      url("/assets/images/swirl.png");
-  }
 }
 
 .ui.tabular.menu .item {
@@ -160,6 +148,18 @@
 
 .custom-tab-name {
   display: none;
+}
+
+.custom-home-page-background {
+  position: fixed;
+  top: 3.7em;
+  height: calc(100vh - 3.7em);
+  width: 100vw;
+  background: linear-gradient(
+      rgba($color: #0b90f3, $alpha: 0.05),
+      rgba($color: #e72291, $alpha: 0.05)
+    ),
+    url("/assets/images/swirl.png");
 }
 
 @media only screen and (min-width: 768px) {

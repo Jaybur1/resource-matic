@@ -3,67 +3,87 @@
 // Profile page specific style.
 
 main {
-  margin:              7rem auto 10rem;
-  max-width:           50rem;
-  cursor:              default;
+  background: linear-gradient(
+      rgba($color: #0b90f3, $alpha: 0.05),
+      rgba($color: #e72291, $alpha: 0.05)
+    ),
+    url("/assets/images/swirl.png");
 
-  .column .segment {
-    padding-top:         1.75rem !important;
-    padding-bottom:      1.75rem !important;
-  }
+  .profile-container {
+    margin-top: 1.8em;
+    padding: 6em 0 8em 0;
+    cursor: default;
+    min-height: 100vh;
 
-  .custom-avatar-container {
-    width:               100%;
-    text-align:          center;
-  }
+    .column .segment {
+      padding-top: 1.75rem !important;
+      padding-bottom: 1.75rem !important;
+    }
 
-  #avatar {
-    display:             inline-block;
-    width:               10rem;
-    height:              10rem;
-    margin:              1rem 0;
-    border-radius:       5rem;
-    background-position: center;
-    background-size:     cover;
-    background-color:    ghostwhite;
-    // background:          radial-gradient(circle, rgba(255,0,0,1) 0%, rgba(255,121,0,1) 24%, rgba(255,255,255,1) 80%);
-    transition:          width         0.25s ease 0s,
-                         height        0.25s ease 0s,
-                         border-radius 0.25s ease 0s;
-  }
+    .custom-avatar-container {
+      width: 100%;
+      text-align: center;
+    }
 
-  #avatar:hover {
-    width:               20rem;
-    height:              20rem;
-    border-radius:       0.5rem;
-    transition:          width         0.25s ease 0s,
-                         height        0.25s ease 0s,
-                         border-radius 0.25s ease 0s;
-  }
+    #avatar {
+      display: inline-block;
+      width: 10rem;
+      height: 10rem;
+      margin: 1rem 0;
+      border-radius: 5rem;
+      background-position: center;
+      background-size: cover;
+      background-color: ghostwhite;
+      // background:          radial-gradient(circle, rgba(255,0,0,1) 0%, rgba(255,121,0,1) 24%, rgba(255,255,255,1) 80%);
+      transition: width 0.25s ease 0s, height 0.25s ease 0s,
+        border-radius 0.25s ease 0s;
+    }
 
-  div.header {
-    margin-bottom:       1em !important;
-    padding:             0.5em !important;
-    background:          ghostwhite;
-    border-radius:       0.5em;
-  }
+    #avatar:hover {
+      width: 20rem;
+      height: 20rem;
+      border-radius: 0.5rem;
+      transition: width 0.25s ease 0s, height 0.25s ease 0s,
+        border-radius 0.25s ease 0s;
+    }
 
-  .custom-button-container {
-    display:             flex;
-    flex-flow:           row wrap;
-    justify-content:     space-between;
-  }
+    div.header {
+      margin-bottom: 1em !important;
+      padding: 0.5em !important;
+      background: ghostwhite;
+      border-radius: 0.5em;
+    }
 
-  form button {
-    min-width:           10rem;
-  }
+    .custom-button-container {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+    }
 
-  .custom-error-border {
-    border:              0.1em dashed red !important;
+    form button {
+      min-width: 10rem;
+    }
+
+    .custom-error-border {
+      border: 0.1em dashed red !important;
+    }
+    .custom-text-error-border {
+      border: 0.1em dashed red;
+      margin: 0.1em 0.2em;
+      padding: 0.1em 0.2em;
+    }
   }
-  .custom-text-error-border {
-    border:              0.1em dashed red;
-    margin:              0.1em 0.2em;
-    padding:             0.1em 0.2em;
+}
+
+.custom-button-padding {
+  margin-bottom: 1em !important;
+}
+
+@media only screen and (min-width: 992px) {
+  main {
+    .profile-container {
+      margin-top: 1.8em;
+      padding: 6em 6em 4em 6em;
+    }
   }
 }
