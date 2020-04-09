@@ -72,6 +72,22 @@
   grid-column: span 4 !important;
 }
 
+.custom-nothing-matched {
+  grid-column: span 4 !important;
+  grid-row: span 2 !important;
+  height: 500px;
+  // height: 100%;
+  display: grid;
+  align-content: center;
+  align-items: center;
+
+  h3 {
+    text-align: center;
+    font-weight: 500;
+    line-height: 2em;
+  }
+}
+
 .custom-width-fit {
   width: 100% !important;
 }
@@ -89,6 +105,8 @@
 
 .container-effect {
   transition: background-color 0.3s;
+  // min-height: 35em;
+  min-height: 550px;
 }
 
 .custom-popular-padding {
@@ -108,4 +126,8 @@
 
 .custom-delete-message {
   text-align: center;
+}
+
+.ui.active.selection.dropdown {
+  z-index: 500 !important;
 }
