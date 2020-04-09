@@ -18,7 +18,14 @@ const resourcesRoutes = (db) => {
     if (req.query.currentUser) {
       const userId = req.session.userId;
       database.getResources(db, {...req.query, currentUser: Number(userId)})
-        .then((queryRes) => res.json(queryRes));
+        .then((queryRes) => {
+          queryRes.forEach((resource) => {
+            resource.currentUser = (resource.user_id === req.session.userId);
+            // delete resource.user_id;
+          });
+          console.log(queryRes);
+          res.json(queryRes);
+        });
     } else {
       database.getResources(db, req.query)
         .then((queryRes) => res.json(queryRes));
@@ -31,13 +38,12 @@ const resourcesRoutes = (db) => {
       .then((resource) => res.send(resource)));
 
 
-  //delete a resource
+  // Delete a resource
   router.delete('/', (req,res) => {
     const resourceId = req.body.resourceId;
     database.deleteResource(resourceId, db).then(data => {
       res.json(data);
     });
-    
   });
 
   // Search resources
