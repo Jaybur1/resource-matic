@@ -140,3 +140,13 @@
 .custom-menu-user-info {
   border-bottom: 1px solid rgba(34, 36, 38, 0.15) !important;
 }
+
+.custom-item-name {
+  display: none;
+}
+
+@media only screen and (min-width: 992px) {
+  .custom-item-name {
+    display: block;
+  }
+}
