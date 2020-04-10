@@ -12,7 +12,7 @@ INSERT INTO
   )
 VALUES
   (
-    1,
+    7,
     1,
     'NPM',
     'Build amazing things.',
@@ -57,7 +57,7 @@ VALUES
     '02/13/2020 10:41:17 AM'
   ),
   (
-    3,
+    7,
     2,
     'jQuery',
     'Build, test, and deploy globally with Netlify’s all-in-one platform for modern web projects',
@@ -102,7 +102,7 @@ VALUES
     '12/02/2019 07:38:53 PM'
   ),
   (
-    3,
+    7,
     3,
     'Unsplash',
     'Beautiful, free images and photos that you can download and use for any project. Better than any royalty free or stock photos.',
@@ -147,7 +147,7 @@ VALUES
     '02/22/2020 04:54:58 PM'
   ),
   (
-    2,
+    7,
     5,
     'Netlify',
     'Build, test, and deploy globally with Netlify’s all-in-one platform for modern web projects',
