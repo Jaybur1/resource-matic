@@ -1,3 +1,7 @@
+// rating.js
+//
+// Rating support.
+
 // Function that sends an AJAX request to find if user has rated resource and returns rate if rated
 export const checkIfRated = (id) => {
   // AJAX request
@@ -5,8 +9,8 @@ export const checkIfRated = (id) => {
     url: "/rating",
     data: {resourceId: id}
   })
-    .then(resp => resp.currentUserRating
-    );
+    .then(resp => resp.currentUserRating)
+    .catch(error => console.log(error));
 };
 
 // Function the handles changing rating of a resource by user
@@ -39,7 +43,8 @@ export const ratingInteractions = () => {
 
           // Update average rating
           updateAvgRating(resourceId, $(this));
-        });
+        })
+        .catch(error => console.log(error));
     // If rating selected is equal to current rating delete it
     } else if (currentRating === selectedRating) {
       // AJAX DELETE request
@@ -59,7 +64,8 @@ export const ratingInteractions = () => {
 
           // Update average rating
           updateAvgRating(resourceId, $(this));
-        });
+        })
+        .catch(error => console.log(error));
     // If rating is already set
     } else if (currentRating > 0) {
       // AJAX PUT request
@@ -78,7 +84,8 @@ export const ratingInteractions = () => {
 
           // Update average rating
           updateAvgRating(resourceId, $(this));
-        });
+        })
+        .catch(error => console.log(error));
     }
   });
 };
@@ -100,5 +107,6 @@ const updateAvgRating = (id, $post) => {
       
       // Update text
       $post.prev().html(updateText);
-    });
+    })
+    .catch(error => console.log(error));
 };

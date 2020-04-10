@@ -1,3 +1,7 @@
+// feed-card.js
+//
+// Feed card support.
+
 import { createCommentsHTML } from "./comments.js";
 import { checkIfLiked } from "./like.js";
 import { checkIfRated } from "./rating.js";

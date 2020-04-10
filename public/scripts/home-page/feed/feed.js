@@ -1,3 +1,7 @@
+// feed.js
+//
+// Feed support.
+
 import feedCardCreator from "./feed-card.js";
 import { showMoreComments, newComment, updateCommentsWithOwned, editComment, deleteComment } from "./comments.js";
 import { likeInteractions } from "./like.js";
@@ -14,7 +18,8 @@ const retrieveFeedResources = () => {
     .then((resp) => {
     // On request success call render function
       feedRenderer(resp);
-    });
+    })
+    .catch(error => console.log(error));
 };
 
 // Function that renders feed to home page
