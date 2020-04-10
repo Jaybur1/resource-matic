@@ -1,6 +1,9 @@
+// big-card.scss
+//
+// Big card specific style.
+
 .custom-big-card {
   margin-bottom: 1.5em !important;
-  // width: 400px;
 
   .custom-resource-area {
     padding: 0 !important;
@@ -19,7 +22,6 @@
       .custom-resource-image {
         height: 100%;
         width: 7em;
-        // width: 5em;
         border-right: 1px solid var(--color_7);
         padding: 1em;
       }
@@ -113,7 +115,6 @@
 
 .custom-big-card .custom-new-comment-container {
   width: 100% !important;
-  // display: flex !important;
 }
 
 .custom-big-card .new-comment {
@@ -141,23 +142,17 @@
 }
 
 .custom-big-card .custom-confirm-delete-comment {
-  // color: red !important;
-  // color: var(--color_2) !important;
   font-weight: 500;
 }
 
 .custom-big-card .custom-cancel-delete-comment {
-  // color: var(--color_4) !important;
   font-weight: 500;
 }
 
 .custom-big-card .custom-delete-comment-prompt {
-  // color: var(--color_4) !important;
   font-weight: 500;
-  // text-decoration: underline;
   padding-right: 1em;
   color: red;
-  // background-color: var(--color_5);
 }
 
 @media only screen and (min-width: 768px) {

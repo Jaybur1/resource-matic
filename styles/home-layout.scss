@@ -1,3 +1,7 @@
+// home-layout.scss
+//
+// Home page layout specific style.
+
 .custom-home-page {
   margin-top: 3.7em;
   padding-top: 3em;
@@ -20,7 +24,6 @@
       }
 
       .custom-user {
-        // padding-left: 0.5em;
         line-height: 2em;
         word-break: break-word;
         padding-top: 0 !important;
@@ -40,8 +43,6 @@
     }
 
     .custom-main-container {
-      // width: 76%;
-      // margin-left: 18em;
       width: 100%;
       padding-top: 6.7em;
     }
@@ -74,7 +75,6 @@
 }
 
 .custom-card-show {
-  // grid-column: span 3 !important;
   grid-column: 1 / -1 !important;
 }
 
@@ -82,7 +82,6 @@
   grid-column: span 4 !important;
   grid-row: span 2 !important;
   height: 500px;
-  // height: 100%;
   display: grid;
   align-content: center;
   align-items: center;
@@ -106,17 +105,12 @@
 
 .custom-modal-grey {
   background-color: rgba(45, 45, 45, 1) !important;
-  // background-color: rgba($color: #0b90f3, $alpha: 0.3) !important;
 }
 
 .container-effect {
   transition: background-color 0.3s;
   // min-height: 35em;
   min-height: 550px;
-}
-
-.custom-popular-padding {
-  // padding-right: 2em !important;
 }
 
 .custom-delete {
@@ -210,7 +204,6 @@
     .ui.container {
       .custom-main-container {
         width: 76%;
-        // padding: 0 0.5em;
       }
     }
   }

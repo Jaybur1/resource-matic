@@ -1,3 +1,7 @@
+// nav.scss
+//
+// Nav specific style.
+
 .custom-logo {
   font-weight: 600;
   font-family: "Berkshire Swash", cursive !important;
@@ -48,7 +52,6 @@ nav .custom-popup {
   margin-right: 0.8em !important;
   margin-top: 3.7em !important;
   width: 15em !important;
-  // height: 10em !important;
 
   div {
     display: grid;

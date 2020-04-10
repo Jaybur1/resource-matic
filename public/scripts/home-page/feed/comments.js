@@ -1,9 +1,13 @@
+// comments.js
+//
+// Comments support.
+
 // Function that creates all comments HTML including initially hidden ones
 export const createCommentsHTML = (comments) => {
   // Comments section html
   let commentsHTML = `
       ${comments.length > 3 ? `<div class="custom-view-previous">View previous comments</div>` : ""}
-      ${createThreeCommentsHTML(comments, 3)}
+      ${createPartCommentsHTML(comments, 3)}
   `;
 
   return commentsHTML;
@@ -31,7 +35,7 @@ export const showMoreComments = (numberOfComments) => {
 };
 
 // Function the creates html for passed number of comments only
-const createThreeCommentsHTML = (comments, numberOfComments) => {
+const createPartCommentsHTML = (comments, numberOfComments) => {
 
   // Sort comments by date
   const sortedComments = comments.sort(function(x, y) {
@@ -135,7 +139,8 @@ export const newComment = () => {
           $(".custom-delete-comment").off("click");
           editComment();
           deleteComment();
-        });
+        })
+        .catch(error => console.log(error));
     }
   });
 };
@@ -147,7 +152,8 @@ const retrieveCommentsIndicateUser = (resourceId) => {
     url: "/comment/list",
     data: {resourceId}
   })
-    .then(resp => resp);
+    .then(resp => resp)
+    .catch(error => console.log(error));
 };
 
 export const updateCommentsWithOwned = async(comments, resourceId) => {
@@ -190,7 +196,8 @@ export const editComment = () => {
           $(this).parent().prev().removeClass("custom-message-hidden");
           // Update comment text with new comment
           $(this).parent().prev().text(newMessage);
-        });
+        })
+        .catch(error => console.log(error));
     // Text area is closed
     } else {
       const messageEl = $(this).parent().prev();
@@ -222,7 +229,8 @@ export const editComment = () => {
               messageEl.removeClass("custom-message-hidden");
               // Update comment text with new comment
               messageEl.text(newMessage);
-            });
+            })
+            .catch(error => console.log(error));
         }
       });
     }
@@ -239,7 +247,8 @@ const submitEditedComment = (message, commentId) => {
       content: message
     }
   })
-    .then(resp => resp);
+    .then(resp => resp)
+    .catch(error => console.log(error));
 };
 
 // Function that deletes comment
@@ -281,7 +290,8 @@ export const deleteComment = () => {
         .then(() => {
           // Remove comment element
           $(this).parent().parent().parent().remove();
-        });
+        })
+        .catch(error => console.log(error));
     });
     
     // Event listener for cancel delete
@@ -309,5 +319,6 @@ const submitDeleteComment = (commentId) => {
       commentId,
     }
   })
-    .then(resp => resp);
+    .then(resp => resp)
+    .catch(error => console.log(error));
 };
