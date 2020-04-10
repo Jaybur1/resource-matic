@@ -104,7 +104,16 @@ const renderCards = ($container, cardGrid, callback) => {
 
 export const searchOnMobile = () => {
   $(".search-mobile").on("click", function() {
-    console.log("clicked");
+
+    if ($(".custom-mobile-search").hasClass("shown")) {
+      
+      $(".custom-mobile-search").removeClass("shown");
+      $(this).find("i").removeClass("active");
+    } else {
+      
+      $(".custom-mobile-search").addClass("shown");
+      $(this).find("i").addClass("active");
+    }
   });
 };
 
