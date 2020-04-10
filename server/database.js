@@ -137,7 +137,7 @@ const getResources = (db, options) => {
   options.comments || options.filterByCommented ? queryString += `, comments.body AS comment, comments.created as comment_created_at, comments.id as comment_id` : null;
 
   // Likes are requested
-  options.likes ? (queryString += `, count(l1) AS likes`) : null;
+  options.likes ? (queryString += `, count(DISTINCT l1) AS likes`) : null;
 
   // Average ratings are requested
   options.avgRatings
@@ -424,28 +424,28 @@ const deleteCategory = (id, db) => {
 
 const executeDelete = (id,db) => {
   return db.query('DELETE FROM resources WHERE id = $1',[id])
-  .then((data)=>data)
-  .catch(err => console.error("delete resource error",err));
-}
-//delete Resource 
+    .then((data)=>data)
+    .catch(err => console.error("delete resource error",err));
+};
+//delete Resource
 const deleteResource = (resourceId,db) => {
   // Check if this resource is the last reference to its category:
-   return db.query("SELECT category_id FROM resources WHERE id = $1", [ resourceId ])
-   .then(res => {
-     const categoryId = res.rows[0].category_id;
-    return db.query("SELECT count(*)as count ,category_id FROM resources WHERE category_id = $1 group by category_id", [categoryId]);
-   }).then(res => {
-     if(res.rows[0].count == 1 && res.rows[0].category_id != 1){
-       //delete resource + last category
-        return deleteCategory(res.rows[0].category_id,db)
-       // return `${res.rows[0].count} <== category count ${res.rows[0].category_id} <== catId ${resourceId} category delete`
-     }else{
+  return db.query("SELECT category_id FROM resources WHERE id = $1", [ resourceId ])
+    .then(res => {
+      const categoryId = res.rows[0].category_id;
+      return db.query("SELECT count(*)as count ,category_id FROM resources WHERE category_id = $1 group by category_id", [categoryId]);
+    }).then(res => {
+      if (res.rows[0].count == 1 && res.rows[0].category_id != 1) {
+        //delete resource + last category
+        return deleteCategory(res.rows[0].category_id,db);
+        // return `${res.rows[0].count} <== category count ${res.rows[0].category_id} <== catId ${resourceId} category delete`
+      } else {
         //delete resource
         return  executeDelete(resourceId,db);
       //  return `${res.rows[0].count} <== category count ${res.rows[0].category_id} <== catId ${resourceId} resource delete`
-     }
-   })
-}
+      }
+    });
+};
 
 //handling all categories
 const getCategories = (db) => {
