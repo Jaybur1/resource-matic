@@ -55,11 +55,20 @@ $(document).ready(function(_event) {
   // Update the email input border on page load:
   testEmail();
 
+  const toggleAccountSection = function() {
+    const passwordEntered = ($inputPassword.val().trim() !== "");
+    $("main .account-info-container").css("opacity", (passwordEntered ? "1" : ".3"));
+    $("main .account-info-container input").prop("disabled", !passwordEntered);
+    $("main .account-info-container button").prop("disabled", !passwordEntered);
+  };
+
   // Update the email input border password or email change:
   $inputPassword.on("input propertychange", function(_event) {
+    toggleAccountSection();
     testEmail();
     testNewPassword();
   });
+  toggleAccountSection();
 
   $(".custom-password .eye").on("click", function(_event) {
     $inputPassword.attr("type", ($inputPassword.attr("type") === "password" ? "text" : "password"));
@@ -95,7 +104,7 @@ $(document).ready(function(_event) {
     return (($inputPassword.val() === "") || validateEmailFormat($inputEmail.val()) && $inputNewPassword.val() === $inputVerifyPassword.val());
   };
 
-  // showError shows an error in the error box.
+  // handleXhrError shows AJAX response errors appropriately.
   const handleXhrError = function(xhr) {
     switch (xhr.status) {
     case 403:
