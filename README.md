@@ -1,18 +1,50 @@
 # **Resource Matic**
 
-Resource Matic is a hybrid single-page web app that uses HTML5/SASS->CSS3/jQuery/Fomantic-UI client-side and Node.js/Express/Postgres server-side. It allows for user sign-up and login, and management of "resources" that are displayed to all users on a feed-style home page. Categories and search features allow for easy sorting and locating any resource.
+Resource Matic is a hybrid single-page web app that uses HTML5/SASS->CSS3/jQuery/Fomantic-UI client-side and Node.js/Express/Postgres server-side. It allows for user sign-up and login, and management of "resources" that are displayed to all users on a feed-style home page. Categories and search features allow for easy sorting and locating any resource. This app is hosted on [Heroku](http://resource-matic.herokuapp.com/).
 
 This a [Lighthouse Labs](https://www.lighthouselabs.ca/) midterm project by [Ali Sayed](https://github.com/aliyasser20), [Doug Ross](https://github.com/d0ugr), and [Jay Burbyga](https://github.com/Jaybur1). See [`docs/PROJECT.md`](docs/PROJECT.md) for project notes.
 
-## **Screenshots**
+## App Preview
 
-Resource Matic being awesome:
+### Landing & Profile Pages
 
-<!-- ![screenshot-01](docs/images/screenshot-01-bad-mf.png) -->
+![landing-and-profile](./docs/images/landing-and-profile.png)
 
-Not really usable on a Nokia 8110:
+---
 
-<!-- ![Nokia 8110](docs/images/screenshot-99-nokia-8110.png) -->
+### Login & Sign Up
+
+![login-signup](./docs/images/signin-signup.png)
+
+---
+
+### Feed
+
+![feed](./docs/images/feed.gif)
+
+---
+
+### Browse
+
+![categories](./docs/images/categories.gif)
+
+---
+
+### Add Resource
+
+![add-resource](./docs/images/add-resource.gif)
+
+---
+
+### Delete Resource
+
+![delete-resource](./docs/images/delete-resource.gif)
+
+---
+
+### Mobile
+
+![mobile-versions](./docs/images/responsive.png)
 
 ## **Getting Started**
 
@@ -28,7 +60,7 @@ cd midterm-resource-hub
 npm install
 ```
 
-Create a database and user in Postgres for Resource Matic to use and edit .env to match your setup.  Then create tables with sample data:
+Create a database and user in Postgres for Resource Matic to use and edit .env to match your setup. Then create tables with sample data:
 
 ```
 npm run db:reset
