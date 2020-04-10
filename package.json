@@ -1,5 +1,5 @@
 {
-  "name": "Resource Matic",
+  "name": "Resource-Matic",
   "version": "1.0.0",
   "description": "Lighthouse Labs midterm project",
   "main": "server/server.js",
