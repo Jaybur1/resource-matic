@@ -162,6 +162,10 @@ nav .custom-mobile-nav {
   background-color: #f5f5f5 !important;
 
   transition: all 0.3s;
+
+  input {
+    font-size: 16px;
+  }
 }
 
 .custom-mobile-search.shown {
