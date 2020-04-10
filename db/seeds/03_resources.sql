@@ -60,7 +60,7 @@ VALUES
     7,
     2,
     'jQuery',
-    'Build, test, and deploy globally with Netlify’s all-in-one platform for modern web projects',
+    'jQuery: The Write Less, Do More, JavaScript Library.',
     'https://jquery.com/',
     'https://lokalise.com/blog/wp-content/uploads/2019/05/1082.png',
     '03/12/2020 02:19:59 PM'
