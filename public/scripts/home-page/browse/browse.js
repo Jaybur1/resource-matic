@@ -1,3 +1,7 @@
+// browse.js
+//
+// Browse section page support.
+
 import {createCards, handleClickedResource} from "../myresources/myResources.js";
 import { showMoreComments, newComment, updateCommentsWithOwned, editComment, deleteComment } from "../feed/comments.js";
 import { likeInteractions } from "../feed/like.js";
@@ -90,7 +94,7 @@ const retrieveBrowseCards = (categories) => {
     .then((resp) => {
     // On request success call render function
       cardsRenderer(resp);
-    });
+    }).catch(error => console.log(error));
 };
 
 // Function that renders cards to home page

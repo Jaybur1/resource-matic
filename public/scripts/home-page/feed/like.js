@@ -1,3 +1,7 @@
+// like.js
+//
+// Like support.
+
 // Function that sends an AJAX request to find if user has like current resource
 export const checkIfLiked = (id) => {
   // AJAX request
@@ -5,7 +9,8 @@ export const checkIfLiked = (id) => {
     url: "/like",
     data: {resourceId: id}
   })
-    .then(resp => resp.likedByCurrentUser);
+    .then(resp => resp.likedByCurrentUser)
+    .catch(error => console.log(error));
 };
 
 // Function that adds event listener for like button and send AJAX request to create or delete like

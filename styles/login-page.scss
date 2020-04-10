@@ -1,3 +1,7 @@
+// login-page.scss
+//
+// Login page specific style.
+
 @mixin center() {
   position: absolute;
   top: 45%;
@@ -25,7 +29,7 @@
   @include background();
   @include center();
   width: 400px;
-  padding:50px;
+  padding: 50px;
   transition: 0.3s;
   h2 {
     div {
@@ -47,11 +51,10 @@ footer {
   bottom: 0;
 }
 
-
 @media only screen and (max-width: 450px) {
-  .custom-login-box{
-    left:55%;
-    top:45%;
-    width:90vw;
+  .custom-login-box {
+    left: 55%;
+    top: 45%;
+    width: 90vw;
   }
 }
