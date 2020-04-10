@@ -3,7 +3,8 @@
 INSERT INTO categories
   (name)
 VALUES
-  ('global'),
-  ('tech'),
-  ('cooking'),
-  ('art');
+  ('general'),
+  ('library'),
+  ('design'),
+  ('css'),
+  ('deployment');
