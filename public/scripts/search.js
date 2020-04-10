@@ -102,5 +102,9 @@ const renderCards = ($container, cardGrid, callback) => {
   });
 };
 
-
+export const searchOnMobile = () => {
+  $(".search-mobile").on("click", function() {
+    console.log("clicked");
+  });
+};
 

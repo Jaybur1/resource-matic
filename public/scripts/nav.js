@@ -4,6 +4,7 @@
 
 import * as search from "./search.js";
 
+
 const KEY_RETURN = 13;
 
 
@@ -46,6 +47,7 @@ const initNavBar = () => {
     }
   });
 
+  search.searchOnMobile();
 };
 
 // Run when page is ready

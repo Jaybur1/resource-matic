@@ -84,14 +84,12 @@ const singleCommentHTML = (comment, hidden) => {
 
 // Function that adds event listener to new comment submit
 export const newComment = () => {
-  $(".new-comment").on("keyup", function(e) {
-    // Prevent any default
-    e.preventDefault();
+  $(".new-comment").on("keypress", function(e) {
     
     const message = $(this).val();
 
     // If enter is pressed
-    if (e.which === 13 && !e.shiftKey && message.trim().length > 0) {
+    if (e.keyCode === 13 || e.which === 13 && !e.shiftKey && message.trim().length > 0) {
       const resourceId = Number($(this).prev().html());
       const name = $(".custom-user").text();
       const avatar = $(".custom-user").find("img").attr("src");
@@ -205,7 +203,7 @@ export const editComment = () => {
       messageEl.after(`<textarea type="text" autoFocus class="custom-edit-input">${currentMessage}</textarea>`);
 
       // Add keypress event listener
-      $(".custom-edit-input").on("keyup", function(e) {
+      $(".custom-edit-input").on("keypress", function(e) {
 
         // Current comment id
         const commentId = Number($(this).parent().next().text());
@@ -213,7 +211,7 @@ export const editComment = () => {
         const newMessage = $(this).val().trim();
 
         // If shift is not pressed with enter
-        if (e.which === 13 && !e.shiftKey) {
+        if (e.keycode === 13 || e.which === 13 && !e.shiftKey) {
 
           // Submit new comment
           submitEditedComment(newMessage, commentId)

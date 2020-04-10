@@ -5,7 +5,6 @@
 const ANIMATION_DURATION = 150;
 
 
-
 const setBackgroundImage = ($element, url) => {
   $element.css("background-image", `url('${url}')`);
 };
