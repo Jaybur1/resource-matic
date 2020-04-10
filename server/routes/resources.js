@@ -21,9 +21,8 @@ const resourcesRoutes = (db) => {
         .then((queryRes) => {
           queryRes.forEach((resource) => {
             resource.currentUser = (resource.user_id === req.session.userId);
-            // delete resource.user_id;
+            delete resource.user_id;
           });
-          console.log(queryRes);
           res.json(queryRes);
         });
     } else {
