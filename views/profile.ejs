@@ -13,7 +13,7 @@
     <main>
       <div class="ui container profile-container">
         <form class="ui container large form">
-          <div class="profile-section ui one column grid">
+          <div class="ui one column grid">
             <div class="ui column raised huge segment">
               <span class="ui blue ribbon huge label">Profile</span>
               <div class="custom-avatar-container">
@@ -52,7 +52,7 @@
           <br />
           <br />
           <br />
-          <div class="account-section ui one column grid">
+          <div class="ui one column grid">
             <div class="ui column raised huge segment">
               <span class="ui blue ribbon huge label">Account</span>
               <br />
@@ -84,6 +84,7 @@
                       name="email"
                       placeholder="Email address"
                       value="<%= user.email %>"
+                      disabled
                     />
                   </div>
                 </div>
@@ -100,7 +101,8 @@
                         class="new-password"
                         type="password"
                         name="newPassword"
-                        placeholder="Password"
+                        placeholder="New password"
+                        disabled
                       />
                     </div>
                     <i class="eye icon link"></i>
@@ -116,6 +118,7 @@
                         type="password"
                         name="verifyPassword"
                         placeholder="Verify your password"
+                        disabled
                       />
                     </div>
                     <i class="eye icon link"></i>
@@ -129,11 +132,13 @@
                 <div class="custom-button-container">
                   <button
                     class="ui massive pink button huge custom-button-padding"
+                    disabled
+
                   >
                     Save
-                  </button>
+                  </button >
                   <div class="">
-                    <button class="ui negative button massive">
+                    <button class="ui negative button massive" disabled>
                       Delete Account
                     </button>
                   </div>
