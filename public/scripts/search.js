@@ -102,17 +102,57 @@ const renderCards = ($container, cardGrid, callback) => {
   });
 };
 
+// Function that handles search on mobile
 export const searchOnMobile = () => {
+  // Event listener for mobile search icon click
   $(".search-mobile").on("click", function() {
 
+    // If search bar is already shown
     if ($(".custom-mobile-search").hasClass("shown")) {
       
+      // Hide search bar
       $(".custom-mobile-search").removeClass("shown");
+
+      // Remove icon active state
       $(this).find("i").removeClass("active");
+
+      // Delete input event listener
+      $(this).find("input").off("keypress");
+      // If search bar is hidden
     } else {
       
+      // Show search bar
       $(".custom-mobile-search").addClass("shown");
+
+      // Activate icon
       $(this).find("i").addClass("active");
+
+      // Focus on search input
+      $(".custom-mobile-search").find("input").focus();
+      
+      // Add event listener for input
+      $(".custom-mobile-search").find("input").on("keypress", function(e) {
+
+        // Input by user
+        const searchTerm = $(".custom-mobile-search").find("input").val().trim();
+
+        // If input is enter
+        if (e.keyCode === 13 || e.which === 13 && searchTerm.length > 0) {
+          // Render search resources
+          resources(searchTerm);
+
+          // Blur input field
+          $(".custom-mobile-search").find("input").blur();
+          // Clear input field
+          $(".custom-mobile-search").find("input").val("");
+          // Hide search bar
+          $(".custom-mobile-search").removeClass("shown");
+          // Deactivate icon
+          $(".search-mobile").find("i").removeClass("active");
+          // Delete input event listener
+          $(this).off("keypress");
+        }
+      });
     }
   });
 };
