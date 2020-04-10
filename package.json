@@ -1,7 +1,7 @@
 {
-  "name": "node-skeleton",
+  "name": "Resource Matic",
   "version": "1.0.0",
-  "description": "",
+  "description": "Lighthouse Labs midterm project",
   "main": "server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
     "local": "node_modules/.bin/nodemon -L --ignore public/",
     "db:reset": "node db/resetdb.js"
   },
-  "author": "Lighthouse Labs",
+  "author": "Ali Sayed, Jay Burbyga, Doug Ross",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^4.0.1",
