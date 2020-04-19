@@ -2,6 +2,12 @@
 //
 // Comments support.
 
+const escapeXSS = str => {
+  let div = document.createElement("div");
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+};
+
 // Function that creates all comments HTML including initially hidden ones
 export const createCommentsHTML = (comments) => {
   // Comments section html
@@ -56,18 +62,20 @@ const createPartCommentsHTML = (comments, numberOfComments) => {
 
 // Function that creates single comment with hidden or not as input
 const singleCommentHTML = (comment, hidden) => {
+  const name = escapeXSS(comment.name);
+  const message = escapeXSS(comment.message);
   const commentHTML = `
   <div class="comment ${hidden ? "custom-comment-hidden" : ""}">
     <div class="avatar">
       <img src="${comment.avatar}">
     </div>
     <div class="content">
-    <span class="author">${comment.name}</span>
+    <span class="author">${name}</span>
       <div class="metadata">
         <span class="date">${$.timeago(comment.timestamp)}</span>
       </div>
       <div class="text">
-        <p>${comment.message}</p>
+        <p>${message}</p>
       </div>
       ${comment.owned ? (
     `

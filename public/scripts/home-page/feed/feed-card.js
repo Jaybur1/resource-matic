@@ -6,7 +6,7 @@ import { createCommentsHTML } from "./comments.js";
 import { checkIfLiked } from "./like.js";
 import { checkIfRated } from "./rating.js";
 
-const escapeXSS = str => {
+ const escapeXSS = str => {
   let div = document.createElement("div");
   div.appendChild(document.createTextNode(str));
   return div.innerHTML;
