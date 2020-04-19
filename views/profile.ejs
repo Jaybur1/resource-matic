@@ -54,7 +54,9 @@
           <br />
           <div class="ui one column grid">
             <div class="ui column raised huge segment">
-              <span class="ui blue ribbon huge label">Account</span><br /><BR />
+              <span class="ui blue ribbon huge label">Account</span>
+              <br />
+              <br />
               <div class="ui purple small header text">
                 To update your login info, enter your current password
               </div>
@@ -72,67 +74,74 @@
                   <i class="eye icon link"></i>
                 </div>
               </div>
-              <div class="field">
-                <label>Email address</label>
-                <div class="ui left icon input">
-                  <i class="paper plane icon"></i>
-                  <input
-                    type="text"
-                    name="email"
-                    placeholder="Email address"
-                    value="<%= user.email %>"
-                  />
-                </div>
-              </div>
-              <div class="ui purple small header text">
-                To change your password, enter a new one here.<br />
-                Leave it blank to keep your current password.
-              </div>
-              <div class="field custom-new-password">
-                <label>New password</label>
-                <div class="ui right icon input">
+              <div class="account-info-container">
+                <div class="field">
+                  <label>Email address</label>
                   <div class="ui left icon input">
-                    <i class="lock icon"></i>
+                    <i class="paper plane icon"></i>
                     <input
-                      class="new-password"
-                      type="password"
-                      name="newPassword"
-                      placeholder="Password"
+                      type="text"
+                      name="email"
+                      placeholder="Email address"
+                      value="<%= user.email %>"
+                      disabled
                     />
                   </div>
-                  <i class="eye icon link"></i>
                 </div>
-              </div>
-              <div class="field custom-verify-password">
-                <label>Verify password</label>
-                <div class="ui right icon input">
-                  <div class="ui left icon input">
-                    <i class="lock icon"></i>
-                    <input
-                      class="new-password"
-                      type="password"
-                      name="verifyPassword"
-                      placeholder="Verify your password"
-                    />
+                <div class="ui purple small header text">
+                  To change your password, enter a new one here.<br />
+                  Leave it blank to keep your current password.
+                </div>
+                <div class="field custom-new-password">
+                  <label>New password</label>
+                  <div class="ui right icon input">
+                    <div class="ui left icon input">
+                      <i class="lock icon"></i>
+                      <input
+                        class="new-password"
+                        type="password"
+                        name="newPassword"
+                        placeholder="New password"
+                        disabled
+                      />
+                    </div>
+                    <i class="eye icon link"></i>
                   </div>
-                  <i class="eye icon link"></i>
                 </div>
-              </div>
-              <div class="ui error message">
-                <span class="ui text big custom-err-message"></span><br />
-                <br />
-                <span class="ui text custom-err-description"></span>
-              </div>
-              <div class="custom-button-container">
-                <button
-                  class="ui massive pink button huge custom-button-padding"
-                >
-                  Save
-                </button>
-                <div class="">
-                  <button class="ui negative button massive">
-                    Delete Account
-                  </button>
+                <div class="field custom-verify-password">
+                  <label>Verify password</label>
+                  <div class="ui right icon input">
+                    <div class="ui left icon input">
+                      <i class="lock icon"></i>
+                      <input
+                        class="new-password"
+                        type="password"
+                        name="verifyPassword"
+                        placeholder="Verify your password"
+                        disabled
+                      />
+                    </div>
+                    <i class="eye icon link"></i>
+                  </div>
+                </div>
+                <div class="ui error message">
+                  <span class="ui text big custom-err-message"></span><br />
+                  <br />
+                  <span class="ui text custom-err-description"></span>
+                </div>
+                <div class="custom-button-container">
+                  <button
+                    class="ui massive pink button huge custom-button-padding"
+                    disabled
+
+                  >
+                    Save
+                  </button >
+                  <div class="">
+                    <button class="ui negative button massive" disabled>
+                      Delete Account
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
