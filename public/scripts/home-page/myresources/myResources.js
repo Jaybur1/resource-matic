@@ -21,6 +21,12 @@ import { ratingInteractions } from "../feed/rating.js";
 import { cardsCreator } from "../browse/browse.js";
 import { createPlaceholderCards } from "../../landing-page/placeholder-cards.js";
 
+const escapeXSS = str => {
+  let div = document.createElement("div");
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+};
+
 const deleteModal = `
 <div class="ui basic modal deleteModal">
 <div class="ui icon header">
@@ -93,6 +99,9 @@ export const createCards = async(createdResources) => {
   const createdResourcesHTML = [];
 
   for (let resource of createdResources) {
+    const content = escapeXSS(resource.content);
+    const title = escapeXSS(resource.title);
+
     const bigCard = await feedCardCreator(resource);
     createdResourcesHTML.push(`
       <div class="ui card custom-width-fit small-card${resource.id}">
@@ -120,10 +129,8 @@ export const createCards = async(createdResources) => {
           />
           </div>
         <div class="content custom-bk-grey">
-          <a href="${
-  resource.content
-}" target="_blank" class="ui sub header medium center aligned custom-hover-text-blue"
-            >${resource.title}</a>
+          <a href="${content}" target="_blank" class="ui sub header medium center aligned custom-hover-text-blue"
+            >${title}</a>
         </div>
       </div>
       <div class="ui custom-card-hidden resourceId-${resource.id}">
